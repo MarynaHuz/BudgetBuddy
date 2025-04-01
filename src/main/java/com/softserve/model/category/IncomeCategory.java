@@ -2,20 +2,19 @@ package com.softserve.model.category;
 
 public enum IncomeCategory implements Category {
 
-    SALARY("Salary", CategoryType.INCOME),
-    FREELANCE("Freelance", CategoryType.INCOME),
-    BONUS("Bonus", CategoryType.INCOME),
-    GIFTS("Gifts", CategoryType.INCOME),
-    INVESTMENTS("Investments", CategoryType.INCOME),
-    RENTAL_INCOME("Rental Income", CategoryType.INCOME),
-    OTHER_INCOME("Other Income", CategoryType.INCOME);
+    SALARY("Salary"),
+    FREELANCE("Freelance"),
+    BONUS("Bonus"),
+    GIFTS("Gifts"),
+    INVESTMENTS("Investments"),
+    RENTAL_INCOME("Rental Income"),
+    OTHER_INCOME("Other Income");
 
+    private static final CategoryType CATEGORY_TYPE = CategoryType.INCOME;
     private final String categoryName;
-    private final CategoryType categoryType;
 
-    IncomeCategory(String categoryName, CategoryType categoryType) {
+    IncomeCategory(String categoryName) {
         this.categoryName = categoryName;
-        this.categoryType = categoryType;
     }
 
     @Override
@@ -23,7 +22,8 @@ public enum IncomeCategory implements Category {
         return categoryName;
     }
 
+    @Override
     public CategoryType getCategoryType() {
-        return categoryType;
+        return CATEGORY_TYPE;
     }
 }
