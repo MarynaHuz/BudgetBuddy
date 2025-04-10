@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class Transaction {
 
-    private int transactionId;
+    private String transactionId;
 
     private Category category;
     private double transactionAmount;
@@ -16,7 +16,7 @@ public class Transaction {
     private LocalDate transactionDate;
 
 
-    private static int idCounter = 1;
+    private static int idCounter = 100;
 
 
 }
