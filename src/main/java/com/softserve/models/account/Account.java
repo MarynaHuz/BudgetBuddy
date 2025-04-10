@@ -1,6 +1,7 @@
 package com.softserve.models.account;
 
 import com.softserve.models.Transaction;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class Account {
 
     private String name;
@@ -26,4 +28,5 @@ public class Account {
     public void setName(String name) {
         this.name = name;
     }
+
 }
