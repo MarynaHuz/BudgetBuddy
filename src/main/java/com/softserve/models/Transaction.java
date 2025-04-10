@@ -1,7 +1,7 @@
-package com.softserve.model;
+package com.softserve.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.softserve.model.category.Category;
+import com.softserve.models.category.Category;
 
 import java.time.LocalDate;
 

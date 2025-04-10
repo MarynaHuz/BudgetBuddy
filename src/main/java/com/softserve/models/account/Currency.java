@@ -1,4 +1,4 @@
-package com.softserve.model.account;
+package com.softserve.models.account;
 
 public enum Currency {
 

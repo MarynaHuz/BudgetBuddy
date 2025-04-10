@@ -1,4 +1,4 @@
-package com.softserve.model.category;
+package com.softserve.models.category;
 
 public interface Category {
 
