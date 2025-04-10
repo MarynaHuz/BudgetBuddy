@@ -4,6 +4,7 @@ import com.softserve.dao.AccountDAO;
 import com.softserve.models.account.Account;
 
 import java.util.List;
+import java.util.Optional;
 
 public class JsonAccountDAO implements AccountDAO {
     @Override
@@ -12,8 +13,12 @@ public class JsonAccountDAO implements AccountDAO {
     }
 
     @Override
-    public Account findByName(String accountName) {
-        return null;
+    public Optional<Account> findByName(String accountName) {
+
+        return readAccounts().stream()
+                .filter(acc ->
+                        acc.getName().equals(accountName))
+                .findFirst();
     }
 
     @Override
