@@ -1,33 +1,40 @@
 package com.softserve.dao.impl;
 
-import com.softserve.dao.AccountDAO;
+import com.softserve.dao.DAO;
 import com.softserve.models.account.Account;
 
 import java.util.List;
 import java.util.Optional;
 
-public class JsonAccountDAO implements AccountDAO {
+public class JsonAccountDAO implements DAO<Account> {
+
+
     @Override
-    public void saveAccount(Account account) {
+    public void save(Account entity) {
 
     }
 
     @Override
-    public Optional<Account> findByName(String accountName) {
+    public Optional<Account> read(String accountName) {
 
-        return readAccounts().stream()
+        return readAll().stream()
                 .filter(acc ->
                         acc.getName().equals(accountName))
                 .findFirst();
     }
 
     @Override
-    public boolean existsByName(String accountName) {
-        return false;
+    public List<Account> readAll() {
+        return List.of();
     }
 
     @Override
-    public List<Account> readAccounts() {
-        return List.of();
+    public void update(Account entity) {
+
+    }
+
+    @Override
+    public void delete(Account entity) {
+
     }
 }
