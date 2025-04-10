@@ -1,14 +1,18 @@
 package com.softserve.models.account;
 
 import com.softserve.models.Transaction;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor
+@Getter
 public class Account {
 
     private String name;
-    private final Currency currency;
+    private Currency currency;
     private double balance;
     private List<Transaction> transactions;
 
@@ -17,22 +21,6 @@ public class Account {
         this.currency = currency;
         this.balance = balance;
         this.transactions = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public List<Transaction> getTransactions() {
-        return transactions;
     }
 
     public void setName(String name) {
