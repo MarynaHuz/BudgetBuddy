@@ -1,4 +1,4 @@
-package com.softserve.service;
+package com.softserve.services;
 
 public class TransactionService {
 }
