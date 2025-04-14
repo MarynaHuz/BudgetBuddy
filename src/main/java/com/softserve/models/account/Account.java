@@ -1,14 +1,17 @@
 package com.softserve.models.account;
 
 import com.softserve.models.Transaction;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.softserve.validators.AccountValidation.validateCurrency;
-import static com.softserve.validators.AccountValidation.validateInitialBalance;
+import static com.softserve.validators.BalanceValidator.validateBalance;
 
 @NoArgsConstructor
 @Getter
@@ -28,7 +31,7 @@ public class Account {
         this.id = nextId++;
         this.accountName = accountName;
         this.currency = validateCurrency(currency);
-        this.initialBalance = validateInitialBalance(initialBalance);
+        this.initialBalance = validateBalance(initialBalance);
         this.transactions = new ArrayList<>();
     }
 }
