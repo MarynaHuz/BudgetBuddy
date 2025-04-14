@@ -20,7 +20,7 @@ public class AmountValidator {
         return parsedAmount;
     }
 
-    private static BigDecimal parseAmount(String amount) {
+    static BigDecimal parseAmount(String amount) {
         try {
             return new BigDecimal(amount.trim());
         } catch (NullPointerException | NumberFormatException e) {
