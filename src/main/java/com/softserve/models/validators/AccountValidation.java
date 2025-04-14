@@ -12,6 +12,15 @@ public class AccountValidation {
     private AccountValidation() {
     }
 
+    //TODO: add regex pattern for input String
+    public static String validateAccountName(String accountName) {
+        if (accountName == null || accountName.trim().length() < MIN_ACCOUNT_NAME_LENGTH) {
+            throw new IllegalArgumentException("Account name should be at least "
+                    + MIN_ACCOUNT_NAME_LENGTH + " characters.");
+        }
+        return accountName.trim();
+    }
+
     public static Currency validateCurrency(String currency) {
         String formattedCurrency = formatCurrencyString(currency);
         try {
@@ -21,8 +30,8 @@ public class AccountValidation {
         }
     }
 
+    //TODO: add regex pattern for input String
     private static String formatCurrencyString(String currency) {
-        //TODO: add regex pattern for input String
         return currency.toUpperCase().trim();
     }
 
