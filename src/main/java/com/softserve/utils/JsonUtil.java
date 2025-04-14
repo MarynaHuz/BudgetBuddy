@@ -1,8 +1,11 @@
 package com.softserve.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import java.io.IOException;
 
 public class JsonUtil {
 
@@ -25,5 +28,17 @@ public class JsonUtil {
     public static ObjectMapper getObjectMapper() {
         return OBJECT_MAPPER;
     }
+
+    public static <T> T readJson(String resourcePath, TypeReference<T> typeRef) throws IOException {
+        try (var inputStream = JsonUtil.class.getClassLoader()
+                .getResourceAsStream(resourcePath)) {
+
+            if (inputStream == null) {
+                throw new IOException("Resource '" + resourcePath + "' not found on classpath.");
+            }
+            return OBJECT_MAPPER.readValue(inputStream, typeRef);
+        }
+    }
+
 
 }
