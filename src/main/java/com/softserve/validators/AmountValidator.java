@@ -15,6 +15,12 @@ public class AmountValidator {
     private AmountValidator() {
     }
 
+    public static BigDecimal validateAmount(String amount, String categoryType) {
+        BigDecimal parsedAmount = parseAmount(amount);
+        assertAmountMatchesCategoryRules(parsedAmount, categoryType);
+        return parsedAmount;
+    }
+
     private static BigDecimal parseAmount(String amount) {
         try {
             return new BigDecimal(amount.trim());
@@ -29,5 +35,4 @@ public class AmountValidator {
             throw new IllegalArgumentException(AMOUNT_ERROR_MESSAGE);
         }
     }
-
 }
