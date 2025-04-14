@@ -3,11 +3,14 @@ package com.softserve.dao.impl;
 import com.softserve.dao.DAO;
 import com.softserve.models.account.Account;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 public class JsonAccountDAO implements DAO<Account> {
 
+    private static final Path JSON_FILE_PATH = Paths.get("accounts.json");
 
     @Override
     public void save(Account entity) {
@@ -17,14 +20,14 @@ public class JsonAccountDAO implements DAO<Account> {
     @Override
     public Optional<Account> read(String accountName) {
 
-        return readAll().stream()
+        return getAll().stream()
                 .filter(acc ->
-                        acc.getName().equals(accountName))
+                        acc.getAccountName().equals(accountName))
                 .findFirst();
     }
 
     @Override
-    public List<Account> readAll() {
+    public List<Account> getAll() {
         return List.of();
     }
 
