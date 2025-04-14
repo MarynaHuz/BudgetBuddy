@@ -7,8 +7,7 @@ import java.math.BigDecimal;
 public class AmountValidator {
 
     private static final String AMOUNT_ERROR_MESSAGE =
-            "Invalid amount: income should be positive " +
-                    "and expenses should be negative.";
+            "Invalid amount: income should be positive and expenses should be negative.";
     private static final String PARSING_ERROR_MESSAGE =
             "Invalid amount: must be a valid non-null number.";
 
