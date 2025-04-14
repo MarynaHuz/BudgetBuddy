@@ -14,4 +14,13 @@ public enum CategoryType {
     public String getCategoryTypeName() {
         return categoryTypeName;
     }
+
+    public static boolean isIncomeCategory(String categoryType) {
+        return INCOME.getCategoryTypeName().equalsIgnoreCase(categoryType);
+    }
+
+    public static boolean isExpenseCategory(String categoryType) {
+        return EXPENSE.getCategoryTypeName().equalsIgnoreCase(categoryType);
+    }
+
 }
