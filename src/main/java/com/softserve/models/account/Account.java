@@ -1,10 +1,7 @@
 package com.softserve.models.account;
 
 import com.softserve.models.Transaction;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import static com.softserve.validators.BalanceValidator.validateBalance;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
+@ToString
 public class Account {
 
     private static int nextId = 1;
