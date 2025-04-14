@@ -28,9 +28,9 @@ public enum CategoryType {
     public static boolean isValidAmountForCategory(BigDecimal amount,
                                                    String categoryType) {
         if (isIncomeCategory(categoryType)) {
-            return amount.compareTo(BigDecimal.ZERO) >= 0;
+            return amount.compareTo(BigDecimal.ZERO) > 0;
         } else if (isExpenseCategory(categoryType)) {
-            return amount.compareTo(BigDecimal.ZERO) < 0;
+            return amount.compareTo(BigDecimal.ZERO) <= 0;
         }
         return false;
     }
