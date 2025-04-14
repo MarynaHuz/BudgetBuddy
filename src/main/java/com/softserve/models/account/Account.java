@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.models.validators.AccountValidation.validateCurrency;
-import static com.softserve.models.validators.AccountValidation.validateInitialBalance;
+import static com.softserve.validators.AccountValidation.validateCurrency;
+import static com.softserve.validators.AccountValidation.validateInitialBalance;
 
 @NoArgsConstructor
 @Getter
