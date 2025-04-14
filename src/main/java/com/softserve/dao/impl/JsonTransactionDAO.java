@@ -1,4 +1,42 @@
 package com.softserve.dao.impl;
 
-public class JsonTransactionDAO {
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.softserve.dao.DAO;
+import com.softserve.models.Transaction;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+
+public class JsonTransactionDAO implements DAO<Transaction> {
+
+    private static final Path JSON_FILE_PATH = Paths.get("transactions.json");
+    private static final TypeReference<List<Transaction>> TYPE_REFERENCE = new TypeReference<>() {};
+
+
+    @Override
+    public void save(Transaction entity) {
+
+    }
+
+    @Override
+    public Optional<Transaction> read(String entity) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Transaction> readAll() {
+        return List.of();
+    }
+
+    @Override
+    public void update(Transaction entity) {
+
+    }
+
+    @Override
+    public void delete(Transaction entity) {
+
+    }
 }
