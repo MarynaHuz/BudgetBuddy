@@ -14,6 +14,7 @@ public class JsonTransactionDAO implements DAO<Transaction> {
     private static final Path JSON_FILE_PATH = Paths.get("transactions.json");
     private static final TypeReference<List<Transaction>> TYPE_REFERENCE = new TypeReference<>() {};
 
+    //TODO: implement methods
 
     @Override
     public void save(Transaction entity) {
@@ -26,7 +27,7 @@ public class JsonTransactionDAO implements DAO<Transaction> {
     }
 
     @Override
-    public List<Transaction> readAll() {
+    public List<Transaction> getAll() {
         return List.of();
     }
 
