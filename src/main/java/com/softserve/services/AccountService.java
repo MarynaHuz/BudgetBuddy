@@ -15,12 +15,12 @@ public class AccountService {
         dao.save(account);
     }
 
-    public Optional<Account> findAccountByName(String name) {
+    public Optional<Account> getAccountByName(String name) {
         return dao.read(name);
     }
 
-    public List<Account> findAllAccounts() {
-        return dao.readAll();
+    public List<Account> getAllAccounts() {
+        return dao.getAll();
     }
 
     public void updateAccount(Account account) {
