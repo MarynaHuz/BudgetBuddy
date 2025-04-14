@@ -2,7 +2,12 @@ package com.softserve.models.validators;
 
 import com.softserve.models.account.Currency;
 
+import java.math.BigDecimal;
+
 public class AccountValidation {
+
+    private static final int MIN_ACCOUNT_NAME_LENGTH = 3;
+    private static final BigDecimal MIN_INITIAL_BALANCE = BigDecimal.ZERO;
 
     private AccountValidation() {
     }
