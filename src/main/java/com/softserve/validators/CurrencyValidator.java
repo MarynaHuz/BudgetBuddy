@@ -2,23 +2,30 @@ package com.softserve.validators;
 
 import com.softserve.models.account.Currency;
 
+import static com.softserve.utils.Formatter.formatCurrency;
+
 public class CurrencyValidator {
 
     private CurrencyValidator() {
     }
 
     public static Currency validateCurrency(String currency) {
-        String formattedCurrency = formatCurrencyString(currency);
+        assertValidCurrency(currency);
+        String formattedCurrency = formatCurrency(currency);
         try {
             return Currency.valueOf(formattedCurrency);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid currency provided: " + currency);
+        } catch (IllegalArgumentException invalidCurrencyException) {
+            throw new IllegalArgumentException("Invalid currency provided: " + currency, invalidCurrencyException);
         }
     }
 
-    //TODO: add regex pattern for input String
-    private static String formatCurrencyString(String currency) {
-        return currency.toUpperCase().trim();
+    private static void assertValidCurrency(String currency) {
+        if (!isNonEmptyCurrency(currency)) {
+            throw new IllegalArgumentException("Currency must not be null or empty.");
+        }
     }
 
+    private static boolean isNonEmptyCurrency(String currency) {
+        return currency != null && !currency.trim().isEmpty();
+    }
 }
