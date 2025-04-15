@@ -16,5 +16,10 @@ public class AccountNameValidator {
         return accountName.matches(NAME_MATCH_REGEX);
     }
 
-
+    public static String validateAccountName(String accountName){
+        if(isValid(accountName)){
+            return accountName;
+        }
+        throw new IllegalArgumentException("Invalid account name: " + accountName);
+    }
 }
