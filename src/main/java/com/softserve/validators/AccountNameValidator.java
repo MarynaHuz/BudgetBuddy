@@ -10,5 +10,8 @@ public class AccountNameValidator {
             [a-zA-Z0-9 ]+$
             """;
 
+    public static boolean isValid(String accountName){
+        return accountName.matches(NAME_MATCH_REGEX);
+    }
 
 }
