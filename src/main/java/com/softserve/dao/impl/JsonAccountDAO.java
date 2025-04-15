@@ -3,14 +3,10 @@ package com.softserve.dao.impl;
 import com.softserve.dao.DAO;
 import com.softserve.models.account.Account;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 public class JsonAccountDAO implements DAO<Account> {
-
-    private static final Path JSON_FILE_PATH = Paths.get("accounts.json");
 
     @Override
     public void save(Account entity) {
