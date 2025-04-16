@@ -1,4 +1,4 @@
-package com.softserve.models;
+package com.softserve.models.transaction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.softserve.models.category.Category;

@@ -2,7 +2,7 @@ package com.softserve.dao.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.DAO;
-import com.softserve.models.Transaction;
+import com.softserve.models.transaction.Transaction;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

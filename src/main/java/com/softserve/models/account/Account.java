@@ -1,6 +1,6 @@
 package com.softserve.models.account;
 
-import com.softserve.models.Transaction;
+import com.softserve.models.transaction.Transaction;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 

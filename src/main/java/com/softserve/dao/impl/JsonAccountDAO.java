@@ -34,6 +34,5 @@ public class JsonAccountDAO implements DAO<Account> {
 
     @Override
     public void delete(Account entity) {
-
     }
 }
