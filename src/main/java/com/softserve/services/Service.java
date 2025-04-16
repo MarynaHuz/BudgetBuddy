@@ -5,9 +5,9 @@ import java.util.Optional;
 
 public interface Service <T>{
 
-    void save(T entity);
-    Optional<T> read(String id);
-    List<T> getAll();
+    void create(T entity);
+    Optional<T> find(String id);
+    List<T> listAll();
     void update(T entity);
-    void delete(String id);
+    void removeById(String id);
 }
