@@ -1,4 +1,6 @@
 package com.softserve.controllers;
 
-public class TransactionController {
+import com.softserve.models.transaction.Transaction;
+
+public class TransactionController implements Controller<Transaction>{
 }
