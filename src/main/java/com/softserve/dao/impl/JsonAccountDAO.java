@@ -18,7 +18,7 @@ public class JsonAccountDAO implements DAO<Account> {
 
         return getAll().stream()
                 .filter(acc ->
-                        acc.getAccountName().equals(accountName))
+                        acc.getAccountName().equalsIgnoreCase(accountName))
                 .findFirst();
     }
 
