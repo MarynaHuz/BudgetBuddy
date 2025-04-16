@@ -19,7 +19,7 @@ public class Account {
 
     private static int nextId = 1;
 
-    private long id;
+    private int id;
     @Setter
     private String accountName;
     private Currency currency;
