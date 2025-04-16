@@ -11,13 +11,15 @@ public class AccountService implements Service<Account>{
 
     private final DAO<Account> dao = new JsonAccountDAO();
 
+    //TODO: implement methods
+
     @Override
     public void create(Account account) {
         dao.save(account);
     }
 
     @Override
-    public Optional<Account> find(String id) {
+    public Optional<Account> findById(String id) {
         return Optional.empty();
     }
 
