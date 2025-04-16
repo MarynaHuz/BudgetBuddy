@@ -7,27 +7,32 @@ import com.softserve.models.account.Account;
 import java.util.List;
 import java.util.Optional;
 
-public class AccountService {
+public class AccountService implements Service<Account>{
 
     private final DAO<Account> dao = new JsonAccountDAO();
 
-    public void addAccount(Account account) {
+    @Override
+    public void create(Account account) {
         dao.save(account);
     }
 
-    public Optional<Account> getAccountByName(String name) {
-        return dao.read(name);
+    @Override
+    public Optional<Account> find(String id) {
+        return Optional.empty();
     }
 
-    public List<Account> getAllAccounts() {
-        return dao.getAll();
+    @Override
+    public List<Account> listAll() {
+        return List.of();
     }
 
-    public void updateAccount(Account account) {
-        dao.update(account);
+    @Override
+    public void update(Account account) {
+
     }
 
-    public void removeAccount(Account account) {
-        dao.delete(account);
+    @Override
+    public void removeById(String id) {
+
     }
 }
