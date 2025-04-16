@@ -9,16 +9,16 @@ import java.util.Optional;
 public class JsonAccountDAO implements DAO<Account> {
 
     @Override
-    public void save(Account entity) {
+    public void save(Account account) {
 
     }
 
     @Override
-    public Optional<Account> read(String accountName) {
+    public Optional<Account> read(String accountId) {
 
         return getAll().stream()
                 .filter(acc ->
-                        acc.getAccountName().equalsIgnoreCase(accountName))
+                        acc.getAccountName().equals(accountId))
                 .findFirst();
     }
 
@@ -28,11 +28,11 @@ public class JsonAccountDAO implements DAO<Account> {
     }
 
     @Override
-    public void update(Account entity) {
+    public void update(Account account) {
 
     }
 
     @Override
-    public void delete(Account entity) {
+    public void delete(Account account) {
     }
 }
