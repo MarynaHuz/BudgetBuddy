@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface Service <T>{
 
     void create(T entity);
-    Optional<T> find(String id);
+    Optional<T> findById(String id);
     List<T> listAll();
     void update(T entity);
     void removeById(String id);
