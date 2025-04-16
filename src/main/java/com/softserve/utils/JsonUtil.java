@@ -12,14 +12,10 @@ public class JsonUtil {
     private static final ObjectMapper OBJECT_MAPPER;
 
     static {
-        try {
-            OBJECT_MAPPER = new ObjectMapper();
-            OBJECT_MAPPER.findAndRegisterModules();
-            OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        } catch (Exception e) {
-            throw new ExceptionInInitializerError();
-        }
+        OBJECT_MAPPER = new ObjectMapper();
+        OBJECT_MAPPER.findAndRegisterModules();
+        OBJECT_MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private JsonUtil() {
@@ -39,6 +35,5 @@ public class JsonUtil {
             return OBJECT_MAPPER.readValue(inputStream, typeRef);
         }
     }
-
 
 }
