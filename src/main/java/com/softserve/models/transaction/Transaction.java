@@ -15,6 +15,7 @@ import static com.softserve.validators.AmountValidator.validateAmount;
 public class Transaction {
 
     private int transactionId;
+    private int accountId;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate transactionDate;
     private Category transactionType;
