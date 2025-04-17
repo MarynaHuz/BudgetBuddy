@@ -4,14 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.DAO;
 import com.softserve.models.transaction.Transaction;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 public class JsonTransactionDAO implements DAO<Transaction> {
 
-    private static final Path JSON_FILE_PATH = Paths.get("transactions.json");
     private static final TypeReference<List<Transaction>> TYPE_REFERENCE = new TypeReference<>() {};
 
     //TODO: implement methods
