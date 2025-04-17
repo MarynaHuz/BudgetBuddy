@@ -15,7 +15,8 @@ public class EnumValidator {
 
     private static <E extends Enum<E>> void assertNonEmptyValue(String value, Class<E> enumClass) {
         if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException("The value for " + enumClass.getSimpleName() + " must not be null or empty.");
+            throw new IllegalArgumentException("The value for " +
+                    enumClass.getSimpleName() + " must not be null or empty.");
         }
     }
     private static <E extends Enum<E>> E parseEnum(String value, Class<E> enumClass) {
