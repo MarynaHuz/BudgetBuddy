@@ -4,10 +4,8 @@ public class AccountNameValidator {
 
     private AccountNameValidator() {
     }
-    private static final String NAME_MATCH_REGEX =
-            "^[a-zA-Z]" +
-            "(?=.*\\b[a-zA-Z0-9]{3,}\\b)" +
-            "[a-zA-Z0-9 ]+$";
+    private static final String NAME_MATCH_REGEX = "^[a-zA-Z][a-zA-Z0-9 ]{2,}$";
+
 
     public static boolean isValid(String accountName){
         if (accountName == null || accountName.isBlank()) {
