@@ -9,11 +9,13 @@ public class FileUtils {
     }
 
     public static boolean fileExists(String filePath) {
+        validateFilePath(filePath);
         File file = new File(filePath);
         return file.exists() && file.isFile();
     }
 
     public static void ensureDirectoryExists(String filePath) throws IOException {
+        validateFilePath(filePath);
         File file = new File(filePath);
         File parentDir = file.getParentFile();
 
@@ -27,6 +29,7 @@ public class FileUtils {
     }
 
     public static File createFileIfNotExists(String filePath) throws IOException {
+        validateFilePath(filePath);
         File file = new File(filePath);
 
         if (!file.exists()) {
@@ -39,8 +42,15 @@ public class FileUtils {
         return file;
     }
 
-    private static File ensureFileExists(String filePath) throws IOException {
+    public static File ensureFileExists(String filePath) throws IOException {
+        validateFilePath(filePath);
         ensureDirectoryExists(filePath);
         return createFileIfNotExists(filePath);
+    }
+
+    private static void validateFilePath(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            throw new IllegalArgumentException("File path cannot be null or empty");
+        }
     }
 }
