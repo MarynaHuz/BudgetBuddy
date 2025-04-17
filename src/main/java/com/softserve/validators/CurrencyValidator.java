@@ -2,7 +2,7 @@ package com.softserve.validators;
 
 import com.softserve.models.account.Currency;
 
-import static com.softserve.utils.Formatter.formatCurrency;
+import static com.softserve.utils.Formatter.formatToUpperCase;
 
 public class CurrencyValidator {
 
@@ -11,7 +11,7 @@ public class CurrencyValidator {
 
     public static Currency validateCurrency(String currency) {
         assertValidCurrency(currency);
-        String formattedCurrency = formatCurrency(currency);
+        String formattedCurrency = formatToUpperCase(currency);
         try {
             return Currency.valueOf(formattedCurrency);
         } catch (IllegalArgumentException invalidCurrencyException) {
