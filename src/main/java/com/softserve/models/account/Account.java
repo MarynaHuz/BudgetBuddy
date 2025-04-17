@@ -1,16 +1,17 @@
 package com.softserve.models.account;
 
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Builder
-@Getter
+
+@ToString
 @EqualsAndHashCode
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Account {
 
     private int id;
@@ -20,4 +21,3 @@ public class Account {
     @Positive
     private BigDecimal balance;
 }
-
