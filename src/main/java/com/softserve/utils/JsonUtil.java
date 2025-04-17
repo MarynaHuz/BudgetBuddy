@@ -25,12 +25,12 @@ public class JsonUtil {
         return OBJECT_MAPPER;
     }
 
-    public static <T> T readJson(String resourcePath, TypeReference<T> typeRef) throws IOException {
+    public static <T> T readJson(String filePath, TypeReference<T> typeRef) throws IOException {
         try (var inputStream = JsonUtil.class.getClassLoader()
-                .getResourceAsStream(resourcePath)) {
+                .getResourceAsStream(filePath)) {
 
             if (inputStream == null) {
-                throw new IOException("Resource '" + resourcePath + "' not found on classpath.");
+                throw new IOException("File '" + filePath + "' not found on classpath.");
             }
             return OBJECT_MAPPER.readValue(inputStream, typeRef);
         }
