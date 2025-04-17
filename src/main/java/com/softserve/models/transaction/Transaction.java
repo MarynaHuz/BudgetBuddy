@@ -16,8 +16,8 @@ import java.time.LocalDate;
 @Builder
 public class Transaction {
 
-    private int transactionId;
     private int accountId;
+    private int transactionId;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate transactionDate;
     private Category transactionType;
