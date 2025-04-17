@@ -39,5 +39,8 @@ public class FileUtils {
         return file;
     }
 
-
+    private static File ensureFileExists(String filePath) throws IOException {
+        ensureDirectoryExists(filePath);
+        return createFileIfNotExists(filePath);
+    }
 }
