@@ -1,12 +1,12 @@
 package com.softserve.models.account;
 
-import com.softserve.models.transaction.Transaction;
 import jakarta.validation.constraints.Positive;
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Builder
 @Getter
@@ -19,7 +19,5 @@ public class Account {
     private Currency currency;
     @Positive
     private BigDecimal balance;
-    @Builder.Default
-    private List<Transaction> transactions = new ArrayList<>();
 }
 
