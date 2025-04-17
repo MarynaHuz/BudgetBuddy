@@ -5,7 +5,7 @@ public class Formatter {
     private Formatter() {
     }
 
-    public static String formatCurrency(String currency) {
+    public static String formatToUpperCase(String currency) {
         return currency.toUpperCase().trim();
     }
 }
