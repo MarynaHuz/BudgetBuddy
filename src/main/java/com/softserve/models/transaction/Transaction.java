@@ -8,6 +8,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.softserve.validators.DateValidator.validateDate;
+
 @ToString
 @EqualsAndHashCode
 @Getter
@@ -23,4 +25,8 @@ public class Transaction {
     private Category transactionType;
     private BigDecimal transactionAmount;
     private Currency currency;
+
+    public void setTransactionDate(String transactionDate) {
+        this.transactionDate = validateDate(transactionDate);
+    }
 }
