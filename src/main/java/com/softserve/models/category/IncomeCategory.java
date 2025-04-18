@@ -1,5 +1,7 @@
 package com.softserve.models.category;
 
+import java.math.BigDecimal;
+
 public enum IncomeCategory implements Category {
 
     SALARY("Salary"),
@@ -10,7 +12,7 @@ public enum IncomeCategory implements Category {
     RENTAL_INCOME("Rental Income"),
     OTHER_INCOME("Other Income");
 
-    private static final CategoryType CATEGORY_TYPE = CategoryType.INCOME;
+    private static final String CATEGORY_TYPE = "Income";
     private final String categoryName;
 
     IncomeCategory(String categoryName) {
@@ -23,7 +25,7 @@ public enum IncomeCategory implements Category {
     }
 
     @Override
-    public CategoryType getCategoryType() {
-        return CATEGORY_TYPE;
+    public boolean isValidAmount(BigDecimal amount) {
+        return amount.compareTo(BigDecimal.ZERO) > 0;
     }
 }
