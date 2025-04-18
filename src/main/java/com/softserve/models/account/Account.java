@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Builder
 public class Account {
 
-    private int id;
+    private int accountId;
     @Setter
     private String accountName;
     private Currency currency;
