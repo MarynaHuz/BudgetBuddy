@@ -12,7 +12,7 @@ public enum IncomeCategory implements Category {
     RENTAL_INCOME("Rental Income"),
     OTHER_INCOME("Other Income");
 
-    private static final String CATEGORY_TYPE = "Income";
+    private static final CategoryType CATEGORY_TYPE = CategoryType.INCOME;
     private final String categoryName;
 
     IncomeCategory(String categoryName) {
@@ -28,4 +28,6 @@ public enum IncomeCategory implements Category {
     public boolean isValidAmount(BigDecimal amount) {
         return amount.compareTo(BigDecimal.ZERO) > 0;
     }
+
+   
 }
