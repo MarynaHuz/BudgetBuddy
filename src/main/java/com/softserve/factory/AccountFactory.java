@@ -22,10 +22,10 @@ public class AccountFactory {
         Currency validatedCurrency = validateEnum(currency, Currency.class);
         BigDecimal validatedBalance = validateBalance(balance);
 
-        int nextId = generateNextId(accounts, Account::getId);
+        int nextId = generateNextId(accounts, Account::getAccountId);
 
         return Account.builder()
-                .id(nextId)
+                .accountId(nextId)
                 .accountName(validatedName)
                 .currency(validatedCurrency)
                 .balance(validatedBalance)
