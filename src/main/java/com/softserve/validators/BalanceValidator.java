@@ -6,7 +6,7 @@ import static com.softserve.validators.AmountValidator.parseAmount;
 
 public class BalanceValidator {
 
-    private static final String NON_NEGATIVE_BALANCE_ERROR = "Initial balance cannot be negative.";
+    private static final String NON_NEGATIVE_BALANCE_ERROR = "Balance must be a positive value";
     private static final BigDecimal MIN_INITIAL_BALANCE = BigDecimal.ZERO;
 
 
