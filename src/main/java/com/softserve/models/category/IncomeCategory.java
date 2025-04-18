@@ -29,5 +29,8 @@ public enum IncomeCategory implements Category {
         return amount.compareTo(BigDecimal.ZERO) > 0;
     }
 
-   
+    @Override
+    public CategoryType getCategoryType() {
+        return CATEGORY_TYPE;
+    }
 }
