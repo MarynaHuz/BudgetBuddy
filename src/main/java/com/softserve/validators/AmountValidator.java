@@ -1,6 +1,6 @@
 package com.softserve.validators;
 
-import com.softserve.models.category.CategoryType;
+import com.softserve.models.category.Category;
 
 import java.math.BigDecimal;
 
@@ -14,9 +14,9 @@ public class AmountValidator {
     private AmountValidator() {
     }
 
-    public static BigDecimal validateAmount(String amount, CategoryType categoryType) {
+    public static BigDecimal validateAmount(String amount, Category category) {
         BigDecimal parsedAmount = parseAmount(amount);
-        assertAmountMatchesCategoryRules(parsedAmount, categoryType);
+        assertAmountMatchesCategoryRules(parsedAmount, category);
         return parsedAmount;
     }
 
@@ -29,8 +29,8 @@ public class AmountValidator {
     }
 
     private static void assertAmountMatchesCategoryRules(BigDecimal amount,
-                                                         CategoryType categoryType) {
-        if (!CategoryType.isValidAmountForCategory(amount, categoryType)) {
+                                                         Category category) {
+        if (!category.isValidAmount(amount)) {
             throw new IllegalArgumentException(AMOUNT_ERROR_MESSAGE);
         }
     }
