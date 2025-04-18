@@ -26,7 +26,7 @@ public enum ExpenseCategory implements Category {
     CHARITY("Charity"),
     HOBBY("Hobby");
 
-    private static final String CATEGORY_TYPE = "Expense";
+    private static final CategoryType CATEGORY_TYPE = CategoryType.EXPENSE;
     private final String categoryName;
 
     ExpenseCategory(String categoryName) {
@@ -41,5 +41,10 @@ public enum ExpenseCategory implements Category {
     @Override
     public boolean isValidAmount(BigDecimal amount) {
         return amount.compareTo(BigDecimal.ZERO) <= 0;
+    }
+
+    @Override
+    public CategoryType getCategoryType() {
+        return CATEGORY_TYPE;
     }
 }
