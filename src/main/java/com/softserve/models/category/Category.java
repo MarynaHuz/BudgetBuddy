@@ -1,7 +1,10 @@
 package com.softserve.models.category;
 
+import java.math.BigDecimal;
+
 public interface Category {
 
     String getCategoryName();
-    CategoryType getCategoryType();
+    boolean isValidAmount(BigDecimal amount);
+
 }
