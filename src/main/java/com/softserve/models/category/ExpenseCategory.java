@@ -1,5 +1,7 @@
 package com.softserve.models.category;
 
+import java.math.BigDecimal;
+
 public enum ExpenseCategory implements Category {
 
     FOOD("Food"),
@@ -24,7 +26,7 @@ public enum ExpenseCategory implements Category {
     CHARITY("Charity"),
     HOBBY("Hobby");
 
-    private static final CategoryType CATEGORY_TYPE = CategoryType.EXPENSE;
+    private static final String CATEGORY_TYPE = "Expense";
     private final String categoryName;
 
     ExpenseCategory(String categoryName) {
@@ -37,7 +39,7 @@ public enum ExpenseCategory implements Category {
     }
 
     @Override
-    public CategoryType getCategoryType() {
-        return CATEGORY_TYPE;
+    public boolean isValidAmount(BigDecimal amount) {
+        return amount.compareTo(BigDecimal.ZERO) <= 0;
     }
 }
