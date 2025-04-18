@@ -6,5 +6,5 @@ public interface Category {
 
     String getCategoryName();
     boolean isValidAmount(BigDecimal amount);
-
+    CategoryType getCategoryType();
 }
