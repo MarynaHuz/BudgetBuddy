@@ -52,9 +52,13 @@ public class JsonUtil {
         }
         items.add(itemToAdd);
 
+        writeToFile(file, items);
+    }
+
+    private static <T> void writeToFile(File file, T data) throws IOException {
         try (var outputStream = new FileOutputStream(file)) {
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter()
-                    .writeValue(outputStream, items);
+                    .writeValue(outputStream, data);
         }
     }
 }
