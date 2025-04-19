@@ -3,10 +3,11 @@ package com.softserve.utils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
-
-import static com.softserve.utils.JsonUtil.readFromJson;
+import java.util.Optional;
 
 public class IdManager {
+
+    private static final TypeReference<Integer> INTEGER_TYPE_REFERENCE = new TypeReference<>() {};
 
     private IdManager() {
     }
@@ -26,12 +27,14 @@ public class IdManager {
         }
     }
 
-    private static int getLastId(String filePath) {
+    private static Optional<Integer> getLastId(String filePath) {
         try {
-            Integer lastId = readFromJson(filePath, new TypeReference<>() {});
-            return lastId != null? lastId: 0;
+            return Optional.ofNullable(JsonUtil.readFromJson(filePath, INTEGER_TYPE_REFERENCE));
         } catch (IOException e) {
-            return 0;
+            System.err.println("Error reading last ID from file: " + filePath +
+                    ". Returning empty Optional. " + e.getMessage());
+            return Optional.empty();
         }
     }
+
 }
