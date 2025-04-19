@@ -7,14 +7,13 @@ import java.util.Optional;
 
 public class IdManager {
 
-    private static final TypeReference<Integer> INTEGER_TYPE_REFERENCE = new TypeReference<>() {};
-
     private IdManager() {
     }
 
     public static int generateNextId(String filePath) {
-        int currentId = getLastId(filePath);
-        int nextId = currentId + 1;
+        int nextId = getLastId(filePath)
+                .map(id -> id + 1)
+                .orElse(1);
         saveId(filePath, nextId);
         return nextId;
     }
@@ -29,12 +28,12 @@ public class IdManager {
 
     private static Optional<Integer> getLastId(String filePath) {
         try {
-            return Optional.ofNullable(JsonUtil.readFromJson(filePath, INTEGER_TYPE_REFERENCE));
+            return Optional.ofNullable(JsonUtil.readFromJson(filePath, new TypeReference<>() {
+            }));
         } catch (IOException e) {
             System.err.println("Error reading last ID from file: " + filePath +
                     ". Returning empty Optional. " + e.getMessage());
             return Optional.empty();
         }
     }
-
 }
