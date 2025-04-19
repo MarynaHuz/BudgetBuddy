@@ -3,9 +3,13 @@ package com.softserve.services;
 import com.softserve.dao.DAO;
 import com.softserve.dao.impl.JsonAccountDAO;
 import com.softserve.models.account.Account;
+import com.softserve.utils.AppConfig;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import static com.softserve.utils.IdManager.generateNextId;
 
 public class AccountService implements Service<Account>{
 
@@ -14,7 +18,9 @@ public class AccountService implements Service<Account>{
     //TODO: implement methods
 
     @Override
-    public void create(Account account) {
+    public void create(Account account) throws IOException {
+        int generatedId = generateNextId(AppConfig.ACCOUNT_ID.getPath());
+        account.setAccountId(generatedId);
         dao.save(account);
     }
 
@@ -25,7 +31,7 @@ public class AccountService implements Service<Account>{
 
     @Override
     public List<Account> listAll() {
-        return List.of();
+        return dao.getAll();
     }
 
     @Override
