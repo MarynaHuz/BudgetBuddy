@@ -11,6 +11,20 @@ public class IdManager {
     private IdManager() {
     }
 
+    public static int generateNextId(String filePath) {
+        int currentId = getLastId(filePath);
+        int nextId = currentId + 1;
+        saveId(filePath, nextId);
+        return nextId;
+    }
+
+    private static void saveId(String filePath, int nextId) {
+        try {
+            JsonUtil.writeToJson(filePath, nextId);
+        } catch (IOException e) {
+            throw new RuntimeException("Error saving ID to file: " + filePath, e);
+        }
+    }
 
     private static int getLastId(String filePath) {
         try {
