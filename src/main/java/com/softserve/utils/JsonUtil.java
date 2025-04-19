@@ -40,8 +40,8 @@ public class JsonUtil {
         return OBJECT_MAPPER.readValue(file, typeRef);
     }
 
-    public static <T> void writeToJson(String filePath, T itemToAdd,
-                                       TypeReference<List<T>> typeRef) throws IOException {
+    public static <T> void addToJson(String filePath, T itemToAdd,
+                                     TypeReference<List<T>> typeRef) throws IOException {
 
         File file = ensureFileExists(filePath);
         List<T> items;
@@ -50,7 +50,6 @@ public class JsonUtil {
         } catch (IOException e) {
             items = new ArrayList<>();
         }
-
         items.add(itemToAdd);
 
         try (var outputStream = new FileOutputStream(file)) {
