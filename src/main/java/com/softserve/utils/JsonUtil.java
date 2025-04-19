@@ -31,7 +31,7 @@ public class JsonUtil {
         return OBJECT_MAPPER;
     }
 
-    public static <T> T readJson(String filePath, TypeReference<T> typeRef) throws IOException {
+    public static <T> T readFromJson(String filePath, TypeReference<T> typeRef) throws IOException {
         File file = new File(filePath);
 
         if (!file.exists() || file.length() == 0) {
@@ -46,7 +46,7 @@ public class JsonUtil {
         File file = ensureFileExists(filePath);
         List<T> items;
         try {
-            items = readJson(filePath, typeRef);
+            items = readFromJson(filePath, typeRef);
         } catch (IOException e) {
             items = new ArrayList<>();
         }
