@@ -55,6 +55,11 @@ public class JsonUtil {
         writeToFile(file, items);
     }
 
+    public static <T> void writeToJson(String filePath, T data) throws IOException {
+        File file = ensureFileExists(filePath);
+        writeToFile(file, data);
+    }
+
     private static <T> void writeToFile(File file, T data) throws IOException {
         try (var outputStream = new FileOutputStream(file)) {
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter()
