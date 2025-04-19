@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/
+/idea/
 
 ### Eclipse ###
 .apt_generated
@@ -30,3 +30,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# JSON files#
+######################
+/data/
+
