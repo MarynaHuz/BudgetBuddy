@@ -19,6 +19,7 @@ public class AccountService implements Service<Account>{
 
     @Override
     public void create(Account account) throws IOException {
+        //TODO: check account name duplicates and don't allow them
         int generatedId = generateNextId(AppConfig.ACCOUNT_ID.getPath());
         account.setAccountId(generatedId);
         dao.save(account);
