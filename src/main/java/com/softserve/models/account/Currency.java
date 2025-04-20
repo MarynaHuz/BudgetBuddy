@@ -18,7 +18,7 @@ public enum Currency {
 
     private final String fullName;
 
-    public static Currency parse(String currencyCode) {
+    public static Currency parseCurrencyCode(String currencyCode) {
         validateNonEmptyInput(currencyCode);
 
         try {
