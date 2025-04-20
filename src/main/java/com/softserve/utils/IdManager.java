@@ -28,8 +28,8 @@ public class IdManager {
 
     private static Optional<Integer> getLastId(String filePath) {
         try {
-            return Optional.ofNullable(JsonUtil.readFromJson(filePath, new TypeReference<>() {
-            }));
+            return JsonUtil.readFromJson(filePath, new TypeReference<>() {
+            });
         } catch (IOException e) {
             System.err.println("Error reading last ID from file: " + filePath +
                     ". Returning empty Optional. " + e.getMessage());
