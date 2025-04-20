@@ -6,6 +6,7 @@ import com.softserve.models.category.IncomeCategory;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,5 +25,10 @@ public class CategoryManager {
         ).collect(Collectors.toMap(
                 c -> c.getCategoryName().toUpperCase(),
                 Function.identity()));
+    }
+
+    public static Category getCategoryByName(String categoryName){
+        return Optional.ofNullable(CATEGORY_LOOKUP.get(categoryName.toUpperCase()))
+                .orElseThrow(() -> new IllegalArgumentException("Unknown category: " + categoryName));
     }
 }
