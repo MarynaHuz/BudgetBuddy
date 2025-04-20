@@ -5,21 +5,24 @@ import com.softserve.dao.DAO;
 import com.softserve.models.account.Account;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
+import static com.softserve.utils.JsonUtil.addToJson;
 import static com.softserve.utils.JsonUtil.readFromJson;
 
 public class JsonAccountDAO implements DAO<Account> {
 
-    @Override
-    public void save(Account account) {
+    private final String filePath = ACCOUNTS_JSON.getPath();
 
+    @Override
+    public void save(Account account) throws IOException {
+        addToJson(filePath, account, new TypeReference<>() {
+        });
     }
+
 
     @Override
     public Optional<Account> read(String accountId) {
@@ -29,13 +32,12 @@ public class JsonAccountDAO implements DAO<Account> {
     @Override
     public List<Account> getAll() {
         try {
-            return readFromJson(ACCOUNTS_JSON.getPath(), new TypeReference<>() {});
-        } catch (NoSuchFileException e){
-            System.err.println("Account file not found: " + ACCOUNTS_JSON.getPath());
-            return new ArrayList<>();
+            Optional<List<Account>> accounts = readFromJson(filePath, new TypeReference<>() {
+            });
+            return accounts.orElseGet(ArrayList::new);
         } catch (IOException e) {
-            throw new UncheckedIOException(
-                    "Failed to retrieve all accounts from JSON file", e);
+            System.err.println("Failed to retrieve all accounts from JSON file: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 
