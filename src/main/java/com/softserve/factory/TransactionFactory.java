@@ -25,9 +25,8 @@ public class TransactionFactory {
                                                                                String transactionDate,
                                                                                String transactionAmount,
                                                                                Class<E> enumClass) throws IOException {
-        int validatedAccountId = validateId(ACCOUNTS_JSON.getPath(),accountId,
-                Account::getAccountId
-        );
+        int validatedAccountId = validateId(ACCOUNTS_JSON.getPath(), accountId,
+                Account::getAccountId);
         LocalDate validatedTransactionDate = validateDate(transactionDate);
         Category validatedTransactionType = validateEnum(transactionType, enumClass);
         BigDecimal validatedTransactionAmount =
