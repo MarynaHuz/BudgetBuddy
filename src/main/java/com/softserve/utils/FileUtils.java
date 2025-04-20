@@ -48,7 +48,7 @@ public class FileUtils {
         return createFileIfNotExists(filePath);
     }
 
-    private static void validateFilePath(String filePath) {
+    public static void validateFilePath(String filePath) {
         if (filePath == null || filePath.trim().isEmpty()) {
             throw new IllegalArgumentException("File path cannot be null or empty");
         }
