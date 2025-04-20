@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.ToIntFunction;
 
 import static com.softserve.utils.JsonUtil.readFromJson;
@@ -22,32 +23,30 @@ public class IdValidator {
                                      ToIntFunction<T> idExtractor) throws IOException {
         int parsedId = parseId(id);
 
-        if (isPositiveNumber(parsedId)) {
+        if (!isPositiveNumber(parsedId)) {
+            return 0;
+        }
 
-            List<T> items = new ArrayList<>(
-                    readFromJson(filePath, new TypeReference<>() {
-                    }));
+        List<T> items = readFromJson(filePath, new TypeReference<List<T>>() {
+        })
+                .orElseGet(ArrayList::new);
 
-            try {
-                for (var item : items) {
-
-                    Integer itemId = idExtractor.applyAsInt(item);
-                    if (itemId.equals(parsedId)) {
-                        return parsedId;
-                    }
-                }
-            } catch (Exception e) {
-                return 0;
+        for (var item : items) {
+            Integer itemId = idExtractor.applyAsInt(item);
+            if (itemId.equals(parsedId)) {
+                return parsedId;
             }
         }
         return 0;
     }
 
     private static int parseId(String id) {
-        if (id == null || id.trim().isEmpty() || !isNumber(id.trim())) {
-            throw new IllegalArgumentException(PARSING_ERROR_MESSAGE);
-        }
-        return Integer.parseInt(id.trim());
+        return Integer.parseInt(
+                Optional.ofNullable(id)
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .orElseThrow(() -> new IllegalArgumentException(PARSING_ERROR_MESSAGE))
+        );
     }
 
     private static boolean isPositiveNumber(int id) {
@@ -56,14 +55,5 @@ public class IdValidator {
             return false;
         }
         return true;
-    }
-
-    private static boolean isNumber(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }
