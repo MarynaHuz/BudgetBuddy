@@ -10,8 +10,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.softserve.utils.FileUtils.ensureFileExists;
+import static com.softserve.utils.FileUtils.validateFilePath;
 
 public class JsonUtil {
 
@@ -31,13 +33,18 @@ public class JsonUtil {
         return OBJECT_MAPPER;
     }
 
-    public static <T> T readFromJson(String filePath, TypeReference<T> typeRef) throws IOException {
+    public static <T> Optional<T> readFromJson(String filePath, TypeReference<T> typeRef) throws IOException {
+
+        validateFilePath(filePath);
         File file = new File(filePath);
 
-        if (!file.exists() || file.length() == 0) {
-            throw new IOException("File not found or empty: " + filePath);
+        if (!file.exists()) {
+            throw new IOException("File not found: " + filePath);
         }
-        return OBJECT_MAPPER.readValue(file, typeRef);
+        if (file.length() == 0) {
+            return Optional.empty();
+        }
+        return Optional.of(OBJECT_MAPPER.readValue(file, typeRef));
     }
 
     public static <T> void addToJson(String filePath, T itemToAdd,
