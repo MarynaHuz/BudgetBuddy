@@ -8,12 +8,6 @@ public class FileUtils {
     private FileUtils() {
     }
 
-    public static boolean fileExists(String filePath) {
-        validateFilePath(filePath);
-        File file = new File(filePath);
-        return file.exists() && file.isFile();
-    }
-
     public static void ensureDirectoryExists(String filePath) throws IOException {
         validateFilePath(filePath);
         File file = new File(filePath);
