@@ -51,14 +51,8 @@ public class JsonUtil {
                                      TypeReference<List<T>> typeRef) throws IOException {
 
         File file = ensureFileExists(filePath);
-        List<T> items;
-        try {
-            items = readFromJson(filePath, typeRef);
-        } catch (IOException e) {
-            items = new ArrayList<>();
-        }
+        List<T> items = readFromJson(filePath, typeRef).orElseGet(ArrayList::new);
         items.add(itemToAdd);
-
         writeToFile(file, items);
     }
 
