@@ -23,22 +23,15 @@ public class JsonAccountDAO implements DAO<Account> {
         });
     }
 
-
     @Override
     public Optional<Account> read(String accountId) {
         return Optional.empty();
     }
 
     @Override
-    public List<Account> getAll() {
-        try {
-            Optional<List<Account>> accounts = readFromJson(filePath, new TypeReference<>() {
-            });
-            return accounts.orElseGet(ArrayList::new);
-        } catch (IOException e) {
-            System.err.println("Failed to retrieve all accounts from JSON file: " + e.getMessage());
-            return new ArrayList<>();
-        }
+    public List<Account> getAll() throws IOException {
+        return readFromJson(filePath, new TypeReference<List<Account>>() {
+        }).orElseGet(ArrayList::new);
     }
 
     @Override
