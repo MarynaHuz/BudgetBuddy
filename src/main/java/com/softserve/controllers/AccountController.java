@@ -4,6 +4,10 @@ import com.softserve.models.account.Account;
 import com.softserve.services.AccountService;
 import com.softserve.services.Service;
 
+import java.io.IOException;
+
+import static com.softserve.validators.IdValidator.validateId;
+
 public class AccountController implements Controller<Account> {
 
     private final Service accountService = new AccountService();
@@ -17,7 +21,12 @@ public class AccountController implements Controller<Account> {
 
     @Override
     public void findById(String id) {
-
+        int accountId = validateId(id);
+        try {
+            accountService.findById(accountId);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
