@@ -8,7 +8,7 @@ public interface DAO<T> {
 
     void save(T entity) throws IOException;
     Optional<T> read(String entity);
-    List<T> getAll();
+    List<T> getAll() throws IOException;
     void update(T entity);
     void delete(T entity);
 }
