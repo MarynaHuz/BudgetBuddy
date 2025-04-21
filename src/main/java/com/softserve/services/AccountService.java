@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static com.softserve.utils.IdManager.generateNextId;
 
-public class AccountService implements Service<Account>{
+public class AccountService implements Service<Account> {
 
     private final DAO<Account> dao = new JsonAccountDAO();
 
@@ -19,7 +19,16 @@ public class AccountService implements Service<Account>{
 
     @Override
     public void create(Account account) throws IOException {
-        //TODO: check account name duplicates and don't allow them
+
+        List<Account> accounts = dao.getAll();
+        boolean exists = accounts.stream()
+                .anyMatch(existing ->
+                        existing.getAccountName().equalsIgnoreCase(account.getAccountName()));
+
+        if (exists) {
+            throw new IllegalArgumentException("Account name already exists: " +
+                    account.getAccountName());
+        }
         int generatedId = generateNextId(AppConfig.ACCOUNT_ID.getPath());
         account.setAccountId(generatedId);
         dao.save(account);
@@ -31,7 +40,7 @@ public class AccountService implements Service<Account>{
     }
 
     @Override
-    public List<Account> listAll() {
+    public List<Account> listAll() throws IOException {
         return dao.getAll();
     }
 
