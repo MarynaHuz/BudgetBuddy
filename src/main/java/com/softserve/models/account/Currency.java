@@ -1,22 +1,11 @@
 package com.softserve.models.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.Arrays;
 import java.util.List;
 
-@AllArgsConstructor
-@Getter
 public enum Currency {
 
-    UAH("Ukrainian Hryvnia"),
-    EUR("Euro"),
-    USD("United States Dollar"),
-    GBP("British Pound Sterling"),
-    PLN("Polish Zloty");
-
-    private final String fullName;
+    UAH, EUR, USD, GBP, PLN;
 
     public static Currency parseCurrencyCode(String currencyCode) {
         validateNonEmptyInput(currencyCode);
