@@ -1,6 +1,5 @@
 package com.softserve.factory;
 
-import com.softserve.models.account.Account;
 import com.softserve.models.account.Currency;
 import com.softserve.models.category.Category;
 import com.softserve.models.transaction.Transaction;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
 import static com.softserve.utils.CategoryManager.getCategoryByName;
 import static com.softserve.validators.AmountValidator.validateAmount;
 import static com.softserve.validators.DateValidator.validateDate;
@@ -25,8 +23,7 @@ public class TransactionFactory {
                                                 String transactionDate,
                                                 String transactionAmount
     ) throws IOException {
-        int validatedAccountId = validateId(ACCOUNTS_JSON.getPath(), accountId,
-                Account::getAccountId);
+        int validatedAccountId = validateId(accountId);
         LocalDate validatedTransactionDate = validateDate(transactionDate);
         Category validatedTransactionType = getCategoryByName(transactionType);
         BigDecimal validatedTransactionAmount = validateAmount(transactionAmount,
