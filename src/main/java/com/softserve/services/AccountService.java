@@ -1,7 +1,7 @@
 package com.softserve.services;
 
-import com.softserve.dao.DAO;
-import com.softserve.dao.impl.JsonAccountDAO;
+import com.softserve.dao.Dao;
+import com.softserve.dao.impl.JsonAccountDao;
 import com.softserve.models.account.Account;
 import com.softserve.utils.AppConfig;
 
@@ -13,7 +13,7 @@ import static com.softserve.utils.IdManager.generateNextId;
 
 public class AccountService implements Service<Account> {
 
-    private final DAO<Account> dao = new JsonAccountDAO();
+    private final Dao<Account> dao = new JsonAccountDao();
 
     //TODO: implement methods
 
@@ -35,8 +35,12 @@ public class AccountService implements Service<Account> {
     }
 
     @Override
-    public Optional<Account> findById(String id) {
-        return Optional.empty();
+    public Optional<Account> findById(int id) throws IOException {
+        List<Account> accounts = listAll();
+
+        return accounts.stream()
+                .filter(account -> id == account.getAccountId())
+                .findAny();
     }
 
     @Override
