@@ -1,31 +1,26 @@
 package com.softserve.dao.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.softserve.dao.DAO;
+import com.softserve.dao.Dao;
 import com.softserve.models.account.Account;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
-import static com.softserve.utils.JsonUtil.addToJson;
 import static com.softserve.utils.JsonUtil.readFromJson;
+import static com.softserve.utils.JsonUtil.writeToJson;
 
-public class JsonAccountDAO implements DAO<Account> {
+public class JsonAccountDao implements Dao<Account> {
 
     private final String filePath = ACCOUNTS_JSON.getPath();
 
     @Override
     public void save(Account account) throws IOException {
-        addToJson(filePath, account, new TypeReference<>() {
-        });
-    }
-
-    @Override
-    public Optional<Account> findById(String accountId) {
-        return Optional.empty();
+        List<Account> accounts = getAll();
+        accounts.add(account);
+        writeToJson(filePath, accounts);
     }
 
     @Override
