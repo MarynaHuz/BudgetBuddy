@@ -1,7 +1,7 @@
 package com.softserve.services;
 
-import com.softserve.dao.DAO;
-import com.softserve.dao.impl.JsonTransactionDAO;
+import com.softserve.dao.Dao;
+import com.softserve.dao.impl.JsonTransactionDao;
 import com.softserve.models.transaction.Transaction;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class TransactionService implements Service<Transaction> {
 
-    private final DAO<Transaction> dao = new JsonTransactionDAO();
+    private final Dao<Transaction> dao = new JsonTransactionDao();
 
     //TODO: implement methods
 
@@ -19,7 +19,7 @@ public class TransactionService implements Service<Transaction> {
     }
 
     @Override
-    public Optional<Transaction> findById(String id) {
+    public Optional<Transaction> findById(int id) {
         return Optional.empty();
     }
 
