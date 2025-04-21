@@ -10,7 +10,7 @@ import static com.softserve.validators.IdValidator.validateId;
 
 public class AccountController implements Controller<Account> {
 
-    private final Service accountService = new AccountService();
+    private final Service<Account> accountService = new AccountService();
 
     //TODO: Implement methods
 
