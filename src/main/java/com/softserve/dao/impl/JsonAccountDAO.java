@@ -24,7 +24,7 @@ public class JsonAccountDAO implements DAO<Account> {
     }
 
     @Override
-    public Optional<Account> read(String accountId) {
+    public Optional<Account> findById(String accountId) {
         return Optional.empty();
     }
 
