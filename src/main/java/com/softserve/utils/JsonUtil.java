@@ -53,18 +53,19 @@ public class JsonUtil {
         File file = ensureFileExists(filePath);
         List<T> items = readFromJson(filePath, typeRef).orElseGet(ArrayList::new);
         items.add(itemToAdd);
-        writeToFile(file, items);
+        serializeToJson(file, items);
     }
 
     public static <T> void writeToJson(String filePath, T data) throws IOException {
         File file = ensureFileExists(filePath);
-        writeToFile(file, data);
+        serializeToJson(file, data);
     }
 
-    private static <T> void writeToFile(File file, T data) throws IOException {
+    private static <T> void serializeToJson(File file, T data) throws IOException {
         try (var outputStream = new FileOutputStream(file)) {
             OBJECT_MAPPER.writerWithDefaultPrettyPrinter()
                     .writeValue(outputStream, data);
         }
     }
+
 }
