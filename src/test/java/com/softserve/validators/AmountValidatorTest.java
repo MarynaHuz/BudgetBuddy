@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 
@@ -101,6 +103,88 @@ class AmountValidatorTest {
                     exception.getMessage());
         }
     }
+
+    @Nested
+    @DisplayName("Invalid Amount Parsing")
+    class InvalidAmountParsing {
+        @ParameterizedTest
+        @DisplayName("Should throw parsing exception for invalid number formats")
+        @ValueSource(strings = {
+                "abc",
+                "12.34.56",
+                "+",
+                "-",
+                "1,000.00"
+        })
+        void validateAmount_shouldThrowParsingException_whenAmountIsInvalid(String invalidAmount) {
+
+            Category categoryMock = createMockCategory(CategoryType.INCOME, true);
+
+            IllegalArgumentException exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> AmountValidator.validateAmount(invalidAmount, categoryMock),
+                    "Invalid number format should throw parsing exception"
+            );
+            assertEquals("Invalid amount: must be a valid non-null number.",
+                    exception.getMessage());
+        }
+
+        @ParameterizedTest
+        @DisplayName("Should throw parsing exception for null or empty input")
+        @NullAndEmptySource
+        @ValueSource(strings = {"   ", "\t", "\n"})
+        void validateAmount_shouldThrowParsingException_whenAmountIsNullOrEmpty(String invalidAmount) {
+
+            Category categoryMock = createMockCategory(CategoryType.INCOME, true);
+
+            IllegalArgumentException exception = assertThrows(
+                    IllegalArgumentException.class,
+                    () -> AmountValidator.validateAmount(invalidAmount, categoryMock),
+                    "Null or empty amount should throw parsing exception"
+            );
+            assertEquals("Invalid amount: must be a valid non-null number.",
+                    exception.getMessage());
+        }
+
+        @ParameterizedTest
+        @DisplayName("Should handle different number formats")
+        @CsvSource({
+                "1000",
+                "1000.00",
+                "+1000.00",
+                "1,000.00",
+                " 1000.00 "
+        })
+        void validateAmount_shouldHandleDifferentNumberFormats(String amount) {
+
+            Category categoryMock = createMockCategory(CategoryType.INCOME, true);
+
+            assertDoesNotThrow(
+                    () -> AmountValidator.validateAmount(amount, categoryMock),
+                    "Should handle different number formats"
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("Precision and Edge Cases")
+    class PrecisionTests {
+        @Test
+        @DisplayName("Should handle different decimal precisions")
+        void validateAmount_shouldHandleDifferentDecimalPrecisions() {
+            // Arrange
+            String[] amounts = {"100", "100.0", "100.00", "100.000"};
+            Category incomeCategoryMock = createMockCategory(CategoryType.INCOME, true);
+
+            // Act & Assert
+            for (String amount : amounts) {
+                BigDecimal result = AmountValidator.validateAmount(amount, incomeCategoryMock);
+                assertEquals(new BigDecimal(amount), result,
+                        "Should maintain exact decimal representation");
+            }
+        }
+    }
+
 
     private Category createMockCategory(CategoryType type, boolean isValidAmount) {
         Category mockCategory = mock(Category.class);
