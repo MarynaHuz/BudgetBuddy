@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface Service <T>{
 
     void create(T entity) throws IOException;
-    Optional<T> findById(String id);
+    Optional<T> findById(int id) throws IOException;
     List<T> listAll() throws IOException;
     void update(T entity);
     void removeById(String id);
