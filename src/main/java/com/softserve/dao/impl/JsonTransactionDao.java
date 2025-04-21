@@ -1,14 +1,13 @@
 package com.softserve.dao.impl;
 
-import com.softserve.dao.DAO;
+import com.softserve.dao.Dao;
 import com.softserve.models.transaction.Transaction;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 
-public class JsonTransactionDAO implements DAO<Transaction> {
+public class JsonTransactionDao implements Dao<Transaction> {
 
     private final String filePath = TRANSACTIONS_JSON.getPath();
 
@@ -17,11 +16,6 @@ public class JsonTransactionDAO implements DAO<Transaction> {
     @Override
     public void save(Transaction entity) {
 
-    }
-
-    @Override
-    public Optional<Transaction> findById(int id) {
-        return Optional.empty();
     }
 
     @Override
