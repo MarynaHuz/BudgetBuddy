@@ -8,7 +8,7 @@ public interface Service <T>{
 
     void create(T entity) throws IOException;
     Optional<T> findById(String id);
-    List<T> listAll();
+    List<T> listAll() throws IOException;
     void update(T entity);
     void removeById(String id);
 }
