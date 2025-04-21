@@ -21,6 +21,7 @@ public class IdValidator {
                 Optional.ofNullable(id)
                         .map(String::trim)
                         .filter(s -> !s.isEmpty())
+                        .filter(s -> s.matches("\\d+"))
                         .orElseThrow(() -> new IllegalArgumentException(PARSING_ERROR_MESSAGE))
         );
     }
