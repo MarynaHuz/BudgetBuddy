@@ -22,8 +22,8 @@ class AmountValidatorTest {
     @Nested
     @DisplayName("Amount Validation for Positive Amounts")
     class PositiveAmountValidation {
-        @ParameterizedTest
         @DisplayName("Should validate positive amount for income category")
+        @ParameterizedTest
         @CsvSource({
                 "150.00",
                 "1000.50",
@@ -44,8 +44,8 @@ class AmountValidatorTest {
             );
         }
 
-        @Test
         @DisplayName("Should reject zero amount for income")
+        @Test
         void validateAmount_shouldThrowException_whenIncomeCategoryAndZeroAmount() {
 
             String zeroAmount = "0.00";
@@ -64,8 +64,8 @@ class AmountValidatorTest {
     @Nested
     @DisplayName("Negative Amount Validation for Expenses")
     class NegativeExpenseAmountValidation {
-        @ParameterizedTest
         @DisplayName("Should validate negative amounts for expense")
+        @ParameterizedTest
         @CsvSource({
                 "-200.00",
                 "-50.75",
@@ -87,8 +87,8 @@ class AmountValidatorTest {
             );
         }
 
-        @Test
         @DisplayName("Should reject positive amount for expense")
+        @Test
         void validateAmount_shouldThrowException_whenExpenseCategoryAndPositiveAmount() {
 
             String positiveAmount = "100.00";
@@ -107,8 +107,8 @@ class AmountValidatorTest {
     @Nested
     @DisplayName("Invalid Amount Parsing")
     class InvalidAmountParsing {
-        @ParameterizedTest
         @DisplayName("Should throw parsing exception for invalid number formats")
+        @ParameterizedTest
         @ValueSource(strings = {
                 "abc",
                 "12.34.56",
@@ -129,8 +129,8 @@ class AmountValidatorTest {
                     exception.getMessage());
         }
 
-        @ParameterizedTest
         @DisplayName("Should throw parsing exception for null or empty input")
+        @ParameterizedTest
         @NullAndEmptySource
         @ValueSource(strings = {"   ", "\t", "\n"})
         void validateAmount_shouldThrowParsingException_whenAmountIsNullOrEmpty(String invalidAmount) {
@@ -146,8 +146,8 @@ class AmountValidatorTest {
                     exception.getMessage());
         }
 
-        @ParameterizedTest
         @DisplayName("Should handle different number formats")
+        @ParameterizedTest
         @CsvSource({
                 "1000",
                 "1000.00",
@@ -169,14 +169,13 @@ class AmountValidatorTest {
     @Nested
     @DisplayName("Precision and Edge Cases")
     class PrecisionTests {
-        @Test
         @DisplayName("Should handle different decimal precisions")
+        @Test
         void validateAmount_shouldHandleDifferentDecimalPrecisions() {
-            // Arrange
+
             String[] amounts = {"100", "100.0", "100.00", "100.000"};
             Category incomeCategoryMock = createMockCategory(CategoryType.INCOME, true);
 
-            // Act & Assert
             for (String amount : amounts) {
                 BigDecimal result = AmountValidator.validateAmount(amount, incomeCategoryMock);
                 assertEquals(new BigDecimal(amount), result,
