@@ -4,7 +4,6 @@ import com.softserve.models.account.Currency;
 import com.softserve.models.category.Category;
 import com.softserve.models.transaction.Transaction;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -22,7 +21,7 @@ public class TransactionFactory {
                                                 String transactionType,
                                                 String transactionDate,
                                                 String transactionAmount
-    ) throws IOException {
+    ) {
         int validatedAccountId = validateId(accountId);
         LocalDate validatedTransactionDate = validateDate(transactionDate);
         Category validatedTransactionType = getCategoryByName(transactionType);
