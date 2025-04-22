@@ -1,5 +1,8 @@
 package com.softserve.validators;
 
+import lombok.Setter;
+
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,6 +10,8 @@ import java.time.format.DateTimeParseException;
 public class DateValidator {
     private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+    @Setter
+    private static Clock clock = Clock.systemDefaultZone();
 
     private static final String NULL_OR_BLANK_DATE_MESSAGE =
             "Invalid date: date cannot be null or blank.";
@@ -41,8 +46,8 @@ public class DateValidator {
     }
 
     private static LocalDate validateNotFutureDate(LocalDate date) {
-
-        if (date.isAfter(LocalDate.now())) {
+        LocalDate today = LocalDate.now(clock);
+        if (date.isAfter(today)) {
             throw new IllegalArgumentException(FUTURE_DATE_ERROR_MESSAGE +
                     " Provided value: " + date);
         }
