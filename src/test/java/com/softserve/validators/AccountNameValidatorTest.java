@@ -23,6 +23,13 @@ class AccountNameValidatorTest {
     }
 
     @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"  "})
+    void validateAccountName_shouldThrowException_whenNameIsNullOrBlank(String blankName) {
+        assertThrows(IllegalArgumentException.class, () -> validateAccountName(blankName));
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {"Savings EUR", "Monobank"})
     void isValid_shouldReturnTrue_whenNameIsValid(String validName) {
         assertTrue(isValid(validName));
@@ -39,12 +46,5 @@ class AccountNameValidatorTest {
     @ValueSource(strings = {"  "})
     void isValid_shouldReturnFalse_whenNameIsNullOrBlank(String blankName) {
         assertFalse(isValid(blankName));
-    }
-
-    @ParameterizedTest
-    @NullAndEmptySource
-    @ValueSource(strings = {"  "})
-    void validateAccountName_shouldThrowException_whenNameIsNullOrBlank(String blankName) {
-        assertThrows(IllegalArgumentException.class, () -> validateAccountName(blankName));
     }
 }
