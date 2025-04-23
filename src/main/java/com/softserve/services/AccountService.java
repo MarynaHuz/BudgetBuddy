@@ -54,7 +54,7 @@ public class AccountService implements Service<Account> {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(int id) {
 
     }
 }
