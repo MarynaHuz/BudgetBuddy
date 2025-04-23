@@ -34,7 +34,7 @@ public class TransactionService implements Service<Transaction> {
     }
 
     @Override
-    public void removeById(String id) {
+    public void removeById(int id) {
 
     }
 }
