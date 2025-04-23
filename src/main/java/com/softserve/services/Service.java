@@ -10,5 +10,5 @@ public interface Service <T>{
     Optional<T> findById(int id) throws IOException;
     List<T> listAll() throws IOException;
     void update(T entity);
-    void removeById(String id);
+    void removeById(int id);
 }

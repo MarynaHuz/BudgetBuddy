@@ -10,5 +10,5 @@ public interface Controller<T> {
 
     void update(T entity);
 
-    void delete(String id);
+    boolean delete(String id);
 }
