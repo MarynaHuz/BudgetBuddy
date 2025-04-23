@@ -11,4 +11,8 @@ public interface Service <T>{
     List<T> listAll() throws IOException;
     void update(T entity);
     void removeById(int id);
+
+    default boolean existById(int id) throws IOException {
+       return (findById(id).isPresent());
+    }
 }
