@@ -13,10 +13,6 @@ public class AmountValidator {
     }
 
     public static BigDecimal validateAmount(String amount) {
-        return parseAmount(amount);
-    }
-
-    public static BigDecimal validatePositiveAmount(String amount) {
         BigDecimal parsedAmount = parseAmount(amount);
         assertPositiveAmount(parsedAmount);
         return parsedAmount;
