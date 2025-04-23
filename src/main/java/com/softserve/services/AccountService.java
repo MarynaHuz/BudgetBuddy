@@ -57,8 +57,4 @@ public class AccountService implements Service<Account> {
     public void removeById(int id) {
 
     }
-
-    boolean existsAccountById(int id) throws IOException {
-        return (findById(id).isPresent());
-    }
 }
