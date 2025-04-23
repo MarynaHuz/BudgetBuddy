@@ -19,6 +19,7 @@ import static com.softserve.validators.DateValidator.validateDate;
 public class Transaction {
 
     private int accountId;
+    @Setter
     private int transactionId;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate transactionDate;
