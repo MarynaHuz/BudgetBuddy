@@ -30,7 +30,8 @@ public class JsonUtil {
         return OBJECT_MAPPER;
     }
 
-    public static <T> Optional<T> readFromJson(String filePath, TypeReference<T> typeRef) throws IOException {
+    public static <T> Optional<T> readFromJson(String filePath,
+                                               TypeReference<T> typeRef) throws IOException {
         Path path = ensureFileExists(filePath);
 
         if (Files.size(path) == 0) {
