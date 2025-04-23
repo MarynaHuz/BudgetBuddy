@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface Dao<T> {
 
-    void save(T entity) throws IOException;
+    void save(List<T> items) throws IOException;
     List<T> getAll() throws IOException;
-    void updateById(int id);
+    void updateById(T entity) throws IOException;
     void deleteById(int id) throws IOException;
 }
