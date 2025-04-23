@@ -1,22 +1,24 @@
 package com.softserve.validators;
 
-import com.softserve.models.category.Category;
-
 import java.math.BigDecimal;
 
 public class AmountValidator {
 
-    private static final String AMOUNT_ERROR_MESSAGE =
-            "Invalid amount: income should be positive and expenses should be negative.";
+    private static final String NEGATIVE_AMOUNT_ERROR_MESSAGE =
+            "Invalid amount: amount must be positive.";
     private static final String PARSING_ERROR_MESSAGE =
             "Invalid amount: must be a valid non-null number.";
 
     private AmountValidator() {
     }
 
-    public static BigDecimal validateAmount(String amount, Category category) {
+    public static BigDecimal validateAmount(String amount) {
+        return parseAmount(amount);
+    }
+
+    public static BigDecimal validatePositiveAmount(String amount) {
         BigDecimal parsedAmount = parseAmount(amount);
-        assertAmountMatchesCategoryRules(parsedAmount, category);
+        assertPositiveAmount(parsedAmount);
         return parsedAmount;
     }
 
@@ -28,10 +30,9 @@ public class AmountValidator {
         }
     }
 
-    private static void assertAmountMatchesCategoryRules(BigDecimal amount,
-                                                         Category category) {
-        if (!category.isValidAmount(amount)) {
-            throw new IllegalArgumentException(AMOUNT_ERROR_MESSAGE);
+    public static void assertPositiveAmount(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException(NEGATIVE_AMOUNT_ERROR_MESSAGE);
         }
     }
 }
