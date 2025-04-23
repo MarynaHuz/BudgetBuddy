@@ -1,11 +1,15 @@
 package com.softserve.dao.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.Dao;
 import com.softserve.models.transaction.Transaction;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
+import static com.softserve.utils.JsonUtil.readFromJson;
 
 public class JsonTransactionDao implements Dao<Transaction> {
 
@@ -19,8 +23,9 @@ public class JsonTransactionDao implements Dao<Transaction> {
     }
 
     @Override
-    public List<Transaction> getAll() {
-        return List.of();
+    public List<Transaction> getAll() throws IOException {
+        return readFromJson(filePath, new TypeReference<List<Transaction>>() {
+        }).orElseGet(ArrayList::new);
     }
 
     @Override
