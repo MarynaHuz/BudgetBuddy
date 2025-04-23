@@ -3,6 +3,7 @@ package com.softserve.factory;
 import com.softserve.models.account.Currency;
 import com.softserve.models.category.Category;
 import com.softserve.models.transaction.Transaction;
+import com.softserve.models.transaction.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,17 +23,18 @@ public class TransactionFactory {
                                                 String transactionDate,
                                                 String transactionAmount
     ) {
-        int validatedAccountId = validateId(accountId);
-        LocalDate validatedTransactionDate = validateDate(transactionDate);
-        Category validatedTransactionType = getCategoryByName(transactionType);
-        BigDecimal validatedTransactionAmount = validateAmount(transactionAmount,
-                validatedTransactionType);
+        int validAccountId = validateId(accountId);
+        LocalDate validTransactionDate = validateDate(transactionDate);
+        Category categoryByName = getCategoryByName(transactionType);
+        TransactionType type = categoryByName.getTransactionType();
+        BigDecimal validatedTransactionAmount = validateAmount(transactionAmount);
 
         return Transaction.builder()
-                .accountId(validatedAccountId)
+                .accountId(validAccountId)
                 .transactionId(0)
-                .transactionDate(validatedTransactionDate)
-                .transactionType(validatedTransactionType)
+                .transactionDate(validTransactionDate)
+                .transactionType(type)
+                .category(categoryByName)
                 .transactionAmount(validatedTransactionAmount)
                 .currency(Currency.UAH)
                 .build();
