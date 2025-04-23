@@ -21,13 +21,19 @@ public class TransactionService implements Service<Transaction> {
 
     @Override
     public void create(Transaction transaction) throws IOException {
-        int generatedId = generateNextId(AppConfig.TRANSACTION_ID.getPath());
+        int generatedTransactionId = generateNextId(AppConfig.TRANSACTION_ID.getPath());
+        int accountId = transaction.getAccountId();
 
-        if(!accountService.existById(transaction.getAccountId())){
+        if (accountService.existById(accountId)) {
+            transaction.setCurrency(accountService
+                    .findById(accountId)
+                    .get()
+                    .getCurrency());
+        } else {
             throw new IllegalArgumentException("Account with ID " +
                     transaction.getAccountId() + " does not exist");
         }
-        transaction.setTransactionId(generatedId);
+        transaction.setTransactionId(generatedTransactionId);
         dao.save(transaction);
     }
 
@@ -37,8 +43,8 @@ public class TransactionService implements Service<Transaction> {
     }
 
     @Override
-    public List<Transaction> listAll() {
-        return List.of();
+    public List<Transaction> listAll() throws IOException {
+        return dao.getAll();
     }
 
     @Override
