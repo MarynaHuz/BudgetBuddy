@@ -24,7 +24,7 @@ public enum IncomeCategory implements Category {
     }
 
     @Override
-    public TransactionType getCategoryType() {
+    public TransactionType getTransactionType() {
         return TransactionType.INCOME;
     }
 }

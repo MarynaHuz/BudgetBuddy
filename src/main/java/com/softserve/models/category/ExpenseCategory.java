@@ -38,7 +38,7 @@ public enum ExpenseCategory implements Category {
     }
 
     @Override
-    public TransactionType getCategoryType() {
+    public TransactionType getTransactionType() {
         return TransactionType.EXPENSE;
     }
 }
