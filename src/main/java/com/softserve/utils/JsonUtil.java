@@ -5,13 +5,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
 import static com.softserve.utils.FileUtils.ensureFileExists;
-import static com.softserve.utils.FileUtils.validateFilePath;
 
 public class JsonUtil {
 
@@ -32,25 +31,18 @@ public class JsonUtil {
     }
 
     public static <T> Optional<T> readFromJson(String filePath, TypeReference<T> typeRef) throws IOException {
-        validateFilePath(filePath);
+        Path path = ensureFileExists(filePath);
 
-        File file = new File(filePath);
-
-        if (!file.exists()) {
-            throw new IOException("File not found: " + filePath);
-        }
-        if (file.length() == 0) {
+        if (Files.size(path) == 0) {
             return Optional.empty();
         }
-        return Optional.of(OBJECT_MAPPER.readValue(file, typeRef));
+        return Optional.of(OBJECT_MAPPER.readValue(path.toFile(), typeRef));
     }
 
     public static <T> void writeToJson(String filePath, T data) throws IOException {
-        File file = ensureFileExists(filePath);
+        Path path = ensureFileExists(filePath);
 
-        try (var outputStream = new FileOutputStream(file)) {
-            OBJECT_MAPPER.writerWithDefaultPrettyPrinter()
-                    .writeValue(outputStream, data);
-        }
+        Files.write(path, OBJECT_MAPPER.writerWithDefaultPrettyPrinter()
+                .writeValueAsBytes(data));
     }
 }
