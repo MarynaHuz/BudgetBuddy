@@ -22,7 +22,8 @@ public class Transaction {
     private int transactionId;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate transactionDate;
-    private Category transactionType;
+    private TransactionType transactionType;
+    private Category category;
     private BigDecimal transactionAmount;
     private Currency currency;
 
