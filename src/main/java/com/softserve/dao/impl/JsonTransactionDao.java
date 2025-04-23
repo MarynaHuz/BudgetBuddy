@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 import static com.softserve.utils.JsonUtil.readFromJson;
+import static com.softserve.utils.JsonUtil.writeToJson;
 
 public class JsonTransactionDao implements Dao<Transaction> {
 
@@ -18,8 +19,10 @@ public class JsonTransactionDao implements Dao<Transaction> {
     //TODO: implement methods
 
     @Override
-    public void save(Transaction entity) {
-
+    public void save(Transaction transaction) throws IOException {
+        List<Transaction> transactions = getAll();
+        transactions.add(transaction);
+        writeToJson(filePath, transactions);
     }
 
     @Override
