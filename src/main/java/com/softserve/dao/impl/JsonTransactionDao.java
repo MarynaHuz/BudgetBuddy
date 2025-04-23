@@ -32,12 +32,12 @@ public class JsonTransactionDao implements Dao<Transaction> {
     }
 
     @Override
-    public void update(Transaction entity) {
+    public void updateById(int transactionId) {
 
     }
 
     @Override
-    public void delete(Transaction entity) {
+    public void deleteById(int transactionId) {
 
     }
 }

@@ -30,12 +30,12 @@ public class JsonAccountDao implements Dao<Account> {
     }
 
     @Override
-    public void update(Account account) {
+    public void updateById(int accountId) {
 
     }
 
     @Override
-    public void delete(Account account) {
+    public void deleteById(int accountId) {
 
     }
 }
