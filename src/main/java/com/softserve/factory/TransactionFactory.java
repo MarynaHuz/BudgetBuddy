@@ -22,9 +22,11 @@ public class TransactionFactory {
                                                 String transactionDate,
                                                 String transactionAmount
     ) {
+        Category categoryByName = getCategoryByName(transactionType);
+
         int validAccountId = validateId(accountId);
         LocalDate validTransactionDate = validateDate(transactionDate);
-        Category categoryByName = getCategoryByName(transactionType);
+        String categoryName = categoryByName.getCategoryName();
         String type = categoryByName.getTransactionType().getTypeName();
         BigDecimal validatedTransactionAmount = validateAmount(transactionAmount);
 
@@ -33,7 +35,7 @@ public class TransactionFactory {
                 .transactionId(0)
                 .transactionDate(validTransactionDate)
                 .transactionType(type)
-                .category(categoryByName)
+                .category(categoryName)
                 .transactionAmount(validatedTransactionAmount)
                 .currency(Currency.UAH)
                 .build();
