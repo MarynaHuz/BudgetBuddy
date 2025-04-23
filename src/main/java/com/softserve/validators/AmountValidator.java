@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 public class AmountValidator {
 
-    private static final String NEGATIVE_AMOUNT_ERROR_MESSAGE =
+    static final String NEGATIVE_AMOUNT_ERROR_MESSAGE =
             "Invalid amount: amount must be positive.";
-    private static final String PARSING_ERROR_MESSAGE =
+    static final String PARSING_ERROR_MESSAGE =
             "Invalid amount: must be a valid non-null number.";
 
     private AmountValidator() {
