@@ -1,5 +1,7 @@
 package com.softserve.models.category;
 
+import com.softserve.models.transaction.TransactionType;
+
 import java.math.BigDecimal;
 
 public enum ExpenseCategory implements Category {
@@ -26,7 +28,7 @@ public enum ExpenseCategory implements Category {
     CHARITY("Charity"),
     HOBBY("Hobby");
 
-    private static final CategoryType CATEGORY_TYPE = CategoryType.EXPENSE;
+    private static final TransactionType CATEGORY_TYPE = TransactionType.EXPENSE;
     private final String categoryName;
 
     ExpenseCategory(String categoryName) {
@@ -44,7 +46,7 @@ public enum ExpenseCategory implements Category {
     }
 
     @Override
-    public CategoryType getCategoryType() {
+    public TransactionType getCategoryType() {
         return CATEGORY_TYPE;
     }
 }
