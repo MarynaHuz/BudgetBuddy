@@ -17,9 +17,7 @@ public class JsonAccountDao implements Dao<Account> {
     private final String filePath = ACCOUNTS_JSON.getPath();
 
     @Override
-    public void save(Account account) throws IOException {
-        List<Account> accounts = getAll();
-        accounts.add(account);
+    public void save(List<Account> accounts) throws IOException {
         writeToJson(filePath, accounts);
     }
 
@@ -30,12 +28,14 @@ public class JsonAccountDao implements Dao<Account> {
     }
 
     @Override
-    public void updateById(int accountId) {
-
+    public void updateById(Account account) throws IOException {
+        List<Account> accounts = getAll();
     }
 
     @Override
-    public void deleteById(int accountId) {
-
+    public void deleteById(int accountId) throws IOException {
+        List<Account> accounts = getAll();
+        accounts.removeIf(acc -> acc.getAccountId() == accountId);
+        writeToJson(filePath, accounts);
     }
 }
