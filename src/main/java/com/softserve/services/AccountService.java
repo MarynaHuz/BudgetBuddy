@@ -31,7 +31,8 @@ public class AccountService implements Service<Account> {
         }
         int generatedId = generateNextId(AppConfig.ACCOUNT_ID.getPath());
         account.setAccountId(generatedId);
-        dao.save(account);
+        accounts.add(account);
+        dao.save(accounts);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class AccountService implements Service<Account> {
     }
 
     @Override
-    public void removeById(int id) {
-
+    public Optional<Account> removeById(int id) {
+        return Optional.empty();
     }
 }
