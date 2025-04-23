@@ -10,7 +10,7 @@ public interface Service <T>{
     Optional<T> findById(int id) throws IOException;
     List<T> listAll() throws IOException;
     void update(T entity);
-    void removeById(int id);
+    Optional<T> removeById(int id);
 
     default boolean existById(int id) throws IOException {
        return (findById(id).isPresent());

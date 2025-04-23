@@ -31,11 +31,14 @@ public class TransactionService implements Service<Transaction> {
 
             transaction.setTransactionId(
                     generateNextId(AppConfig.TRANSACTION_ID.getPath()));
+
         } else {
             throw new IllegalArgumentException("Account with ID " +
                     transaction.getAccountId() + " does not exist");
         }
-        dao.save(transaction);
+        List<Transaction> transactions = dao.getAll();
+        transactions.add(transaction);
+        dao.save(transactions);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class TransactionService implements Service<Transaction> {
     }
 
     @Override
-    public void removeById(int id) {
-
+    public Optional<Transaction> removeById(int id) {
+        return Optional.empty();
     }
 }
