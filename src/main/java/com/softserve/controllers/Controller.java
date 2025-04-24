@@ -1,8 +1,10 @@
 package com.softserve.controllers;
 
+import java.util.List;
+
 public interface Controller<T> {
 
-    void create(T entity);
+    void create(List<String> account);
 
     void findById(String id);
 
