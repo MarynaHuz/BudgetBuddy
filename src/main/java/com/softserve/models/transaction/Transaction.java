@@ -17,12 +17,12 @@ import static com.softserve.validators.DateValidator.validateDate;
 @Builder
 public class Transaction {
 
-    private int accountId;
     @Setter
     private int transactionId;
+    private int accountId;
+    private String transactionType;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate transactionDate;
-    private String transactionType;
     private String category;
     private BigDecimal transactionAmount;
     @Setter
