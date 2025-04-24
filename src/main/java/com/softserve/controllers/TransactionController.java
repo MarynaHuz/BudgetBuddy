@@ -4,14 +4,24 @@ import com.softserve.models.transaction.Transaction;
 import com.softserve.services.Service;
 import com.softserve.services.TransactionService;
 
+import java.util.List;
+
 public class TransactionController implements Controller<Transaction> {
 
-    private final Service transactionService = new TransactionService();
+    private final Service<Transaction> transactionService;
+
+    public TransactionController() {
+        transactionService = new TransactionService();
+    }
+
+    public TransactionController(Service<Transaction> transactionService) {
+        this.transactionService = transactionService;
+    }
 
     //TODO: Implement methods
 
     @Override
-    public void create(Transaction entity) {
+    public void create(List<String> transaction) {
 
     }
 
@@ -31,7 +41,8 @@ public class TransactionController implements Controller<Transaction> {
     }
 
     @Override
-    public void delete(String id) {
+    public boolean delete(String id) {
+        return false;
 
     }
 }
