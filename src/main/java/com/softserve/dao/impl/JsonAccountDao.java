@@ -26,16 +26,4 @@ public class JsonAccountDao implements Dao<Account> {
         return readFromJson(filePath, new TypeReference<List<Account>>() {
         }).orElseGet(ArrayList::new);
     }
-
-    @Override
-    public void updateById(Account account) throws IOException {
-        List<Account> accounts = getAll();
-    }
-
-    @Override
-    public void deleteById(int accountId) throws IOException {
-        List<Account> accounts = getAll();
-        accounts.removeIf(acc -> acc.getAccountId() == accountId);
-        writeToJson(filePath, accounts);
-    }
 }
