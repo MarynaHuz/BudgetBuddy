@@ -7,6 +7,4 @@ public interface Dao<T> {
 
     void save(List<T> items) throws IOException;
     List<T> getAll() throws IOException;
-    void updateById(T entity) throws IOException;
-    void deleteById(int id) throws IOException;
 }
