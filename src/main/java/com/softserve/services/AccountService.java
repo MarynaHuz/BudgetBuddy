@@ -54,12 +54,10 @@ public class AccountService implements Service<Account> {
     public void update(Account account) {
 
     }
-    //TODO:implement
+
     @Override
     public Optional<Account> removeById(int accountId) throws IOException {
-        List<Account> accounts = listAll();
-        accounts.removeIf(acc -> acc.getAccountId() == accountId);
-        accountDao.save(accounts);
+        System.err.println("Accounts cannot be removed, you can only update it");
         return Optional.empty();
     }
 }
