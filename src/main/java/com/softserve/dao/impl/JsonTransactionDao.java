@@ -16,12 +16,8 @@ public class JsonTransactionDao implements Dao<Transaction> {
 
     private final String filePath = TRANSACTIONS_JSON.getPath();
 
-    //TODO: implement methods
-
     @Override
-    public void save(Transaction transaction) throws IOException {
-        List<Transaction> transactions = getAll();
-        transactions.add(transaction);
+    public void save(List<Transaction> transactions) throws IOException {
         writeToJson(filePath, transactions);
     }
 
@@ -29,15 +25,5 @@ public class JsonTransactionDao implements Dao<Transaction> {
     public List<Transaction> getAll() throws IOException {
         return readFromJson(filePath, new TypeReference<List<Transaction>>() {
         }).orElseGet(ArrayList::new);
-    }
-
-    @Override
-    public void updateById(int transactionId) {
-
-    }
-
-    @Override
-    public void deleteById(int transactionId) {
-
     }
 }
