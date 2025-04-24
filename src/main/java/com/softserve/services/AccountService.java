@@ -13,14 +13,15 @@ import static com.softserve.utils.IdManager.generateNextId;
 
 public class AccountService implements Service<Account> {
 
-    private final Dao<Account> dao = new JsonAccountDao();
+    private final Dao<Account> accountDao = new JsonAccountDao();
+
 
     //TODO: implement methods
 
     @Override
     public void create(Account account) throws IOException {
 
-        List<Account> accounts = dao.getAll();
+        List<Account> accounts = accountDao.getAll();
         boolean exists = accounts.stream()
                 .anyMatch(existing ->
                         existing.getAccountName().equalsIgnoreCase(account.getAccountName()));
@@ -32,7 +33,7 @@ public class AccountService implements Service<Account> {
         int generatedId = generateNextId(AppConfig.ACCOUNT_ID.getPath());
         account.setAccountId(generatedId);
         accounts.add(account);
-        dao.save(accounts);
+        accountDao.save(accounts);
     }
 
     @Override
@@ -46,16 +47,19 @@ public class AccountService implements Service<Account> {
 
     @Override
     public List<Account> listAll() throws IOException {
-        return dao.getAll();
+        return accountDao.getAll();
     }
 
     @Override
     public void update(Account account) {
 
     }
-
+    //TODO:implement
     @Override
-    public Optional<Account> removeById(int id) {
+    public Optional<Account> removeById(int accountId) throws IOException {
+        List<Account> accounts = listAll();
+        accounts.removeIf(acc -> acc.getAccountId() == accountId);
+        accountDao.save(accounts);
         return Optional.empty();
     }
 }
