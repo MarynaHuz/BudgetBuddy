@@ -27,6 +27,7 @@ public class TransactionService implements Service<Transaction> {
         this.accountService = accountService;
     }
 
+    // TODO: Add balance calculation and check whether the account has enough balance to add an expense.
     @Override
     public void create(Transaction transaction) throws IOException {
         int accountId = transaction.getAccountId();
