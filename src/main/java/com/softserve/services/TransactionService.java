@@ -14,36 +14,45 @@ import static com.softserve.utils.IdManager.generateNextId;
 
 public class TransactionService implements Service<Transaction> {
 
-    private final Dao<Transaction> dao = new JsonTransactionDao();
-    private final Service<Account> accountService = new AccountService();
+    private final Dao<Transaction> dao;
+    private final Service<Account> accountService;
 
-    //TODO: implement methods
+    public TransactionService() {
+        this.dao = new JsonTransactionDao();
+        this.accountService = new AccountService();
+    }
+
+    public TransactionService(Dao<Transaction> dao, Service<Account> accountService) {
+        this.dao = dao;
+        this.accountService = accountService;
+    }
 
     @Override
     public void create(Transaction transaction) throws IOException {
         int accountId = transaction.getAccountId();
+        Optional<Account> account = accountService.findById(accountId);
 
-        if (accountService.findById(accountId).isPresent()) {
-            transaction.setCurrency(accountService
-                    .findById(accountId)
-                    .get()
-                    .getCurrency());
+        if (account.isPresent()) {
+            transaction.setCurrency(account.get().getCurrency());
 
             transaction.setTransactionId(
-                    generateNextId(AppConfig.TRANSACTION_ID.getPath()));
-
+                    generateNextId(AppConfig.TRANSACTION_ID
+                            .getPath()));
         } else {
             throw new IllegalArgumentException("Account with ID " +
                     transaction.getAccountId() + " does not exist");
         }
-        List<Transaction> transactions = dao.getAll();
+        List<Transaction> transactions = listAll();
         transactions.add(transaction);
         dao.save(transactions);
     }
 
     @Override
-    public Optional<Transaction> findById(int id) {
-        return Optional.empty();
+    public Optional<Transaction> findById(int transactionId) throws IOException {
+        List<Transaction> transactions = listAll();
+        return transactions.stream()
+                .filter(transaction -> transactionId == transaction.getTransactionId())
+                .findAny();
     }
 
     @Override
