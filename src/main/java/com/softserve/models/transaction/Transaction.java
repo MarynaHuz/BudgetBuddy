@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Builder
 public class Transaction {
 
-    @Setter(AccessLevel.NONE)
     private int transactionId;
     private int accountId;
     private String transactionType;
