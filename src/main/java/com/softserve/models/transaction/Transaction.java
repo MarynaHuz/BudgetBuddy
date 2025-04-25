@@ -21,7 +21,6 @@ public class Transaction {
     private LocalDate transactionDate;
     private String category;
     private BigDecimal transactionAmount;
-    @Setter
     private Currency currency;
 
 }
