@@ -36,14 +36,14 @@ public class TransactionFormatter {
 
     public static String formatTransaction(Transaction transaction) {
         return """
-            -----------------------
+            -----------------------------------------
             Transaction ID: %d
             Account ID: %d
             Type: %s
             Date: %s
             Category: %s
             Amount: %.2f %s
-            -----------------------
+            -----------------------------------------
             """.formatted(
                 transaction.getTransactionId(),
                 transaction.getAccountId(),
