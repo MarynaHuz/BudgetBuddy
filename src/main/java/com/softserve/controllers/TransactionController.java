@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.softserve.utils.CategoryManager.getCategoryByName;
 import static com.softserve.formatters.TransactionFormatter.formatTransaction;
 import static com.softserve.formatters.TransactionFormatter.formatTransactionTable;
+import static com.softserve.utils.CategoryManager.getCategoryByName;
 import static com.softserve.validators.AmountValidator.validateAmount;
 import static com.softserve.validators.DateValidator.validateDate;
 import static com.softserve.validators.IdValidator.existsById;
@@ -49,7 +49,8 @@ public class TransactionController implements Controller<Transaction> {
             Transaction transaction = TransactionFactory.createTransaction(
                     accountId, transactionCategory, transactionDate, transactionAmount);
 
-            if (existsById(AppConfig.ACCOUNTS_JSON.getPath(),
+            if (existsById(
+                    AppConfig.ACCOUNTS_JSON.getPath(),
                     new TypeReference<>() {},
                     Account::getAccountId,
                     accountId)) {
@@ -66,7 +67,18 @@ public class TransactionController implements Controller<Transaction> {
 
     @Override
     public void findById(String id) {
-
+        try {
+            int transactionId = validateId(id);
+            Optional<Transaction> transaction = transactionService.findById(transactionId);
+            if (transaction.isPresent()) {
+                System.out.println("The transaction has been found:");
+                System.out.println(formatTransaction(transaction.get()));
+            } else {
+                System.out.printf("Transaction with ID %s hasn't been found!", id);
+            }
+        } catch (IllegalArgumentException | IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
