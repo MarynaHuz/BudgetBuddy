@@ -67,7 +67,15 @@ public class TransactionService implements Service<Transaction> {
     }
 
     @Override
-    public Optional<Transaction> removeById(int id) {
-        return Optional.empty();
+    public Optional<Transaction> removeById(int transactionId) throws IOException {
+        List<Transaction> transactions = listAll();
+
+        Optional<Transaction> transactionToRemove = transactions.stream()
+                .filter(transaction -> transaction.getTransactionId() == transactionId)
+                .findFirst();
+
+        transactionToRemove.ifPresent(transactions::remove);
+        dao.save(transactions);
+        return transactionToRemove;
     }
 }
