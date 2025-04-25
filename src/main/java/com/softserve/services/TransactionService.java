@@ -14,16 +14,16 @@ import static com.softserve.utils.IdManager.generateNextId;
 
 public class TransactionService implements Service<Transaction> {
 
-    private final Dao<Transaction> dao;
+    private final Dao<Transaction> transactionDao;
     private final Service<Account> accountService;
 
     public TransactionService() {
-        this.dao = new JsonTransactionDao();
+        this.transactionDao = new JsonTransactionDao();
         this.accountService = new AccountService();
     }
 
-    public TransactionService(Dao<Transaction> dao, Service<Account> accountService) {
-        this.dao = dao;
+    public TransactionService(Dao<Transaction> transactionDao, Service<Account> accountService) {
+        this.transactionDao = transactionDao;
         this.accountService = accountService;
     }
 
@@ -45,7 +45,7 @@ public class TransactionService implements Service<Transaction> {
         }
         List<Transaction> transactions = listAll();
         transactions.add(transaction);
-        dao.save(transactions);
+        transactionDao.save(transactions);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TransactionService implements Service<Transaction> {
 
     @Override
     public List<Transaction> listAll() throws IOException {
-        return dao.getAll();
+        return transactionDao.getAll();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class TransactionService implements Service<Transaction> {
                 .findFirst();
 
         transactionToRemove.ifPresent(transactions::remove);
-        dao.save(transactions);
+        transactionDao.save(transactions);
         return transactionToRemove;
     }
 }
