@@ -8,6 +8,7 @@ import com.softserve.models.transaction.Transaction;
 import com.softserve.utils.AppConfig;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,11 +65,12 @@ public class AccountService implements Service<Account> {
     public Optional<Account> removeById(int accountId) throws IOException {
         List<Account> accounts = accountDao.getAll();
 
-        if(existsById(
+        if (existsById(
                 TRANSACTIONS_JSON.getPath(),
-                new TypeReference<>() {},
+                new TypeReference<>() {
+                },
                 Transaction::getAccountId,
-                accountId)){
+                accountId)) {
             throw new IllegalStateException(
                     "Cannot remove the account as it has associated transactions.");
         }
@@ -79,5 +81,9 @@ public class AccountService implements Service<Account> {
         accountToRemove.ifPresent(accounts::remove);
         accountDao.save(accounts);
         return accountToRemove;
+    }
+
+    public boolean hasEnoughBalance(Account account, BigDecimal amount) {
+        return account.getBalance().compareTo(amount) >= 0;
     }
 }
