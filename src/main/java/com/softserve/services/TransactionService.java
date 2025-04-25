@@ -29,23 +29,21 @@ public class TransactionService implements Service<Transaction> {
 
     // TODO: Add balance calculation and check whether the account has enough balance to add an expense.
     @Override
-    public void create(Transaction transaction) throws IOException {
+    public Transaction create(Transaction transaction) throws IOException {
         int accountId = transaction.getAccountId();
-        Optional<Account> account = accountService.findById(accountId);
+        Optional<Account> accountOpt = accountService.findById(accountId);
 
-        if (account.isPresent()) {
-            transaction.setCurrency(account.get().getCurrency());
+        transaction.setCurrency(accountOpt.get().getCurrency());
 
-            transaction.setTransactionId(
-                    generateNextId(AppConfig.TRANSACTION_ID
-                            .getPath()));
-        } else {
-            throw new IllegalArgumentException("Account with ID " +
-                    transaction.getAccountId() + " does not exist");
-        }
+        transaction.setTransactionId(
+                generateNextId(AppConfig.TRANSACTION_ID
+                        .getPath()));
+
         List<Transaction> transactions = listAll();
         transactions.add(transaction);
         transactionDao.save(transactions);
+
+        return transaction;
     }
 
     @Override
