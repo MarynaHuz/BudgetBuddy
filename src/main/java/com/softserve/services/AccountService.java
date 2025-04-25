@@ -19,8 +19,7 @@ public class AccountService implements Service<Account> {
     //TODO: implement methods
 
     @Override
-    public void create(Account account) throws IOException {
-
+    public Account create(Account account) throws IOException {
         List<Account> accounts = accountDao.getAll();
         boolean exists = accounts.stream()
                 .anyMatch(existing ->
@@ -34,6 +33,8 @@ public class AccountService implements Service<Account> {
         account.setAccountId(generatedId);
         accounts.add(account);
         accountDao.save(accounts);
+
+        return account;
     }
 
     @Override
@@ -57,7 +58,6 @@ public class AccountService implements Service<Account> {
 
     @Override
     public Optional<Account> removeById(int accountId) throws IOException {
-        System.err.println("Accounts cannot be removed, you can only update it");
         return Optional.empty();
     }
 }
