@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface Service<T> {
 
-    void create(T entity) throws IOException;
+    T create(T entity) throws IOException;
 
     Optional<T> findById(int id) throws IOException;
 
