@@ -45,12 +45,17 @@ public class AccountController implements Controller<Account> {
 
     @Override
     public void findById(String id) {
-        int accountId = validateId(id);
         try {
+            int accountId = validateId(id);
             Optional<Account> account = accountService.findById(accountId);
-            System.out.printf("The account has been found by id %s: %s%n", id, account);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (account.isPresent()) {
+                System.out.println("The account has been found:");
+                System.out.println(formatAccount(account.get()));
+            } else {
+                System.out.printf("Account with ID %s hasn't been found!", id);
+            }
+        } catch (IllegalArgumentException | IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -73,6 +78,7 @@ public class AccountController implements Controller<Account> {
     public void delete(String id) {
         try {
             int accountId = validateId(id);
+
             accountService.removeById(accountId);
 
         } catch (IllegalArgumentException e) {
