@@ -46,12 +46,7 @@ public class IdValidator {
         List<T> data = readFromJson(filePath, typeRef)
                 .orElse(List.of());
 
-        boolean exists = data.stream()
+        return data.stream()
                 .anyMatch(item -> idExtractor.applyAsInt(item) == idToCheck);
-
-        if (!exists) {
-            throw new IllegalArgumentException("ID " + idToCheck + " does not exist in " + filePath);
-        }
-        return true;
     }
 }
