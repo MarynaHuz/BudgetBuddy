@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.softserve.formatters.AccountFormatter.formatAccount;
 import static com.softserve.models.account.Currency.parseCurrencyCode;
 import static com.softserve.validators.AccountNameValidator.validateAccountName;
 import static com.softserve.validators.BalanceValidator.validateBalance;
@@ -30,13 +31,15 @@ public class AccountController implements Controller<Account> {
             BigDecimal balance = validateBalance(accountToCreate.get(2));
 
             Account account = AccountFactory.createAccount(accountName, currency, balance);
-            accountService.create(account);
+
+            Account createdAccount = accountService.create(account);
+            System.out.println(formatAccount(createdAccount));
+
         } catch (IllegalArgumentException e) {
             System.err.println("Validation error: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Error saving account: " + e.getMessage());
         }
-
     }
 
     @Override
@@ -61,14 +64,14 @@ public class AccountController implements Controller<Account> {
     }
 
     @Override
-    public boolean delete(String id) {
+    public void delete(String id) {
         try {
             int accountId = validateId(id);
             accountService.removeById(accountId);
-            return true;
+
         } catch (IllegalArgumentException e) {
             System.err.println("Error deleting account: " + e.getMessage());
-            return false;
+
         } catch (IOException e) {
             //TODO: add descriptive exception
             throw new RuntimeException(e);
