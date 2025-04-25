@@ -1,4 +1,4 @@
-package com.softserve.utils;
+package com.softserve.formatters;
 
 import com.softserve.models.transaction.Transaction;
 
