@@ -8,8 +8,7 @@ import lombok.Getter;
 public enum TransactionType {
 
     INCOME("Income"),
-    EXPENSE("Expense"),
-    TRANSFER("Transfer");
+    EXPENSE("Expense");
 
     private final String typeName;
 }
