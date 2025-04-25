@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.softserve.formatters.AccountFormatter.formatAccount;
+import static com.softserve.formatters.AccountFormatter.formatAccountTable;
 import static com.softserve.models.account.Currency.parseCurrencyCode;
 import static com.softserve.validators.AccountNameValidator.validateAccountName;
 import static com.softserve.validators.BalanceValidator.validateBalance;
@@ -55,7 +56,12 @@ public class AccountController implements Controller<Account> {
 
     @Override
     public void listAll() {
-
+        try {
+            List<Account> accounts = accountService.listAll();
+            System.out.println(formatAccountTable(accounts));
+        } catch (IOException e) {
+            System.err.println("Error retrieving accounts: " + e.getMessage());
+        }
     }
 
     @Override
