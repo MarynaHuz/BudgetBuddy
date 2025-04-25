@@ -1,5 +1,6 @@
 package com.softserve.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.factory.AccountFactory;
 import com.softserve.models.account.Account;
 import com.softserve.models.account.Currency;
@@ -14,8 +15,10 @@ import java.util.Optional;
 import static com.softserve.formatters.AccountFormatter.formatAccount;
 import static com.softserve.formatters.AccountFormatter.formatAccountTable;
 import static com.softserve.models.account.Currency.parseCurrencyCode;
+import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
 import static com.softserve.validators.AccountNameValidator.validateAccountName;
 import static com.softserve.validators.BalanceValidator.validateBalance;
+import static com.softserve.validators.IdValidator.existsById;
 import static com.softserve.validators.IdValidator.validateId;
 
 public class AccountController implements Controller<Account> {
@@ -75,18 +78,29 @@ public class AccountController implements Controller<Account> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String accountId) {
         try {
-            int accountId = validateId(id);
-
-            accountService.removeById(accountId);
-
-        } catch (IllegalArgumentException e) {
+            int validatedId = validateId(accountId);
+            if (existsById(
+                    ACCOUNTS_JSON.getPath(),
+                    new TypeReference<>() {
+                    },
+                    Account::getAccountId,
+                    validatedId)) {
+                Optional<Account> removedAccount = accountService.removeById(validatedId);
+                removedAccount.ifPresent(account -> {
+                    System.out.println("Here is the removed account:");
+                    System.out.println(formatAccount(account));
+                });
+            } else {
+                throw new IllegalArgumentException(
+                        "ID " + accountId + " does not exist in " + ACCOUNTS_JSON.getPath());
+            }
+        } catch (IllegalArgumentException | IllegalStateException e) {
             System.err.println("Error deleting account: " + e.getMessage());
 
         } catch (IOException e) {
-            //TODO: add descriptive exception
-            throw new RuntimeException(e);
+            System.err.println(e.getMessage());
         }
     }
 }
