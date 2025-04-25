@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.softserve.utils.CategoryManager.getCategoryByName;
-import static com.softserve.utils.TransactionFormatter.formatTransaction;
-import static com.softserve.utils.TransactionFormatter.formatTransactionTable;
+import static com.softserve.formatters.TransactionFormatter.formatTransaction;
+import static com.softserve.formatters.TransactionFormatter.formatTransactionTable;
 import static com.softserve.validators.AmountValidator.validateAmount;
 import static com.softserve.validators.DateValidator.validateDate;
 import static com.softserve.validators.IdValidator.existsById;
