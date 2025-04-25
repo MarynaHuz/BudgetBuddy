@@ -1,18 +1,25 @@
 package com.softserve.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.factory.TransactionFactory;
+import com.softserve.models.account.Account;
 import com.softserve.models.transaction.Transaction;
 import com.softserve.services.Service;
 import com.softserve.services.TransactionService;
+import com.softserve.utils.AppConfig;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.softserve.utils.CategoryManager.getCategoryByName;
+import static com.softserve.utils.TransactionFormatter.formatTransaction;
+import static com.softserve.utils.TransactionFormatter.formatTransactionTable;
 import static com.softserve.validators.AmountValidator.validateAmount;
 import static com.softserve.validators.DateValidator.validateDate;
+import static com.softserve.validators.IdValidator.existsById;
 import static com.softserve.validators.IdValidator.validateId;
 
 public class TransactionController implements Controller<Transaction> {
@@ -41,7 +48,13 @@ public class TransactionController implements Controller<Transaction> {
 
             Transaction transaction = TransactionFactory.createTransaction(
                     accountId, transactionCategory, transactionDate, transactionAmount);
-            transactionService.create(transaction);
+
+            if (existsById(AppConfig.ACCOUNTS_JSON.getPath(),
+                    new TypeReference<>() {},
+                    Account::getAccountId,
+                    accountId)) {
+                transactionService.create(transaction);
+            }
         } catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException e) {
             System.err.println("Invalid transaction data: " + e.getMessage());
         } catch (IOException e) {
@@ -49,7 +62,6 @@ public class TransactionController implements Controller<Transaction> {
         } catch (RuntimeException e) {
             System.err.println("Error creating transaction: " + e.getMessage());
         }
-
     }
 
     @Override
@@ -59,7 +71,12 @@ public class TransactionController implements Controller<Transaction> {
 
     @Override
     public void listAll() {
-
+        try {
+            List<Transaction> transactions = transactionService.listAll();
+            System.out.println(formatTransactionTable(transactions));
+        } catch (IOException e) {
+            System.err.println("Error retrieving transactions: " + e.getMessage());
+        }
     }
 
     @Override
@@ -68,8 +85,22 @@ public class TransactionController implements Controller<Transaction> {
     }
 
     @Override
-    public boolean delete(String id) {
-        return false;
+    public void delete(String transactionId) {
+        try {
+            int validId = validateId(transactionId);
+            Optional<Transaction> removedTransaction = transactionService.removeById(validId);
 
+            if (removedTransaction.isEmpty()) {
+                System.err.println("Transaction with ID " + transactionId + " not found");
+                return;
+            }
+            System.out.println("Removed transaction:");
+            System.out.println(formatTransaction(removedTransaction.get()));
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid transaction ID: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error deleting transaction: " + e.getMessage());
+        }
     }
 }
