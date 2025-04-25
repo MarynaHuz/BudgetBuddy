@@ -2,9 +2,12 @@ package com.softserve.formatters;
 
 import com.softserve.models.transaction.Transaction;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TransactionFormatter {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private TransactionFormatter() {
     }
@@ -26,7 +29,7 @@ public class TransactionFormatter {
                     transaction.getTransactionId(),
                     transaction.getAccountId(),
                     transaction.getTransactionType(),
-                    transaction.getTransactionDate(),
+                    transaction.getTransactionDate().format(DATE_FORMATTER),
                     transaction.getCategory(),
                     transaction.getTransactionAmount(),
                     transaction.getCurrency()));
@@ -48,7 +51,7 @@ public class TransactionFormatter {
                 transaction.getTransactionId(),
                 transaction.getAccountId(),
                 transaction.getTransactionType(),
-                transaction.getTransactionDate(),
+                transaction.getTransactionDate().format(DATE_FORMATTER),
                 transaction.getCategory(),
                 transaction.getTransactionAmount(),
                 transaction.getCurrency()
