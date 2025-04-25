@@ -1,15 +1,19 @@
 package com.softserve.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.Dao;
 import com.softserve.dao.impl.JsonAccountDao;
 import com.softserve.models.account.Account;
+import com.softserve.models.transaction.Transaction;
 import com.softserve.utils.AppConfig;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 import static com.softserve.utils.IdManager.generateNextId;
+import static com.softserve.validators.IdValidator.existsById;
 
 public class AccountService implements Service<Account> {
 
@@ -58,6 +62,22 @@ public class AccountService implements Service<Account> {
 
     @Override
     public Optional<Account> removeById(int accountId) throws IOException {
-        return Optional.empty();
+        List<Account> accounts = accountDao.getAll();
+
+        if(existsById(
+                TRANSACTIONS_JSON.getPath(),
+                new TypeReference<>() {},
+                Transaction::getAccountId,
+                accountId)){
+            throw new IllegalStateException(
+                    "Cannot remove the account as it has associated transactions.");
+        }
+        Optional<Account> accountToRemove = accounts.stream()
+                .filter(acc -> acc.getAccountId() == accountId)
+                .findFirst();
+
+        accountToRemove.ifPresent(accounts::remove);
+        accountDao.save(accounts);
+        return accountToRemove;
     }
 }
