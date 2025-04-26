@@ -92,9 +92,21 @@ public class TransactionController implements Controller<String> {
         }
     }
 
+    /**
+     * Handles requests to update a transaction.
+     * <p>
+     * This method intentionally does not allow updating transactions.
+     * Transactions are immutable once created for accounting integrity reasons.
+     * Users should instead delete the existing transaction and create a new one
+     * if changes are needed.
+     *
+     * @param transactionToUpdate Map containing transaction ID and parameters that
+     *                            would be used for updating (not processed)
+     */
     @Override
     public void update(Map<String, List<String>> transactionToUpdate) {
-
+        System.err.println("Transaction updates are not permitted. " +
+                "Please delete the transaction and create a new one instead.");
     }
 
     @Override
@@ -110,9 +122,7 @@ public class TransactionController implements Controller<String> {
             System.out.println("Removed transaction:");
             System.out.println(formatTransaction(removedTransaction.get()));
 
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid transaction ID: " + e.getMessage());
-        } catch (IOException e) {
+        } catch (IllegalArgumentException | IllegalStateException | IOException e) {
             System.err.println("Error deleting transaction: " + e.getMessage());
         }
     }
