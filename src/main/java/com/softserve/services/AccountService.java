@@ -62,14 +62,14 @@ public class AccountService implements Service<Account> {
     }
 
     @Override
-    public void update(Account account) throws IOException {
+    public Optional<Account> update(Account account) throws IOException {
         List<Account> accounts = listAll();
-
         List<Account> updatedAccounts = accounts.stream()
                 .map(acc ->
                         acc.getAccountId() == account.getAccountId() ? account : acc)
                 .toList();
         accountDao.save(updatedAccounts);
+        return Optional.of(account);
     }
 
     @Override
