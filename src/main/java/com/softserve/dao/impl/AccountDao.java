@@ -12,7 +12,7 @@ import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
 import static com.softserve.utils.JsonUtil.readFromJson;
 import static com.softserve.utils.JsonUtil.writeToJson;
 
-public class JsonAccountDao implements Dao<Account> {
+public class AccountDao implements Dao<Account> {
 
     private final String filePath = ACCOUNTS_JSON.getPath();
 

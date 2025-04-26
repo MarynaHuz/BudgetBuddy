@@ -12,7 +12,7 @@ import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 import static com.softserve.utils.JsonUtil.readFromJson;
 import static com.softserve.utils.JsonUtil.writeToJson;
 
-public class JsonTransactionDao implements Dao<Transaction> {
+public class TransactionDao implements Dao<Transaction> {
 
     private final String filePath = TRANSACTIONS_JSON.getPath();
 

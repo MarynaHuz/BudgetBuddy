@@ -2,7 +2,7 @@ package com.softserve.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.Dao;
-import com.softserve.dao.impl.JsonAccountDao;
+import com.softserve.dao.impl.AccountDao;
 import com.softserve.models.account.Account;
 import com.softserve.models.transaction.Transaction;
 import com.softserve.utils.AppConfig;
@@ -20,12 +20,12 @@ public class AccountService implements Service<Account> {
 
     private final Dao<Account> accountDao;
 
-    public AccountService(JsonAccountDao accountDao) {
+    public AccountService(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
 
     public AccountService() {
-        this.accountDao = new JsonAccountDao();
+        this.accountDao = new AccountDao();
     }
 
     @Override
