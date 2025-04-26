@@ -1,6 +1,7 @@
 package com.softserve.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.softserve.dao.Dao;
 import com.softserve.dao.impl.JsonAccountDao;
 import com.softserve.models.account.Account;
 import com.softserve.models.transaction.Transaction;
@@ -17,7 +18,7 @@ import static com.softserve.validators.IdValidator.existsById;
 
 public class AccountService implements Service<Account> {
 
-    private final JsonAccountDao accountDao;
+    private final Dao<Account> accountDao;
 
     public AccountService(JsonAccountDao accountDao) {
         this.accountDao = accountDao;
