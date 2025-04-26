@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.factory.AccountFactory;
 import com.softserve.models.account.Account;
 import com.softserve.models.account.Currency;
+import com.softserve.models.transaction.Transaction;
 import com.softserve.services.AccountService;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static com.softserve.formatters.AccountFormatter.*;
 import static com.softserve.models.account.Currency.parseCurrencyCode;
 import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
+import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 import static com.softserve.validators.AccountNameValidator.validateAccountName;
 import static com.softserve.validators.AmountValidator.validateAmount;
 import static com.softserve.validators.BalanceValidator.validateBalance;
@@ -66,6 +68,19 @@ public class AccountController implements Controller<String> {
         }
     }
 
+    /**
+     * Updates an existing account using the provided parameters.
+     *
+     * This method validates the account ID and ensures the account exists before
+     * updating it. It also checks if the account has associated transactions and
+     * forbids updates to the account balance in such cases to maintain data integrity.
+     *
+     * @param accountToUpdate a map containing a key-value pair where the key is the
+     *                        account ID, and the value is a list of parameters
+     *                        required for creating or updating the account.
+     *                        The parameters list must include the account name,
+     *                        currency, and balance, in that order.
+     */
     @Override
     public void update(Map<String, List<String>> accountToUpdate) {
         try {
@@ -76,15 +91,28 @@ public class AccountController implements Controller<String> {
             String accountIdStr = accountToUpdate.keySet().iterator().next();
             int accId = validateId(accountIdStr);
 
-            if(existsById(
+            if(!existsById(
                     ACCOUNTS_JSON.getPath(),
                     new TypeReference<>() {},
                     Account::getAccountId,
                     accId)){
-                updatedAccount.setAccountId(accId);
-                accountService.update(updatedAccount);
+                throw new IllegalArgumentException("Account with ID %d hasn't been found!" + accId);
             }
-        } catch (IllegalArgumentException | IOException e){
+
+            if (existsById(
+                    TRANSACTIONS_JSON.getPath(),
+                    new TypeReference<>() {},
+                    Transaction::getAccountId,
+                    accId)) {
+                throw new IllegalStateException(
+                        "Cannot update the account balance as it has associated transactions.");
+            }
+            updatedAccount.setAccountId(accId);
+            Optional<Account> savedAccount = accountService.update(updatedAccount);
+
+            savedAccount.ifPresent(account ->
+                    System.out.println(formatAccount(account)));
+        } catch (IllegalArgumentException | IOException | IllegalStateException e){
             System.err.println(e.getMessage());
         }
     }
