@@ -2,6 +2,7 @@ package com.softserve.formatters;
 
 import com.softserve.models.account.Account;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class AccountFormatter {
@@ -46,5 +47,16 @@ public class AccountFormatter {
         }
 
         return table.toString();
+    }
+
+    public static String formatTransfer(int fromAccountId, int toAccountId, BigDecimal amount) {
+        return """
+        -----------------------------------------
+        TRANSFER DETAILS
+        From Account:  %d
+        To Account:    %d
+        Amount:       %.2f
+        -----------------------------------------
+        """.formatted(fromAccountId, toAccountId, amount);
     }
 }
