@@ -7,6 +7,7 @@ import com.softserve.models.transaction.Transaction;
 import com.softserve.utils.AppConfig;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,22 +29,31 @@ public class TransactionService implements Service<Transaction> {
         this.accountService = accountService;
     }
 
-    // TODO: Add balance calculation and check whether the account has enough balance to add an expense.
     @Override
     public Transaction create(Transaction transaction) throws IOException {
         int accountId = transaction.getAccountId();
-        Optional<Account> accountOpt = accountService.findById(accountId);
+        Account account = accountService.findById(accountId).get();
 
-        transaction.setCurrency(accountOpt.get().getCurrency());
+        if (transaction.isExpense() &&
+                !accountService.hasEnoughBalance(account, transaction.getTransactionAmount())) {
+            throw new IllegalStateException("Insufficient balance for this transaction");
+        }
+
+        transaction.setCurrency(account.getCurrency());
 
         transaction.setTransactionId(
                 generateNextId(AppConfig.TRANSACTION_ID
                         .getPath()));
 
+        BigDecimal amountChange = transaction.isExpense()
+                ? transaction.getTransactionAmount().negate()
+                : transaction.getTransactionAmount();
+
+        account.setBalance(account.getBalance().add(amountChange));
+        accountService.update(account);
         List<Transaction> transactions = listAll();
         transactions.add(transaction);
         transactionDao.save(transactions);
-
         return transaction;
     }
 
