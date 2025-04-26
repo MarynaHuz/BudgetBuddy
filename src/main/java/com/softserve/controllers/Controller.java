@@ -3,15 +3,15 @@ package com.softserve.controllers;
 import java.util.List;
 import java.util.Map;
 
-public interface Controller {
+public interface Controller<T> {
 
-    void create(List<String> account);
+    void create(List<T> account);
 
-    void findById(String id);
+    void findById(T id);
 
     void listAll();
 
-    void update(Map<String, List<String>> entity);
+    void update(Map<T, List<T>> entity);
 
-    void delete(String id);
+    void delete(T id);
 }

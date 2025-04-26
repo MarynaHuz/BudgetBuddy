@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.factory.TransactionFactory;
 import com.softserve.models.account.Account;
 import com.softserve.models.transaction.Transaction;
-import com.softserve.services.Service;
 import com.softserve.services.TransactionService;
 import com.softserve.utils.AppConfig;
 
@@ -23,7 +22,7 @@ import static com.softserve.validators.DateValidator.validateDate;
 import static com.softserve.validators.IdValidator.existsById;
 import static com.softserve.validators.IdValidator.validateId;
 
-public class TransactionController implements Controller {
+public class TransactionController implements Controller<String> {
 
     private final TransactionService transactionService;
 
@@ -52,7 +51,8 @@ public class TransactionController implements Controller {
 
             if (existsById(
                     AppConfig.ACCOUNTS_JSON.getPath(),
-                    new TypeReference<>() {},
+                    new TypeReference<>() {
+                    },
                     Account::getAccountId,
                     accountId)) {
                 transactionService.create(transaction);
