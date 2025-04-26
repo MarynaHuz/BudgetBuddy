@@ -1,8 +1,9 @@
 package com.softserve.controllers;
 
 import java.util.List;
+import java.util.Map;
 
-public interface Controller<T> {
+public interface Controller {
 
     void create(List<String> account);
 
@@ -10,7 +11,7 @@ public interface Controller<T> {
 
     void listAll();
 
-    void update(T entity);
+    void update(Map<String, List<String>> entity);
 
     void delete(String id);
 }
