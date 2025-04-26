@@ -71,9 +71,19 @@ public class TransactionService implements Service<Transaction> {
         return transactionDao.getAll();
     }
 
+    /**
+     * This method intentionally does not allow updating transactions.
+     * Transactions are immutable once created for accounting integrity.
+     * If changes are needed, users should remove the existing transaction
+     * and create a new one instead.
+     *
+     * @param transaction The transaction attempted to be updated
+     * @return An empty Optional to indicate no transaction was updated
+     * @throws IOException This exception is declared but won't be thrown in this implementation
+     */
     @Override
-    public void update(Transaction entity) {
-
+    public Optional<Transaction> update(Transaction transaction) throws IOException {
+        return Optional.empty();
     }
 
     @Override
@@ -88,4 +98,5 @@ public class TransactionService implements Service<Transaction> {
         transactionDao.save(transactions);
         return transactionToRemove;
     }
+
 }
