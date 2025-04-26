@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.softserve.formatters.TransactionFormatter.formatTransaction;
@@ -22,15 +23,15 @@ import static com.softserve.validators.DateValidator.validateDate;
 import static com.softserve.validators.IdValidator.existsById;
 import static com.softserve.validators.IdValidator.validateId;
 
-public class TransactionController implements Controller<Transaction> {
+public class TransactionController implements Controller {
 
-    private final Service<Transaction> transactionService;
+    private final TransactionService transactionService;
 
     public TransactionController() {
         transactionService = new TransactionService();
     }
 
-    public TransactionController(Service<Transaction> transactionService) {
+    public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
@@ -92,7 +93,7 @@ public class TransactionController implements Controller<Transaction> {
     }
 
     @Override
-    public void update(Transaction entity) {
+    public void update(Map<String, List<String>> transactionToUpdate) {
 
     }
 
