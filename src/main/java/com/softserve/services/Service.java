@@ -12,7 +12,7 @@ public interface Service<T> {
 
     List<T> listAll() throws IOException;
 
-    void update(T entity) throws IOException;
+    Optional<T>  update(T entity) throws IOException;
 
     Optional<T> removeById(int id) throws IOException;
 }
