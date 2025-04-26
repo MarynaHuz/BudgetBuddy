@@ -15,14 +15,15 @@ import static com.softserve.utils.IdManager.generateNextId;
 public class TransactionService implements Service<Transaction> {
 
     private final Dao<Transaction> transactionDao;
-    private final Service<Account> accountService;
+    private final AccountService accountService;
 
     public TransactionService() {
         this.transactionDao = new JsonTransactionDao();
         this.accountService = new AccountService();
     }
 
-    public TransactionService(Dao<Transaction> transactionDao, Service<Account> accountService) {
+    public TransactionService(Dao<Transaction> transactionDao,
+                              AccountService accountService) {
         this.transactionDao = transactionDao;
         this.accountService = accountService;
     }
@@ -50,7 +51,8 @@ public class TransactionService implements Service<Transaction> {
     public Optional<Transaction> findById(int transactionId) throws IOException {
         List<Transaction> transactions = listAll();
         return transactions.stream()
-                .filter(transaction -> transactionId == transaction.getTransactionId())
+                .filter(transaction ->
+                        transactionId == transaction.getTransactionId())
                 .findAny();
     }
 
