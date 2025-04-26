@@ -99,29 +99,47 @@ public class TransactionService implements Service<Transaction> {
         return transactionToRemove;
     }
 
+
     /**
-     * Validates if a transaction can be removed based on its type and the associated account's balance.
-     * Throws an exception if the validation fails for specific conditions.
+     * Validates whether a transaction can be removed based on the associated account's balance and
+     * the type of transaction. Income transactions cannot be removed if the associated account's balance
+     * would not be sufficient after the removal.
      *
-     * @param transaction the transaction to be validated for removal
-     * @throws IOException if an I/O operation related to account retrieval fails
-     * @throws IllegalStateException if the transaction is an income and the associated account does not
-     *         have sufficient balance to adjust the removal
+     * @param transaction       The transaction being validated for removal.
+     * @param associatedAccount The account associated with the transaction, used to verify balance constraints.
+     * @throws IllegalStateException If the transaction is an income type and removing it would lead
+     *                               to insufficient account balance.
      */
-    private void validateTransactionRemoval(Transaction transaction) throws IOException {
-
+    private void validateTransactionRemoval(Transaction transaction,
+                                            Account associatedAccount) {
         if (!transaction.isExpense()) {
-            Optional<Account> accountOpt = accountService.findById(transaction.getAccountId());
+            BigDecimal amount = transaction.getTransactionAmount();
 
-            if (accountOpt.isPresent()) {
-                Account account = accountOpt.get();
-                BigDecimal amount = transaction.getTransactionAmount();
-
-                if (account.getBalance().compareTo(amount) < 0) {
-                    throw new IllegalStateException(
-                            "Cannot remove income transaction: insufficient account balance");
-                }
+            if (associatedAccount.getBalance().compareTo(amount) < 0) {
+                throw new IllegalStateException(
+                        "Cannot remove income transaction: insufficient account balance");
             }
         }
+    }
+
+    /**
+     * Updates the balance of the associated account after a transaction is removed.
+     * If the transaction is an expense, the amount is added back to the account's balance.
+     * If the transaction is an income, the amount is subtracted from the account's balance.
+     * Finally, the updated account is persisted using the account service.
+     *
+     * @param transaction       The transaction being removed, containing the transaction amount and type.
+     * @param associatedAccount The account associated with the transaction, which will have its balance updated.
+     * @throws IOException If an error occurs while updating the associated account in the data store.
+     */
+    private void updateAccountBalanceAfterRemoval(Transaction transaction,
+                                                  Account associatedAccount) throws IOException {
+        BigDecimal balanceAdjustment = transaction.isExpense()
+                ? transaction.getTransactionAmount()
+                : transaction.getTransactionAmount().negate();
+
+        associatedAccount.setBalance(associatedAccount.getBalance().add(balanceAdjustment));
+
+        accountService.update(associatedAccount);
     }
 }
