@@ -103,6 +103,9 @@ public class AccountService implements Service<Account> {
         if (!hasEnoughBalance(fromAccount, amount)) {
             throw new IllegalStateException("Insufficient balance.");
         }
+        if (fromAccountId == toAccountId) {
+            throw new IllegalArgumentException ("Source and destination accounts must be different.");
+        }
 
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
         toAccount.setBalance(toAccount.getBalance().add(amount));
