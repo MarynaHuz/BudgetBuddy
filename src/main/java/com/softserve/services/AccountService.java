@@ -57,8 +57,14 @@ public class AccountService implements Service<Account> {
     }
 
     @Override
-    public void update(Account account) {
+    public void update(Account account) throws IOException {
+        List<Account> accounts = listAll();
 
+        List<Account> updatedAccounts = accounts.stream()
+                .map(acc ->
+                        acc.getAccountId() == account.getAccountId() ? account : acc)
+                .toList();
+        accountDao.save(updatedAccounts);
     }
 
     @Override
@@ -91,7 +97,7 @@ public class AccountService implements Service<Account> {
         Account fromAccount = findById(fromAccountId).orElseThrow(
                 () -> new IllegalArgumentException("Source account not found")
         );
-        Account toAccount = findById(fromAccountId).orElseThrow(
+        Account toAccount = findById(toAccountId).orElseThrow(
                 () -> new IllegalArgumentException("Target account not found"));
 
         if (!hasEnoughBalance(fromAccount, amount)) {
