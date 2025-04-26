@@ -7,6 +7,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.softserve.models.transaction.TransactionType.EXPENSE;
+
 
 @Getter
 @Setter
@@ -24,4 +26,7 @@ public class Transaction {
     private BigDecimal transactionAmount;
     private Currency currency;
 
+    public boolean isExpense() {
+        return EXPENSE.getTypeName().equalsIgnoreCase(transactionType);
+    }
 }
