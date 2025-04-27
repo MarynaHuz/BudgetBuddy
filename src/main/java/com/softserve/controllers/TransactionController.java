@@ -113,7 +113,7 @@ public class TransactionController implements Controller<String> {
                 System.err.println("Transaction with ID " + transactionId + " not found");
                 return;
             }
-            System.out.println("Removed transaction:");
+            System.out.println("Transaction successfully removed:");
             System.out.println(formatTransaction(removedTransaction.get()));
 
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
