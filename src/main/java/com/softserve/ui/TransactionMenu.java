@@ -77,8 +77,17 @@ public class TransactionMenu implements Menu {
     }
 
     private void updateTransaction() {
-
-
+        System.out.println("""
+                -------------------------------
+                │       ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼             │
+                -------------------------------
+                │   Transaction updates are    │
+                │ currently under development. │
+                │ For now, please delete the   │
+                │ transaction and create a     │
+                │ new one with your changes.   │
+                -------------------------------
+                """);
     }
 
     private void removeTransaction() {
