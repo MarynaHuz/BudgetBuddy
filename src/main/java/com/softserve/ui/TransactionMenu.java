@@ -32,7 +32,7 @@ public class TransactionMenu implements Menu {
         while (!exit) {
             System.out.print("""
                     --------------------------------
-                    │ 💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊 💳   │
+                    │    💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊    │
                     --------------------------------
                     │ 0. 🔙 Back to Main Menu      │
                     │ 1. ➕ Add Transaction        │

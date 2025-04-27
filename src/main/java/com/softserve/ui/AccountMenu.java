@@ -32,7 +32,7 @@ public class AccountMenu implements Menu {
         while (!exit) {
             System.out.print("""
         --------------------------------
-        │   🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊 🏦     │
+        │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
         --------------------------------
         │ 0. 🔙 Back to Main Menu      │
         │ 1. ➕ Add Account            │
