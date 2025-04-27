@@ -23,7 +23,7 @@ public class TransactionMenu implements Menu {
                 "2", this::findTransactionById,
                 "3", this::viewTransactions,
                 "4", this::updateTransaction,
-                "5", this::removeTransaction
+                "5", this::removeTransactionById
         );
     }
 
@@ -90,8 +90,10 @@ public class TransactionMenu implements Menu {
                 """);
     }
 
-    private void removeTransaction() {
-
+    private void removeTransactionById() {
+        System.out.print("Enter the transaction ID: ");
+        String id = scanner.nextLine();
+        transactionController.delete(id);
     }
 
     private void exitMenu() {
