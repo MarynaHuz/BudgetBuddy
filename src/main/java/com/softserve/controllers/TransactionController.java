@@ -89,18 +89,18 @@ public class TransactionController implements Controller<String> {
     /**
      * Handles requests to update a transaction.
      * <p>
-     * This method intentionally does not allow updating transactions.
-     * Transactions are immutable once created for accounting integrity reasons.
-     * Users should instead delete the existing transaction and create a new one
-     * if changes are needed.
+     * This feature is currently under development and will be available in future releases.
+     * For now, transactions cannot be updated directly for accounting integrity reasons.
+     * As a workaround, users should delete the existing transaction and create a new one
+     * with the desired changes.
      *
      * @param transactionToUpdate Map containing transaction ID and parameters that
      *                            would be used for updating (not processed)
      */
     @Override
     public void update(Map<String, List<String>> transactionToUpdate) {
-        System.err.println("Transaction updates are not permitted. " +
-                "Please delete the transaction and create a new one instead.");
+        System.err.println("Transaction updates are currently under development. " +
+                           "For now, please delete the transaction and create a new one with your changes.");
     }
 
     @Override
