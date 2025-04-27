@@ -34,8 +34,6 @@ public class TransactionController implements Controller<String> {
         this.transactionService = transactionService;
     }
 
-    //TODO: Implement methods
-
     @Override
     public void create(List<String> transactionToAdd) {
 
