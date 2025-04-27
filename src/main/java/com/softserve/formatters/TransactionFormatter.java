@@ -41,16 +41,16 @@ public class TransactionFormatter {
 
     public static String formatTransaction(Transaction transaction) {
         return """
-            -------------------------------
-            │      💳 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ         │
-            -------------------------------
+            ----------------------------------
+            │        💳 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ          │
+            ----------------------------------
             │ 🔢 Transaction ID: %d
             │ 🆔 Account ID: %d
             │ 📤 Type: %s
             │ 📅 Date: %s
             │ 🏷️ Category: %s
             │ 💰 Amount: %.2f %s
-            -------------------------------
+            ----------------------------------
             """.formatted(
                 transaction.getTransactionId(),
                 transaction.getAccountId(),
