@@ -2,6 +2,7 @@ package com.softserve.ui;
 
 import com.softserve.controllers.TransactionController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -16,14 +17,13 @@ public class TransactionMenu implements Menu {
     public TransactionMenu(TransactionController transactionController) {
         this.transactionController = transactionController;
 
-
         this.actions = Map.of(
+                "0", this::exitMenu,
                 "1", this::addTransaction,
                 "2", this::findTransactionById,
                 "3", this::viewTransactions,
                 "4", this::updateTransaction,
-                "5", this::removeTransaction,
-                "6", this::exitMenu
+                "5", this::removeTransaction
         );
     }
 
@@ -31,13 +31,16 @@ public class TransactionMenu implements Menu {
     public void show() {
         while (!exit) {
             System.out.print("""
-                    --- Manage Transactions ---
-                    1. Add Transaction
-                    2. Find Transaction by ID
-                    3. View Transactions
-                    4. Update Transaction
-                    5. Remove Transaction
-                    6. Back to Main Menu
+                    -------------------------------
+                    |     Manage Transactions     |
+                    -------------------------------
+                    | 0. Back to Main Menu        |
+                    | 1. Add Transaction          |
+                    | 2. Find Transaction by ID   |
+                    | 3. View Transactions        |
+                    | 4. Update Transaction       |
+                    | 5. Remove Transaction       |
+                    -------------------------------
                     Choose an option:\s"""
             );
 
@@ -47,7 +50,21 @@ public class TransactionMenu implements Menu {
     }
 
     private void addTransaction() {
+        List<String> prompts = List.of(
+                "Enter Account ID:",
+                "Enter Transaction Category:",
+                "Enter Transaction Date (yyyy-MM-dd):",
+                "Enter Transaction Amount:"
+        );
 
+        List<String> transactionData = prompts.stream()
+                .map(prompt -> {
+                    System.out.println(prompt);
+                    return scanner.nextLine().trim();
+                })
+                .toList();
+
+        transactionController.create(transactionData);
     }
 
     private void findTransactionById() {
