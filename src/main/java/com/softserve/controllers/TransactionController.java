@@ -26,10 +26,6 @@ public class TransactionController implements Controller<String> {
 
     private final TransactionService transactionService;
 
-    public TransactionController() {
-        transactionService = new TransactionService();
-    }
-
     public TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }

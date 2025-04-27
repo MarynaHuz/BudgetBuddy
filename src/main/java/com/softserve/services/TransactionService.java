@@ -1,7 +1,6 @@
 package com.softserve.services;
 
 import com.softserve.dao.Dao;
-import com.softserve.dao.impl.TransactionDao;
 import com.softserve.models.account.Account;
 import com.softserve.models.transaction.Transaction;
 import com.softserve.utils.AppConfig;
@@ -17,11 +16,6 @@ public class TransactionService implements Service<Transaction> {
 
     private final Dao<Transaction> transactionDao;
     private final AccountService accountService;
-
-    public TransactionService() {
-        this.transactionDao = new TransactionDao();
-        this.accountService = new AccountService();
-    }
 
     public TransactionService(Dao<Transaction> transactionDao,
                               AccountService accountService) {

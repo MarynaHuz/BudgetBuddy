@@ -24,10 +24,6 @@ public class AccountService implements Service<Account> {
         this.accountDao = accountDao;
     }
 
-    public AccountService() {
-        this.accountDao = new AccountDao();
-    }
-
     @Override
     public Account create(Account account) throws IOException {
         List<Account> accounts = accountDao.getAll();

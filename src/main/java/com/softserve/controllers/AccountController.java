@@ -25,7 +25,11 @@ import static com.softserve.validators.IdValidator.validateId;
 
 public class AccountController implements Controller<String> {
 
-    private final AccountService accountService = new AccountService();
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Override
     public void create(List<String> accountToCreate) {
