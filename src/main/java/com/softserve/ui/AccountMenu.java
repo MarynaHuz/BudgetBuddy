@@ -59,12 +59,14 @@ public class AccountMenu implements Menu {
                 "Enter initial balance: "
         );
 
-        List<String> accountData = prompts.stream()
+        List<String> accountDetails = prompts.stream()
                 .map(prompt -> {
                             System.out.println(prompt);
                             return scanner.nextLine().trim();
                         }
                 ).toList();
+
+        accountController.create(accountDetails);
     }
 
     private void findAccountById() {
@@ -79,6 +81,24 @@ public class AccountMenu implements Menu {
 
     private void updateAccount() {
 
+        System.out.println("Enter Account ID to Update: ");
+        String id = scanner.nextLine();
+
+        List<String> prompts = List.of(
+                "Enter account name: ",
+                "Choose currency (e.g., UAH, USD, EUR): ",
+                "Enter initial balance: "
+        );
+
+        List<String> accountDetails = prompts.stream()
+                .map(prompt -> {
+                            System.out.println(prompt);
+                            return scanner.nextLine().trim();
+                        }
+                ).toList();
+
+        Map<String, List<String>> accountParameters = Map.of(id, accountDetails);
+        accountController.update(accountParameters);
     }
 
     private void removeAccount() {
