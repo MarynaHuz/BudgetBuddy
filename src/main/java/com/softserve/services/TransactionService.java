@@ -94,11 +94,23 @@ public class TransactionService implements Service<Transaction> {
                 .filter(transaction -> transaction.getTransactionId() == transactionId)
                 .findFirst();
 
-        transactionToRemove.ifPresent(transactions::remove);
-        transactionDao.save(transactions);
+        if (transactionToRemove.isPresent()) {
+            Transaction transaction = transactionToRemove.get();
+
+            Account associatedAccount = accountService.findById(transaction.getAccountId())
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Associated account not found for transaction: " + transactionId));
+
+            validateTransactionRemoval(transaction, associatedAccount);
+
+            updateAccountBalanceAfterRemoval(transaction, associatedAccount);
+
+            transactions.remove(transaction);
+            transactionDao.save(transactions);
+
+        }
         return transactionToRemove;
     }
-
 
     /**
      * Validates whether a transaction can be removed based on the associated account's balance and
