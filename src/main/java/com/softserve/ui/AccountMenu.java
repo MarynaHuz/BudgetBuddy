@@ -31,18 +31,18 @@ public class AccountMenu implements Menu {
     public void show() {
         while (!exit) {
             System.out.print("""
-        --------------------------------
-        │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
-        --------------------------------
-        │ 0. 🔙 Back to Main Menu      │
-        │ 1. ➕ Add Account            │
-        │ 2. 🔍 Find Account by ID     │
-        │ 3. 📋 View Accounts          │
-        │ 4. 📝 Update Account         │
-        │ 5. ❌ Remove Account         │
-        │ 6. 💸 Make Internal Transfer │
-        --------------------------------
-        Choose an option:\s"""
+                    --------------------------------
+                    │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
+                    --------------------------------
+                    │ 0. 🔙 Back to Main Menu      │
+                    │ 1. ➕ Add Account            │
+                    │ 2. 🔍 Find Account by ID     │
+                    │ 3. 📋 View Accounts          │
+                    │ 4. 📝 Update Account         │
+                    │ 5. ❌ Remove Account         │
+                    │ 6. 💸 Make Internal Transfer │
+                    --------------------------------
+                    Choose an option:\s"""
             );
             String action = scanner.nextLine();
             actions.getOrDefault(action, this::invalidChoice).run();
@@ -75,8 +75,12 @@ public class AccountMenu implements Menu {
     }
 
     private void exitMenu() {
-        System.out.println("Returning to Main Menu...");
-        System.out.println("-".repeat(32));
+        System.out.print("""
+                --------------------------------
+                │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
+                --------------------------------
+                """
+        );
         exit = true;
     }
 
