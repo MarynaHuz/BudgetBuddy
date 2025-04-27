@@ -108,7 +108,18 @@ public class AccountMenu implements Menu {
     }
 
     private void makeInternalTransfer() {
-
+        List<String> prompts = List.of(
+                "Enter the ID of the account you want to transfer money from:",
+                "Enter the ID of the account you want to transfer money to:",
+                "Enter the amount to transfer:"
+        );
+        List<String> transferDetails = prompts.stream()
+                .map(prompt -> {
+                    System.out.println(prompt);
+                    return scanner.nextLine();
+                })
+                .toList();
+        accountController.transferBetweenAccounts(transferDetails);
     }
 
     private void exitMenu() {
