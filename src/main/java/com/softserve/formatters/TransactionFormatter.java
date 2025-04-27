@@ -19,6 +19,8 @@ public class TransactionFormatter {
 
         StringBuilder table = new StringBuilder();
 
+        table.append("-".repeat(87)).append("\n");
+
         table.append(String.format("%-5s | %-5s | %-10s | %-12s | %-18s | %-10s | %-5s%n",
                 "ID", "AccID", "Type", "Date", "Category", "Amount", "Currency"));
 
@@ -39,14 +41,14 @@ public class TransactionFormatter {
 
     public static String formatTransaction(Transaction transaction) {
         return """
-            -----------------------------------------
+            -------------------------------
             Transaction ID: %d
             Account ID: %d
             Type: %s
             Date: %s
             Category: %s
             Amount: %.2f %s
-            -----------------------------------------
+            -------------------------------
             """.formatted(
                 transaction.getTransactionId(),
                 transaction.getAccountId(),

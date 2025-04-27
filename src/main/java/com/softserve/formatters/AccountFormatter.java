@@ -32,7 +32,7 @@ public class AccountFormatter {
         }
 
         StringBuilder table = new StringBuilder();
-
+        table.append("-".repeat(55)).append("\n");
         table.append(String.format("%-5s | %-20s | %-8s | %-12s%n",
                 "ID", "Account Name", "Currency", "Balance"));
 
