@@ -102,7 +102,9 @@ public class AccountMenu implements Menu {
     }
 
     private void removeAccount() {
-
+        System.out.println("Enter Account ID to Remove: ");
+        String id = scanner.nextLine();
+        accountController.delete(id);
     }
 
     private void makeInternalTransfer() {
