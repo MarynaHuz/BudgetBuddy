@@ -78,15 +78,15 @@ public class TransactionMenu implements Menu {
 
     private void updateTransaction() {
         System.out.println("""
-                -------------------------------
-                │       ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼             │
-                -------------------------------
+                --------------------------------
+                │       ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼              │
+                --------------------------------
                 │   Transaction updates are    │
                 │ currently under development. │
                 │ For now, please delete the   │
                 │ transaction and create a     │
                 │ new one with your changes.   │
-                -------------------------------
+                --------------------------------
                 """);
     }
 
@@ -97,8 +97,12 @@ public class TransactionMenu implements Menu {
     }
 
     private void exitMenu() {
-        System.out.println("Returning to Main Menu...");
-        System.out.println("-".repeat(32));
+        System.out.print("""
+                --------------------------------
+                │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
+                --------------------------------
+                """
+        );
         exit = true;
     }
 
