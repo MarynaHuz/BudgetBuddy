@@ -19,7 +19,7 @@ public class AccountFormatter {
             │ 📝 Account Name: %s
             │ 💱 Currency: %s
             │ 💰 Balance: %.2f
-            --------------------------------
+            -------------------------------
             """.formatted(
                 account.getAccountId(),
                 account.getAccountName(),
