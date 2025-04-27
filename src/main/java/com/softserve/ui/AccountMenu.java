@@ -2,6 +2,7 @@ package com.softserve.ui;
 
 import com.softserve.controllers.AccountController;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -52,10 +53,24 @@ public class AccountMenu implements Menu {
 
     private void addAccount() {
 
+        List<String> prompts = List.of(
+                "Enter account name: ",
+                "Choose currency (e.g., UAH, USD, EUR): ",
+                "Enter initial balance: "
+        );
+
+        List<String> accountData = prompts.stream()
+                .map(prompt -> {
+                            System.out.println(prompt);
+                            return scanner.nextLine().trim();
+                        }
+                ).toList();
     }
 
     private void findAccountById() {
-
+        System.out.print("Enter the transaction ID: ");
+        String id = scanner.nextLine();
+        accountController.findById(id);
     }
 
     private void viewAccounts() {
@@ -66,11 +81,11 @@ public class AccountMenu implements Menu {
 
     }
 
-    private void makeInternalTransfer() {
+    private void removeAccount() {
 
     }
 
-    private void removeAccount() {
+    private void makeInternalTransfer() {
 
     }
 
