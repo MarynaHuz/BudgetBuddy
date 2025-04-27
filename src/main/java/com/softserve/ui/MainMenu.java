@@ -24,12 +24,16 @@ public class MainMenu implements Menu {
         exit = false;
         while (!exit) {
             System.out.print("""
-                    ===== Budget Buddy =====
-                    1. Manage Accounts
-                    2. Manage Transactions
-                    3. Exit
+                    -------------------------------
+                    |   💰💵 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐 💵💰   |
+                    -------------------------------
+                    | 1. 🏦 Manage Accounts        |
+                    | 2. 💳 Manage Transactions    |
+                    | 3. 🚪 Exit Application       |
+                    -------------------------------
                     Choose an option:\s"""
             );
+
             String choice = scanner.nextLine();
             menus.getOrDefault(choice, this::invalidChoice).show();
         }

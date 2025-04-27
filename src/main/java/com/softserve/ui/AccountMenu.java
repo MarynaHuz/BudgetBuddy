@@ -17,30 +17,31 @@ public class AccountMenu implements Menu {
     public AccountMenu(AccountController accountController) {
         this.accountController = accountController;
         this.actions = Map.of(
-                "1", this::viewAccounts,
-                "2", this::addAccount,
-                "3", this::updateAccount,
-                "4", this::makeInternalTransfer,
+                "0", this::exitMenu,
+                "1", this::addAccount,
+                "2", this::findAccountById,
+                "3", this::viewAccounts,
+                "4", this::updateAccount,
                 "5", this::removeAccount,
-                "6", this::exitMenu
+                "6", this::makeInternalTransfer
         );
     }
 
     @Override
     public void show() {
-
         while (!exit) {
             System.out.print("""
-                    -------------------------------
-                    |       Manage Accounts       |
-                    -------------------------------
-                    | 0. Back to Main Menu        |
-                    | 1. View Accounts            |
-                    | 2. Add Account              |
-                    | 3. Update Account           |
-                    | 4. Make Internal Transfer   |
-                    | 5. Remove Account           |
-                    -------------------------------
+                    --------------------------------
+                    |   🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊 🏦     |
+                    --------------------------------
+                    | 0. 🔙 Back to Main Menu      |
+                    | 1. ➕ Add Account            |
+                    | 2. 🔍 Find Account by ID     |
+                    | 3. 📋 View Accounts          |
+                    | 4. 📝 Update Account         |
+                    | 5. ❌ Remove Account         |
+                    | 6. 💸 Make Internal Transfer |
+                    --------------------------------
                     Choose an option:\s"""
             );
             String action = scanner.nextLine();
@@ -49,12 +50,16 @@ public class AccountMenu implements Menu {
 
     }
 
-    private void viewAccounts() {
-        accountController.listAll();
-    }
-
     private void addAccount() {
 
+    }
+
+    private void findAccountById() {
+
+    }
+
+    private void viewAccounts() {
+        accountController.listAll();
     }
 
     private void updateAccount() {

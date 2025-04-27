@@ -31,19 +31,18 @@ public class TransactionMenu implements Menu {
     public void show() {
         while (!exit) {
             System.out.print("""
-                    -------------------------------
-                    |     Manage Transactions     |
-                    -------------------------------
-                    | 0. Back to Main Menu        |
-                    | 1. Add Transaction          |
-                    | 2. Find Transaction by ID   |
-                    | 3. View Transactions        |
-                    | 4. Update Transaction       |
-                    | 5. Remove Transaction       |
-                    -------------------------------
+                    --------------------------------
+                    | 💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊💳    |
+                    --------------------------------
+                    | 0. 🔙 Back to Main Menu      |
+                    | 1. ➕ Add Transaction        |
+                    | 2. 🔍 Find Transaction by ID |
+                    | 3. 📊 View Transactions      |
+                    | 4. 📝 Update Transaction     |
+                    | 5. ❌ Remove Transaction     |
+                    --------------------------------
                     Choose an option:\s"""
             );
-
             String choice = scanner.nextLine();
             actions.getOrDefault(choice, this::invalidChoice).run();
         }
@@ -53,7 +52,7 @@ public class TransactionMenu implements Menu {
         List<String> prompts = List.of(
                 "Enter Account ID:",
                 "Enter Transaction Category:",
-                "Enter Transaction Date (yyyy-MM-dd):",
+                "Enter Transaction Date (dd-MM-yyyy):",
                 "Enter Transaction Amount:"
         );
 
@@ -78,6 +77,7 @@ public class TransactionMenu implements Menu {
     }
 
     private void updateTransaction() {
+
 
     }
 
