@@ -32,14 +32,14 @@ public class TransactionMenu implements Menu {
         while (!exit) {
             System.out.print("""
                     --------------------------------
-                    | 💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊💳    |
+                    │ 💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊 💳   │
                     --------------------------------
-                    | 0. 🔙 Back to Main Menu      |
-                    | 1. ➕ Add Transaction        |
-                    | 2. 🔍 Find Transaction by ID |
-                    | 3. 📊 View Transactions      |
-                    | 4. 📝 Update Transaction     |
-                    | 5. ❌ Remove Transaction     |
+                    │ 0. 🔙 Back to Main Menu      │
+                    │ 1. ➕ Add Transaction        │
+                    │ 2. 🔍 Find Transaction by ID │
+                    │ 3. 📊 View Transactions      │
+                    │ 4. 📝 Update Transaction     │
+                    │ 5. ❌ Remove Transaction     │
                     --------------------------------
                     Choose an option:\s"""
             );
@@ -87,7 +87,7 @@ public class TransactionMenu implements Menu {
 
     private void exitMenu() {
         System.out.println("Returning to Main Menu...");
-        System.out.println("-".repeat(31));
+        System.out.println("-".repeat(32));
         exit = true;
     }
 

@@ -25,15 +25,14 @@ public class MainMenu implements Menu {
         while (!exit) {
             System.out.print("""
                     -------------------------------
-                    |   💰💵 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐 💵💰   |
+                    │   💰💵 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐 💵💰   │
                     -------------------------------
-                    | 1. 🏦 Manage Accounts        |
-                    | 2. 💳 Manage Transactions    |
-                    | 3. 🚪 Exit Application       |
+                    │ 1. 🏦 Manage Accounts        │
+                    │ 2. 💳 Manage Transactions    │
+                    │ 3. 🚪 Exit Application       │
                     -------------------------------
                     Choose an option:\s"""
             );
-
             String choice = scanner.nextLine();
             menus.getOrDefault(choice, this::invalidChoice).show();
         }
