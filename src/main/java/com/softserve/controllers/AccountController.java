@@ -55,7 +55,7 @@ public class AccountController implements Controller<String> {
                 System.out.println("The account has been found:");
                 System.out.println(formatAccount(account.get()));
             } else {
-                System.out.printf("Account with ID %s hasn't been found!", id);
+                System.out.printf("Account with ID %s hasn't been found!%n", id);
             }
         } catch (IllegalArgumentException | IOException e) {
             System.err.println(e.getMessage());
