@@ -31,13 +31,16 @@ public class AccountMenu implements Menu {
 
         while (!exit) {
             System.out.print("""
-                    ==== Manage Accounts =====
-                    1. View Accounts
-                    2. Add Account
-                    3. Update Account
-                    4. Make Internal Transfer
-                    5. Remove Account
-                    6. Back to Main Menu
+                    -------------------------------
+                    |       Manage Accounts       |
+                    -------------------------------
+                    | 0. Back to Main Menu        |
+                    | 1. View Accounts            |
+                    | 2. Add Account              |
+                    | 3. Update Account           |
+                    | 4. Make Internal Transfer   |
+                    | 5. Remove Account           |
+                    -------------------------------
                     Choose an option:\s"""
             );
             String action = scanner.nextLine();
