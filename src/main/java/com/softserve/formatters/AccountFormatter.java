@@ -12,12 +12,12 @@ public class AccountFormatter {
 
     public static String formatAccount(Account account) {
         return """
-                -----------------------------------------
-                Account ID: %d
-                Account Name: %s
-                Currency: %s
-                Balance: %.2f
-                -----------------------------------------
+                -------------------------------
+                | Account ID: %d
+                | Account Name: %s
+                | Currency: %s
+                | Balance: %.2f
+                -------------------------------
                 """.formatted(
                 account.getAccountId(),
                 account.getAccountName(),
