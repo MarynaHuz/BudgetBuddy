@@ -149,18 +149,6 @@ public class AccountController implements Controller<String> {
         }
     }
 
-    private Account createAccountFromParameters(List<String> accountParameters) {
-        if (accountParameters.size() != 3) {
-            throw new IllegalArgumentException("Account requires exactly three parameters: " +
-                    "accountName, currency, and balance.");
-        }
-        String accountName = validateAccountName(accountParameters.getFirst());
-        Currency currency = parseCurrencyCode(accountParameters.get(1));
-        BigDecimal balance = validateBalance(accountParameters.get(2));
-
-        return AccountFactory.createAccount(accountName, currency, balance);
-    }
-
     public void transferBetweenAccounts(List<String> transferDetails) {
         try {
             if (transferDetails.size() != 3) {
@@ -183,5 +171,17 @@ public class AccountController implements Controller<String> {
         } catch (IOException e) {
             System.err.println("Error saving transfer: " + e.getMessage());
         }
+    }
+
+    private Account createAccountFromParameters(List<String> accountParameters) {
+        if (accountParameters.size() != 3) {
+            throw new IllegalArgumentException("Account requires exactly three parameters: " +
+                                               "accountName, currency, and balance.");
+        }
+        String accountName = validateAccountName(accountParameters.getFirst());
+        Currency currency = parseCurrencyCode(accountParameters.get(1));
+        BigDecimal balance = validateBalance(accountParameters.get(2));
+
+        return AccountFactory.createAccount(accountName, currency, balance);
     }
 }
