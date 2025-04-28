@@ -1,10 +1,12 @@
 package com.softserve.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.dao.impl.AccountDao;
 import com.softserve.models.account.Account;
 import com.softserve.models.account.Currency;
 import com.softserve.utils.AppConfig;
 import com.softserve.utils.IdManager;
+import com.softserve.validators.IdValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -365,4 +367,132 @@ class AccountServiceTest {
 
         assertThrows(IOException.class, () -> accountService.update(account));
     }
+
+    @Test
+    void removeById_shouldRemoveAccountAndReturnIt_whenAccountExistsAndHasNoTransactions() throws IOException {
+        Account account1 = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        Account account2 = Account.builder()
+                .accountId(2)
+                .accountName("Savings")
+                .currency(Currency.EUR)
+                .balance(BigDecimal.valueOf(500.00))
+                .build();
+
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account1);
+        accounts.add(account2);
+
+        when(accountDao.getAll()).thenReturn(accounts);
+
+        try (MockedStatic<IdValidator> mockedIdValidator = mockStatic(IdValidator.class)) {
+            mockedIdValidator.when(() -> IdValidator.existsById(
+                    eq(AppConfig.TRANSACTIONS_JSON.getPath()),
+                    any(TypeReference.class),
+                    any(),
+                    eq(1)
+            )).thenReturn(false);
+
+            Optional<Account> result = accountService.removeById(1);
+
+            assertTrue(result.isPresent());
+            assertEquals(1, result.get().getAccountId());
+
+            @SuppressWarnings("unchecked")
+            ArgumentCaptor<List<Account>> listCaptor = ArgumentCaptor.forClass(List.class);
+            verify(accountDao).save(listCaptor.capture());
+
+            List<Account> savedAccounts = listCaptor.getValue();
+            assertEquals(1, savedAccounts.size());
+            assertEquals(2, savedAccounts.get(0).getAccountId());
+        }
+    }
+
+    @Test
+    void removeById_shouldThrowIllegalStateException_whenAccountHasAssociatedTransactions() throws IOException {
+        Account account = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account);
+
+        when(accountDao.getAll()).thenReturn(accounts);
+
+        try (MockedStatic<IdValidator> mockedIdValidator = mockStatic(IdValidator.class)) {
+            mockedIdValidator.when(() -> IdValidator.existsById(
+                    eq(AppConfig.TRANSACTIONS_JSON.getPath()),
+                    any(TypeReference.class),
+                    any(),
+                    eq(1)
+            )).thenReturn(true);
+
+            IllegalStateException exception = assertThrows(
+                    IllegalStateException.class,
+                    () -> accountService.removeById(1)
+            );
+
+            assertEquals("Cannot remove the account as it has associated transactions.",
+                    exception.getMessage());
+            verify(accountDao, never()).save(any());
+        }
+    }
+
+    @Test
+    void removeById_shouldPropagateIOException_whenDaoThrowsIOException() throws IOException {
+        when(accountDao.getAll()).thenThrow(new IOException("File not found"));
+
+        assertThrows(IOException.class, () -> accountService.removeById(1));
+    }
+
+    @Test
+    void hasEnoughBalance_shouldReturnTrue_whenAccountHasMoreBalanceThanAmount() {
+        Account account = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        boolean result = accountService.hasEnoughBalance(account, BigDecimal.valueOf(500.00));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void hasEnoughBalance_shouldReturnTrue_whenAccountHasExactlyTheSameBalanceAsAmount() {
+        Account account = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        boolean result = accountService.hasEnoughBalance(account, BigDecimal.valueOf(1000.00));
+
+        assertTrue(result);
+    }
+
+    @Test
+    void hasEnoughBalance_shouldReturnFalse_whenAccountHasLessBalanceThanAmount() {
+        Account account = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        boolean result = accountService.hasEnoughBalance(account, BigDecimal.valueOf(1500.00));
+
+        assertFalse(result);
+    }
+
 }
