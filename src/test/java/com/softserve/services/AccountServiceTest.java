@@ -57,6 +57,7 @@ class AccountServiceTest {
             assertEquals(Currency.USD, result.getCurrency());
             assertEquals(BigDecimal.valueOf(1000.00), result.getBalance());
 
+            @SuppressWarnings("unchecked")
             ArgumentCaptor<List<Account>> listCaptor = ArgumentCaptor.forClass(List.class);
             verify(accountDao).save(listCaptor.capture());
 
@@ -136,6 +137,7 @@ class AccountServiceTest {
 
             assertEquals(2, result.getAccountId());
 
+            @SuppressWarnings("unchecked")
             ArgumentCaptor<List<Account>> listCaptor = ArgumentCaptor.forClass(List.class);
             verify(accountDao).save(listCaptor.capture());
 
@@ -258,4 +260,109 @@ class AccountServiceTest {
         verify(accountDao, times(1)).getAll();
     }
 
+    @Test
+    void update_shouldUpdateExistingAccount_whenAccountExists() throws IOException {
+        Account existingAccount = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        Account anotherAccount = Account.builder()
+                .accountId(2)
+                .accountName("Savings")
+                .currency(Currency.EUR)
+                .balance(BigDecimal.valueOf(500.00))
+                .build();
+
+        List<Account> existingAccounts = new ArrayList<>();
+        existingAccounts.add(existingAccount);
+        existingAccounts.add(anotherAccount);
+
+        Account updatedAccount = Account.builder()
+                .accountId(1)
+                .accountName("Updated Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1500.00))
+                .build();
+
+        when(accountDao.getAll()).thenReturn(existingAccounts);
+
+        Optional<Account> result = accountService.update(updatedAccount);
+
+        assertTrue(result.isPresent());
+        assertEquals("Updated Checking", result.get().getAccountName());
+        assertEquals(BigDecimal.valueOf(1500.00), result.get().getBalance());
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<Account>> listCaptor = ArgumentCaptor.forClass(List.class);
+        verify(accountDao).save(listCaptor.capture());
+
+        List<Account> savedAccounts = listCaptor.getValue();
+        assertEquals(2, savedAccounts.size());
+
+        Account firstSavedAccount = savedAccounts.stream()
+                .filter(acc -> acc.getAccountId() == 1)
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Updated Checking", firstSavedAccount.getAccountName());
+        assertEquals(BigDecimal.valueOf(1500.00), firstSavedAccount.getBalance());
+
+        Account secondSavedAccount = savedAccounts.stream()
+                .filter(acc -> acc.getAccountId() == 2)
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Savings", secondSavedAccount.getAccountName());
+    }
+
+    @Test
+    void update_shouldReturnAccount_evenWhenAccountDoesNotExist() throws IOException {
+        Account existingAccount = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        List<Account> existingAccounts = new ArrayList<>();
+        existingAccounts.add(existingAccount);
+
+        Account nonExistingAccount = Account.builder()
+                .accountId(99)
+                .accountName("Non-existing")
+                .currency(Currency.EUR)
+                .balance(BigDecimal.valueOf(500.00))
+                .build();
+
+        when(accountDao.getAll()).thenReturn(existingAccounts);
+
+        Optional<Account> result = accountService.update(nonExistingAccount);
+
+        assertTrue(result.isPresent());
+        assertEquals(99, result.get().getAccountId());
+
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<List<Account>> listCaptor = ArgumentCaptor.forClass(List.class);
+        verify(accountDao).save(listCaptor.capture());
+
+        List<Account> savedAccounts = listCaptor.getValue();
+        assertEquals(1, savedAccounts.size());
+        assertEquals(1, savedAccounts.get(0).getAccountId());
+        assertEquals("Checking", savedAccounts.get(0).getAccountName());
+    }
+
+    @Test
+    void update_shouldPropagateIOException_whenDaoThrowsIOException() throws IOException {
+        Account account = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        when(accountDao.getAll()).thenThrow(new IOException("File not found"));
+
+        assertThrows(IOException.class, () -> accountService.update(account));
+    }
 }
