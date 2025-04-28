@@ -86,6 +86,7 @@ public class TransactionMenu implements Menu {
 
     private static void displayMenuOptions() {
         System.out.print("""
+                
                 --------------------------------
                 │    💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊    │
                 --------------------------------

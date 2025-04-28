@@ -94,6 +94,7 @@ public class AccountMenu implements Menu {
 
     private static void displayMenuOptions() {
         System.out.print("""
+                
                 --------------------------------
                 │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
                 --------------------------------

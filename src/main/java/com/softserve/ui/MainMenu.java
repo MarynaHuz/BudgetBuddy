@@ -30,6 +30,7 @@ public class MainMenu implements Menu {
 
     private static void displayMenuOptions() {
         System.out.print("""
+                
                 --------------------------------
                 │       💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐        │
                 --------------------------------
