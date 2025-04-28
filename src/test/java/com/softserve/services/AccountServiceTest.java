@@ -209,4 +209,53 @@ class AccountServiceTest {
 
         assertFalse(result.isPresent());
     }
+
+    @Test
+    void listAll_shouldReturnAllAccounts_whenAccountsExist() throws IOException {
+        Account account1 = Account.builder()
+                .accountId(1)
+                .accountName("Checking")
+                .currency(Currency.USD)
+                .balance(BigDecimal.valueOf(1000.00))
+                .build();
+
+        Account account2 = Account.builder()
+                .accountId(2)
+                .accountName("Savings")
+                .currency(Currency.EUR)
+                .balance(BigDecimal.valueOf(500.00))
+                .build();
+
+        List<Account> expectedAccounts = new ArrayList<>();
+        expectedAccounts.add(account1);
+        expectedAccounts.add(account2);
+
+        when(accountDao.getAll()).thenReturn(expectedAccounts);
+
+        List<Account> actualAccounts = accountService.listAll();
+
+        assertEquals(2, actualAccounts.size());
+        assertEquals(expectedAccounts, actualAccounts);
+        verify(accountDao, times(1)).getAll();
+    }
+
+    @Test
+    void listAll_shouldReturnEmptyList_whenNoAccountsExist() throws IOException {
+        List<Account> emptyList = new ArrayList<>();
+        when(accountDao.getAll()).thenReturn(emptyList);
+
+        List<Account> result = accountService.listAll();
+
+        assertTrue(result.isEmpty());
+        verify(accountDao, times(1)).getAll();
+    }
+
+    @Test
+    void listAll_shouldPropagateIOException_whenDaoThrowsIOException() throws IOException {
+        when(accountDao.getAll()).thenThrow(new IOException("File not found"));
+
+        assertThrows(IOException.class, () -> accountService.listAll());
+        verify(accountDao, times(1)).getAll();
+    }
+
 }
