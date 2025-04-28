@@ -51,7 +51,7 @@ public class AccountMenu implements Menu {
     }
 
     private void findAccountById() {
-        System.out.print("Enter the transaction ID: ");
+        System.out.print("Enter the account ID: ");
         String id = scanner.nextLine();
         accountController.findById(id);
     }
