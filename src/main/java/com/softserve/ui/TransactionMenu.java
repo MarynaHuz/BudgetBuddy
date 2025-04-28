@@ -30,19 +30,7 @@ public class TransactionMenu implements Menu {
     @Override
     public void show() {
         while (!exit) {
-            System.out.print("""
-                    --------------------------------
-                    │    💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊    │
-                    --------------------------------
-                    │ 0. 🔙 Back to Main Menu      │
-                    │ 1. ➕ Add Transaction        │
-                    │ 2. 🔍 Find Transaction by ID │
-                    │ 3. 📊 View Transactions      │
-                    │ 4. 📝 Update Transaction     │
-                    │ 5. ❌ Remove Transaction     │
-                    --------------------------------
-                    Choose an option:\s"""
-            );
+            displayMenuOptions();
             String choice = scanner.nextLine();
             actions.getOrDefault(choice, this::invalidChoice).run();
         }
@@ -94,6 +82,22 @@ public class TransactionMenu implements Menu {
         System.out.print("Enter the transaction ID: ");
         String id = scanner.nextLine();
         transactionController.delete(id);
+    }
+
+    private static void displayMenuOptions() {
+        System.out.print("""
+                --------------------------------
+                │    💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊    │
+                --------------------------------
+                │ 0. 🔙 Back to Main Menu      │
+                │ 1. ➕ Add Transaction        │
+                │ 2. 🔍 Find Transaction by ID │
+                │ 3. 📊 View Transactions      │
+                │ 4. 📝 Update Transaction     │
+                │ 5. ❌ Remove Transaction     │
+                --------------------------------
+                Choose an option:\s"""
+        );
     }
 
     private void exitMenu() {
