@@ -111,6 +111,14 @@ public class TransactionMenu implements Menu {
     }
 
     private void invalidChoice() {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.print("""
+                -------------------------------
+                │         ⚠️  WARNING         │
+                -------------------------------
+                │ ❌ Invalid choice.          │
+                │ 🔄 Please try again.        │
+                -------------------------------
+                """
+        );
     }
 }
