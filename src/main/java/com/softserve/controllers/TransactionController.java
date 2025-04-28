@@ -31,6 +31,19 @@ public class TransactionController implements Controller<String> {
         this.transactionService = transactionService;
     }
 
+    /**
+     * Creates a transaction based on the provided details and saves it to the underlying
+     * data storage if the associated account exists. The method also validates the input
+     * data, ensuring proper format and valid values, and displays an error message if
+     * an exception occurs during processing.
+     *
+     * @param transactionToAdd List of strings containing transaction details. The list
+     *                         must include the following elements in order:
+     *                         - Account ID (String representation of an integer)
+     *                         - Transaction category (String)
+     *                         - Transaction date (String in "dd-MM-yyyy" format)
+     *                         - Transaction amount (String representation of a decimal number)
+     */
     @Override
     public void create(List<String> transactionToAdd) {
 
@@ -52,7 +65,7 @@ public class TransactionController implements Controller<String> {
                     accountId)) {
                 Transaction createdTransaction = transactionService.create(transaction);
                 System.out.println(formatTransaction(createdTransaction));
-            } else{
+            } else {
                 throw new IllegalArgumentException(String.format(
                         "Account with ID %s hasn't been found!", accountId));
             }
@@ -64,6 +77,15 @@ public class TransactionController implements Controller<String> {
         }
     }
 
+    /**
+     * Finds and retrieves a transaction by its ID. If the transaction exists, its details
+     * are printed to the console in a formatted structure. If the transaction is not found,
+     * an {@link IllegalArgumentException} is thrown with a corresponding error message.
+     * On validation or processing errors, an error message is displayed to the user.
+     *
+     * @param id The ID of the transaction to find. It must be a non-empty string
+     *           containing a valid integer representation of the transaction ID.
+     */
     @Override
     public void findById(String id) {
         try {
@@ -81,6 +103,21 @@ public class TransactionController implements Controller<String> {
         }
     }
 
+    /**
+     * Lists all transactions available in the storage and outputs them in
+     * a formatted table. This method retrieves the transactions from the
+     * underlying service layer, formats the retrieved data into a human-readable
+     * table, and prints the result to the console. If an error occurs during the
+     * retrieval process, an error message is displayed.
+     * <p>
+     * The method performs the following operations:
+     * 1. Calls the service layer to fetch all transactions.
+     * 2. Formats the transaction data using a defined table structure.
+     * 3. Handles and displays any IOExceptions that may occur.
+     * <p>
+     * Note: This method handles the presentation of data and is primarily used
+     * for debugging, logging, or manual inspection.
+     */
     @Override
     public void listAll() {
         try {
@@ -108,6 +145,17 @@ public class TransactionController implements Controller<String> {
                 "For now, please delete the transaction and create a new one with your changes.");
     }
 
+    /**
+     * Deletes a transaction identified by its ID. This method performs the following steps:
+     * 1. Validates the provided transaction ID.
+     * 2. Attempts to remove the transaction associated with the ID from the underlying storage.
+     * 3. Displays a success message with the removed transaction details if successful.
+     * 4. Displays an error message if the transaction with the specified ID is not found
+     * or if any exception occurs during the deletion process.
+     *
+     * @param transactionId The ID of the transaction to be deleted. It must be a non-empty
+     *                      string representing a valid integer value.
+     */
     @Override
     public void delete(String transactionId) {
         try {
