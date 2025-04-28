@@ -120,8 +120,17 @@ public class AccountMenu implements Menu {
     }
 
     private void invalidChoice() {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.print("""
+                --------------------------------
+                │        ⚠️  WARNING           │
+                --------------------------------
+                │ ❌ Invalid choice.           │
+                │ 🔄 Please try again.         │
+                --------------------------------
+                """
+        );
     }
+
     private List<String> collectInputs(List<String> prompts) {
         return prompts.stream()
                 .map(prompt -> {

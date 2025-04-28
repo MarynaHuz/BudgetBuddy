@@ -43,12 +43,12 @@ public class MainMenu implements Menu {
 
     private void invalidChoice() {
         System.out.print("""
-                -------------------------------
-                │         ⚠️  WARNING         │
-                -------------------------------
-                │ ❌ Invalid choice.          │
-                │ 🔄 Please try again.        │
-                -------------------------------
+                --------------------------------
+                │        ⚠️  WARNING           │
+                --------------------------------
+                │ ❌ Invalid choice.           │
+                │ 🔄 Please try again.         │
+                --------------------------------
                 """
         );
     }
