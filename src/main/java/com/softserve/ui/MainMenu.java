@@ -26,9 +26,9 @@ public class MainMenu implements Menu {
                     --------------------------------
                     │       💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐        │
                     --------------------------------
+                    │ 0. 🚪 Exit Application       │
                     │ 1. 🏦 Manage Accounts        │
                     │ 2. 💳 Manage Transactions    │
-                    │ 3. 🚪 Exit Application       │
                     --------------------------------
                     Choose an option:\s"""
             );
