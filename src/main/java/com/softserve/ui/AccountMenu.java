@@ -30,6 +30,7 @@ public class AccountMenu implements Menu {
 
     @Override
     public void show() {
+        exit = false;
         while (!exit) {
             displayMenuOptions();
             String action = scanner.nextLine();
@@ -114,8 +115,7 @@ public class AccountMenu implements Menu {
         System.out.print("""
                 --------------------------------
                 │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
-                --------------------------------
-                """
+                --------------------------------"""
         );
         exit = true;
     }

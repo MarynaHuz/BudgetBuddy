@@ -8,7 +8,7 @@ public class MainMenu implements Menu {
     private final Map<String, Menu> menus;
     private final Scanner scanner = new Scanner(System.in);
 
-    private boolean exit = false;
+    private boolean exit;
 
     public MainMenu(Menu accountMenu, Menu transactionMenu) {
 
@@ -21,6 +21,7 @@ public class MainMenu implements Menu {
 
     @Override
     public void show() {
+        exit = false;
         while (!exit) {
             displayMenuOptions();
             String choice = scanner.nextLine();

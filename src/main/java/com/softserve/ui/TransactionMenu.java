@@ -12,7 +12,7 @@ public class TransactionMenu implements Menu {
     private final Scanner scanner = new Scanner(System.in);
 
     private final Map<String, Runnable> actions;
-    private boolean exit = false;
+    private boolean exit;
 
     public TransactionMenu(TransactionController transactionController) {
         this.transactionController = transactionController;
@@ -29,6 +29,7 @@ public class TransactionMenu implements Menu {
 
     @Override
     public void show() {
+        exit = false;
         while (!exit) {
             displayMenuOptions();
             String choice = scanner.nextLine();
@@ -105,8 +106,7 @@ public class TransactionMenu implements Menu {
         System.out.print("""
                 --------------------------------
                 │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
-                --------------------------------
-                """
+                --------------------------------"""
         );
         exit = true;
     }
