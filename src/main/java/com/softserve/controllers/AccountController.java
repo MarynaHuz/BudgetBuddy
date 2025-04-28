@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.softserve.formatters.AccountFormatter.*;
+import static com.softserve.formatters.ErrorFormatter.displayError;
 import static com.softserve.models.account.Currency.parseCurrencyCode;
 import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
 import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
@@ -40,9 +41,9 @@ public class AccountController implements Controller<String> {
             System.out.println(formatAccount(createdAccount));
 
         } catch (IllegalArgumentException e) {
-            System.err.println("Validation error: " + e.getMessage());
+            displayError("Validation error: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("Error saving account: " + e.getMessage());
+            displayError("Error saving account: " + e.getMessage());
         }
     }
 
@@ -55,10 +56,11 @@ public class AccountController implements Controller<String> {
                 System.out.println("The account has been found:");
                 System.out.println(formatAccount(account.get()));
             } else {
-                System.out.printf("Account with ID %s hasn't been found!%n", id);
+                throw new IllegalArgumentException(String.format(
+                        "Account with ID %s hasn't been found!", accountId));
             }
         } catch (IllegalArgumentException | IOException e) {
-            System.err.println(e.getMessage());
+            displayError(e.getMessage());
         }
     }
 
@@ -68,13 +70,13 @@ public class AccountController implements Controller<String> {
             List<Account> accounts = accountService.listAll();
             System.out.println(formatAccountTable(accounts));
         } catch (IOException e) {
-            System.err.println("Error retrieving accounts: " + e.getMessage());
+            displayError("Error retrieving accounts: " + e.getMessage());
         }
     }
 
     /**
      * Updates an existing account using the provided parameters.
-     *
+     * <p>
      * This method validates the account ID and ensures the account exists before
      * updating it. It also checks if the account has associated transactions and
      * forbids updates to the account balance in such cases to maintain data integrity.
@@ -95,17 +97,20 @@ public class AccountController implements Controller<String> {
             String accountIdStr = accountToUpdate.keySet().iterator().next();
             int accId = validateId(accountIdStr);
 
-            if(!existsById(
+            if (!existsById(
                     ACCOUNTS_JSON.getPath(),
-                    new TypeReference<>() {},
+                    new TypeReference<>() {
+                    },
                     Account::getAccountId,
-                    accId)){
-                throw new IllegalArgumentException("Account with ID %d hasn't been found!" + accId);
+                    accId)) {
+                throw new IllegalArgumentException(String.format(
+                        "Account with ID %s hasn't been found!", accId));
             }
 
             if (existsById(
                     TRANSACTIONS_JSON.getPath(),
-                    new TypeReference<>() {},
+                    new TypeReference<>() {
+                    },
                     Transaction::getAccountId,
                     accId)) {
                 throw new IllegalStateException(
@@ -116,8 +121,8 @@ public class AccountController implements Controller<String> {
 
             savedAccount.ifPresent(account ->
                     System.out.println(formatAccount(account)));
-        } catch (IllegalArgumentException | IOException | IllegalStateException e){
-            System.err.println(e.getMessage());
+        } catch (IllegalArgumentException | IOException | IllegalStateException e) {
+            displayError(e.getMessage());
         }
     }
 
@@ -142,10 +147,10 @@ public class AccountController implements Controller<String> {
                         "ID " + accountId + " does not exist in " + ACCOUNTS_JSON.getPath());
             }
         } catch (IllegalArgumentException | IllegalStateException e) {
-            System.err.println("Error deleting account: " + e.getMessage());
+            displayError("Error deleting account: " + e.getMessage());
 
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            displayError(e.getMessage());
         }
     }
 
@@ -167,16 +172,16 @@ public class AccountController implements Controller<String> {
             }
 
         } catch (IllegalArgumentException | IllegalStateException e) {
-            System.err.println("Error during transfer: " + e.getMessage());
+            displayError("Error during transfer: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("Error saving transfer: " + e.getMessage());
+            displayError("Error saving transfer: " + e.getMessage());
         }
     }
 
     private Account createAccountFromParameters(List<String> accountParameters) {
         if (accountParameters.size() != 3) {
             throw new IllegalArgumentException("Account requires exactly three parameters: " +
-                                               "accountName, currency, and balance.");
+                    "accountName, currency, and balance.");
         }
         String accountName = validateAccountName(accountParameters.getFirst());
         Currency currency = parseCurrencyCode(accountParameters.get(1));
