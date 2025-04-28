@@ -1,6 +1,5 @@
 package com.softserve.models.account;
 
-import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,7 +15,5 @@ public class Account {
     private int accountId;
     private String accountName;
     private Currency currency;
-    @Positive
     private BigDecimal balance;
-
 }
