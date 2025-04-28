@@ -65,8 +65,8 @@ class AccountServiceTest {
 
             List<Account> savedAccounts = listCaptor.getValue();
             assertEquals(1, savedAccounts.size());
-            assertEquals(1, savedAccounts.get(0).getAccountId());
-            assertEquals("Savings", savedAccounts.get(0).getAccountName());
+            assertEquals(1, savedAccounts.getFirst().getAccountId());
+            assertEquals("Savings", savedAccounts.getFirst().getAccountName());
         }
     }
 
@@ -350,8 +350,8 @@ class AccountServiceTest {
 
         List<Account> savedAccounts = listCaptor.getValue();
         assertEquals(1, savedAccounts.size());
-        assertEquals(1, savedAccounts.get(0).getAccountId());
-        assertEquals("Checking", savedAccounts.get(0).getAccountName());
+        assertEquals(1, savedAccounts.getFirst().getAccountId());
+        assertEquals("Checking", savedAccounts.getFirst().getAccountName());
     }
 
     @Test
@@ -409,7 +409,7 @@ class AccountServiceTest {
 
             List<Account> savedAccounts = listCaptor.getValue();
             assertEquals(1, savedAccounts.size());
-            assertEquals(2, savedAccounts.get(0).getAccountId());
+            assertEquals(2, savedAccounts.getFirst().getAccountId());
         }
     }
 
@@ -495,4 +495,134 @@ class AccountServiceTest {
         assertFalse(result);
     }
 
+    @Test
+    void transferBetweenAccounts_shouldTransferMoneySuccessfully_whenAllConditionsAreMet() throws IOException {
+        Account sourceAccount = new Account();
+        sourceAccount.setAccountId(1);
+        sourceAccount.setAccountName("Source Account");
+        sourceAccount.setCurrency(Currency.USD);
+        sourceAccount.setBalance(new BigDecimal("1000.00"));
+
+        Account targetAccount = new Account();
+        targetAccount.setAccountId(2);
+        targetAccount.setAccountName("Target Account");
+        targetAccount.setCurrency(Currency.USD);
+        targetAccount.setBalance(new BigDecimal("500.00"));
+
+        BigDecimal transferAmount = new BigDecimal("300.00");
+        BigDecimal expectedSourceBalance = new BigDecimal("700.00");
+        BigDecimal expectedTargetBalance = new BigDecimal("800.00");
+
+        when(accountDao.getAll()).thenReturn(List.of(sourceAccount, targetAccount));
+
+        boolean result = accountService.transferBetweenAccounts(1, 2, transferAmount);
+
+        assertTrue(result);
+        assertEquals(expectedSourceBalance, sourceAccount.getBalance());
+        assertEquals(expectedTargetBalance, targetAccount.getBalance());
+
+        verify(accountDao, times(2)).save(any());
+    }
+
+    @Test
+    void transferBetweenAccounts_shouldThrowIllegalArgumentException_whenSourceAccountNotFound() throws IOException {
+        Account targetAccount = new Account();
+        targetAccount.setAccountId(2);
+
+        BigDecimal transferAmount = new BigDecimal("300.00");
+        when(accountDao.getAll()).thenReturn(List.of(targetAccount));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> accountService.transferBetweenAccounts(1, 2, transferAmount)
+        );
+
+        assertEquals("Source account not found", exception.getMessage());
+        verify(accountDao, never()).save(any());
+    }
+
+    @Test
+    void transferBetweenAccounts_shouldThrowIllegalArgumentException_whenTargetAccountNotFound() throws IOException {
+        Account sourceAccount = new Account();
+        sourceAccount.setAccountId(1);
+        sourceAccount.setBalance(new BigDecimal("1000.00"));
+
+        BigDecimal transferAmount = new BigDecimal("300.00");
+        when(accountDao.getAll()).thenReturn(List.of(sourceAccount));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> accountService.transferBetweenAccounts(1, 2, transferAmount)
+        );
+
+        assertEquals("Target account not found", exception.getMessage());
+        verify(accountDao, never()).save(any());
+    }
+
+    @Test
+    void transferBetweenAccounts_shouldThrowIllegalStateException_whenInsufficientBalance() throws IOException {
+        Account sourceAccount = new Account();
+        sourceAccount.setAccountId(1);
+        sourceAccount.setBalance(new BigDecimal("500.00"));
+
+        Account targetAccount = new Account();
+        targetAccount.setAccountId(2);
+        targetAccount.setBalance(new BigDecimal("200.00"));
+
+        BigDecimal transferAmount = new BigDecimal("800.00");
+        when(accountDao.getAll()).thenReturn(List.of(sourceAccount, targetAccount));
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> accountService.transferBetweenAccounts(1, 2, transferAmount)
+        );
+
+        assertEquals("Insufficient balance.", exception.getMessage());
+
+        assertEquals(new BigDecimal("500.00"), sourceAccount.getBalance());
+        assertEquals(new BigDecimal("200.00"), targetAccount.getBalance());
+        verify(accountDao, never()).save(any());
+    }
+
+    @Test
+    void transferBetweenAccounts_shouldThrowIllegalArgumentException_whenSourceAndTargetAccountsAreTheSame() throws IOException {
+        Account sourceAccount = new Account();
+        sourceAccount.setAccountId(1);
+        sourceAccount.setBalance(new BigDecimal("1000.00"));
+
+        BigDecimal transferAmount = new BigDecimal("300.00");
+        when(accountDao.getAll()).thenReturn(List.of(sourceAccount));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> accountService.transferBetweenAccounts(1, 1, transferAmount)
+        );
+
+        assertEquals("Source and destination accounts must be different.", exception.getMessage());
+
+        assertEquals(new BigDecimal("1000.00"), sourceAccount.getBalance());
+        verify(accountDao, never()).save(any());
+    }
+
+    @Test
+    void transferBetweenAccounts_shouldPropagateIOException_whenDaoThrowsIOException() throws IOException {
+        Account sourceAccount = new Account();
+        sourceAccount.setAccountId(1);
+        sourceAccount.setBalance(new BigDecimal("1000.00"));
+
+        Account targetAccount = new Account();
+        targetAccount.setAccountId(2);
+        targetAccount.setBalance(new BigDecimal("500.00"));
+
+        BigDecimal transferAmount = new BigDecimal("300.00");
+        when(accountDao.getAll()).thenReturn(List.of(sourceAccount, targetAccount));
+        doThrow(new IOException("Error writing to JSON file")).when(accountDao).save(any());
+
+        IOException exception = assertThrows(
+                IOException.class,
+                () -> accountService.transferBetweenAccounts(1, 2, transferAmount)
+        );
+
+        assertEquals("Error writing to JSON file", exception.getMessage());
+    }
 }
