@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.softserve.formatters.ErrorFormatter.displayError;
 import static com.softserve.formatters.TransactionFormatter.formatTransaction;
 import static com.softserve.formatters.TransactionFormatter.formatTransactionTable;
 import static com.softserve.utils.CategoryManager.getCategoryByName;
@@ -49,14 +50,17 @@ public class TransactionController implements Controller<String> {
                     },
                     Account::getAccountId,
                     accountId)) {
-                transactionService.create(transaction);
+                Transaction createdTransaction = transactionService.create(transaction);
+                System.out.println(formatTransaction(createdTransaction));
+            } else{
+                throw new IllegalArgumentException(String.format(
+                        "Account with ID %s hasn't been found!", accountId));
             }
-        } catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException e) {
-            System.err.println("Invalid transaction data: " + e.getMessage());
+        } catch (IllegalArgumentException | IndexOutOfBoundsException |
+                 IllegalStateException | NullPointerException e) {
+            displayError("Invalid transaction data: " + e.getMessage());
         } catch (IOException e) {
-            System.err.println("Error saving transaction: " + e.getMessage());
-        } catch (RuntimeException e) {
-            System.err.println("Error creating transaction: " + e.getMessage());
+            displayError("Error saving transaction: " + e.getMessage());
         }
     }
 
@@ -69,10 +73,11 @@ public class TransactionController implements Controller<String> {
                 System.out.println("The transaction has been found:");
                 System.out.println(formatTransaction(transaction.get()));
             } else {
-                System.out.printf("Transaction with ID %s hasn't been found!", id);
+                throw new IllegalArgumentException(String.format(
+                        "Transaction with ID %s hasn't been found!", id));
             }
         } catch (IllegalArgumentException | IOException e) {
-            System.err.println(e.getMessage());
+            displayError(e.getMessage());
         }
     }
 
@@ -82,7 +87,7 @@ public class TransactionController implements Controller<String> {
             List<Transaction> transactions = transactionService.listAll();
             System.out.println(formatTransactionTable(transactions));
         } catch (IOException e) {
-            System.err.println("Error retrieving transactions: " + e.getMessage());
+            displayError("Error retrieving transactions: " + e.getMessage());
         }
     }
 
@@ -99,8 +104,8 @@ public class TransactionController implements Controller<String> {
      */
     @Override
     public void update(Map<String, List<String>> transactionToUpdate) {
-        System.err.println("Transaction updates are currently under development. " +
-                           "For now, please delete the transaction and create a new one with your changes.");
+        displayError("Transaction updates are currently under development. " +
+                "For now, please delete the transaction and create a new one with your changes.");
     }
 
     @Override
@@ -110,14 +115,14 @@ public class TransactionController implements Controller<String> {
             Optional<Transaction> removedTransaction = transactionService.removeById(validId);
 
             if (removedTransaction.isEmpty()) {
-                System.err.println("Transaction with ID " + transactionId + " not found");
+                displayError("Transaction with ID " + transactionId + " not found");
                 return;
             }
             System.out.println("Transaction successfully removed:");
             System.out.println(formatTransaction(removedTransaction.get()));
 
         } catch (IllegalArgumentException | IllegalStateException | IOException e) {
-            System.err.println("Error deleting transaction: " + e.getMessage());
+            displayError("Error deleting transaction: " + e.getMessage());
         }
     }
 }
