@@ -32,6 +32,17 @@ public class AccountController implements Controller<String> {
         this.accountService = accountService;
     }
 
+    /**
+     * Creates a new account using the provided list of parameters.
+     * Validates the parameters to ensure the account details are correct.
+     * If validation or account creation fails, it displays an appropriate error message.
+     *
+     * @param accountToCreate a list of strings containing the account details in the following order:
+     *                        1. Account Name
+     *                        2. Currency Code
+     *                        3. Balance
+     *                        The list must contain exactly three elements.
+     */
     @Override
     public void create(List<String> accountToCreate) {
         try {
@@ -47,6 +58,16 @@ public class AccountController implements Controller<String> {
         }
     }
 
+    /**
+     * Finds an account by its ID and displays the account details
+     * if the account exists. If the account is not found, throws
+     * an IllegalArgumentException with a relevant error message.
+     * Any errors during processing are displayed using the
+     * {@code displayError} method.
+     *
+     * @param id the string representation of the account ID to search for
+     *           which will be validated and parsed.
+     */
     @Override
     public void findById(String id) {
         try {
@@ -64,6 +85,25 @@ public class AccountController implements Controller<String> {
         }
     }
 
+    /**
+     * Lists all accounts and displays them in a formatted table.
+     * <p>
+     * This method retrieves a list of all accounts from the accountService and
+     * formats the data into a readable table structure for display. If an
+     * error occurs during the retrieval process, such as an I/O exception, an
+     * error message is displayed using the {@code displayError} method.
+     * <p>
+     * The formatted table includes the following details for each account:
+     * - Account ID
+     * - Account Name
+     * - Currency
+     * - Balance
+     * <p>
+     * Any issues during the retrieval or formatting process are handled gracefully
+     * to ensure the method provides meaningful feedback to the user.
+     *
+     * @throws IOException if an error occurs while accessing the account data
+     */
     @Override
     public void listAll() {
         try {
@@ -126,6 +166,21 @@ public class AccountController implements Controller<String> {
         }
     }
 
+    /**
+     * Deletes an account identified by the provided account ID.
+     * <p>
+     * This method validates the account ID and checks if the account exists in
+     * the data source. If the account exists, it is removed and the details of
+     * the removed account are printed. If the account does not exist, an
+     * IllegalArgumentException is thrown. Additionally, if the account has
+     * associated transactions, an IllegalStateException is thrown and the
+     * deletion is aborted. Any errors during I/O operations are displayed using
+     * the {@code displayError} method.
+     *
+     * @param accountId the string representation of the account ID to delete,
+     *                  which will be validated and parsed before performing the
+     *                  deletion.
+     */
     @Override
     public void delete(String accountId) {
         try {
@@ -146,6 +201,7 @@ public class AccountController implements Controller<String> {
                 throw new IllegalArgumentException(
                         "ID " + accountId + " does not exist in " + ACCOUNTS_JSON.getPath());
             }
+
         } catch (IllegalArgumentException | IllegalStateException e) {
             displayError("Error deleting account: " + e.getMessage());
 
@@ -154,6 +210,22 @@ public class AccountController implements Controller<String> {
         }
     }
 
+    /**
+     * Transfers an amount from one account to another, ensuring the transaction parameters
+     * are validated and the accounts meet the necessary conditions for the transfer.
+     * If any validation or operation fails, appropriate error messages are displayed.
+     *
+     * @param transferDetails a list of strings containing the transfer details in the following order:
+     *                        1. Source Account ID (fromAccountId)
+     *                        2. Destination Account ID (toAccountId)
+     *                        3. Amount to transfer
+     *                        The list must contain exactly three elements.
+     * @throws IllegalArgumentException if the transfer details are invalid, such as insufficient arguments
+     *                                  or invalid account IDs.
+     * @throws IllegalStateException    if the source account has an insufficient balance
+     *                                  or if the source and destination accounts are the same.
+     * @throws IOException              if an error occurs during the saving of transfer-related data.
+     */
     public void transferBetweenAccounts(List<String> transferDetails) {
         try {
             if (transferDetails.size() != 3) {
