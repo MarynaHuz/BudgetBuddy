@@ -22,23 +22,35 @@ public class MainMenu implements Menu {
     @Override
     public void show() {
         while (!exit) {
-            System.out.print("""
-                    --------------------------------
-                    │       💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐        │
-                    --------------------------------
-                    │ 0. 🚪 Exit Application       │
-                    │ 1. 🏦 Manage Accounts        │
-                    │ 2. 💳 Manage Transactions    │
-                    --------------------------------
-                    Choose an option:\s"""
-            );
+            displayMenuOptions();
             String choice = scanner.nextLine();
             menus.getOrDefault(choice, this::invalidChoice).show();
         }
     }
 
+    private static void displayMenuOptions() {
+        System.out.print("""
+                --------------------------------
+                │       💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐        │
+                --------------------------------
+                │ 0. 🚪 Exit Application       │
+                │ 1. 🏦 Manage Accounts        │
+                │ 2. 💳 Manage Transactions    │
+                --------------------------------
+                Choose an option:\s"""
+        );
+    }
+
     private void invalidChoice() {
-        System.out.println("Invalid choice. Please try again.");
+        System.out.print("""
+                -------------------------------
+                │         ⚠️  WARNING         │
+                -------------------------------
+                │ ❌ Invalid choice.          │
+                │ 🔄 Please try again.        │
+                -------------------------------
+                """
+        );
     }
 
     private void exitApplication() {
