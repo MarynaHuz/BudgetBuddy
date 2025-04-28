@@ -48,6 +48,7 @@ public class MainMenu implements Menu {
                 --------------------------------
                 │ ❌ Invalid choice.           │
                 │ 🔄 Please try again.         │
+                │ ⌨️ Enter a number (0-2).     │
                 --------------------------------
                 """
         );

@@ -126,6 +126,7 @@ public class AccountMenu implements Menu {
                 --------------------------------
                 │ ❌ Invalid choice.           │
                 │ 🔄 Please try again.         │
+                │ ⌨️ Enter a number (0-6).     │
                 --------------------------------
                 """
         );
