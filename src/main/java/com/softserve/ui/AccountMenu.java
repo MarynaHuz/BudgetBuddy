@@ -31,20 +31,7 @@ public class AccountMenu implements Menu {
     @Override
     public void show() {
         while (!exit) {
-            System.out.print("""
-                    --------------------------------
-                    │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
-                    --------------------------------
-                    │ 0. 🔙 Back to Main Menu      │
-                    │ 1. ➕ Add Account            │
-                    │ 2. 🔍 Find Account by ID     │
-                    │ 3. 📋 View Accounts          │
-                    │ 4. 📝 Update Account         │
-                    │ 5. ❌ Remove Account         │
-                    │ 6. 💸 Make Internal Transfer │
-                    --------------------------------
-                    Choose an option:\s"""
-            );
+            displayMenuOptions();
             String action = scanner.nextLine();
             actions.getOrDefault(action, this::invalidChoice).run();
         }
@@ -59,13 +46,7 @@ public class AccountMenu implements Menu {
                 "Enter initial balance: "
         );
 
-        List<String> accountDetails = prompts.stream()
-                .map(prompt -> {
-                            System.out.println(prompt);
-                            return scanner.nextLine().trim();
-                        }
-                ).toList();
-
+        List<String> accountDetails = collectInputs(prompts);
         accountController.create(accountDetails);
     }
 
@@ -90,13 +71,7 @@ public class AccountMenu implements Menu {
                 "Enter initial balance: "
         );
 
-        List<String> accountDetails = prompts.stream()
-                .map(prompt -> {
-                            System.out.println(prompt);
-                            return scanner.nextLine().trim();
-                        }
-                ).toList();
-
+        List<String> accountDetails = collectInputs(prompts);
         Map<String, List<String>> accountParameters = Map.of(id, accountDetails);
         accountController.update(accountParameters);
     }
@@ -113,13 +88,25 @@ public class AccountMenu implements Menu {
                 "Enter the ID of the account you want to transfer money to:",
                 "Enter the amount to transfer:"
         );
-        List<String> transferDetails = prompts.stream()
-                .map(prompt -> {
-                    System.out.println(prompt);
-                    return scanner.nextLine();
-                })
-                .toList();
+        List<String> transferDetails = collectInputs(prompts);
         accountController.transferBetweenAccounts(transferDetails);
+    }
+
+    private static void displayMenuOptions() {
+        System.out.print("""
+                --------------------------------
+                │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
+                --------------------------------
+                │ 0. 🔙 Back to Main Menu      │
+                │ 1. ➕ Add Account            │
+                │ 2. 🔍 Find Account by ID     │
+                │ 3. 📋 View Accounts          │
+                │ 4. 📝 Update Account         │
+                │ 5. ❌ Remove Account         │
+                │ 6. 💸 Make Internal Transfer │
+                --------------------------------
+                Choose an option:\s"""
+        );
     }
 
     private void exitMenu() {
@@ -134,5 +121,13 @@ public class AccountMenu implements Menu {
 
     private void invalidChoice() {
         System.out.println("Invalid choice. Please try again.");
+    }
+    private List<String> collectInputs(List<String> prompts) {
+        return prompts.stream()
+                .map(prompt -> {
+                    System.out.println(prompt);
+                    return scanner.nextLine().trim();
+                })
+                .toList();
     }
 }
