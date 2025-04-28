@@ -12,7 +12,7 @@ public class AccountNameValidator {
      * - May be followed by alphanumeric characters or spaces.
      * - Have a minimum length of 3 characters.
      */
-    private static final String NAME_MATCH_REGEX = "^[a-zA-Z][a-zA-Z0-9 ]{2,}$";
+    private static final String NAME_MATCH_REGEX = "^[a-zA-Z][a-zA-Z0-9 ]{2,17}$";
 
 
     public static boolean isValid(String accountName) {
