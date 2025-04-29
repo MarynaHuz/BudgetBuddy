@@ -19,9 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,7 +59,7 @@ class AccountControllerTest {
 
     @Test
     void create_shouldPrintFormattedAccount_whenParametersAreValid() throws IOException {
-                List<String> validAccountParams = Arrays.asList("Test Account", "USD", "100.00");
+        List<String> validAccountParams = Arrays.asList("Test Account", "USD", "100.00");
         Account expectedAccount = new Account();
         expectedAccount.setAccountName("Test Account");
         expectedAccount.setCurrency(Currency.USD);
@@ -71,9 +69,9 @@ class AccountControllerTest {
         accountFormatterMock.when(() -> AccountFormatter.formatAccount(any(Account.class)))
                 .thenReturn("Formatted Account");
 
-                accountController.create(validAccountParams);
+        accountController.create(validAccountParams);
 
-                verify(accountService, times(1)).create(any(Account.class));
+        verify(accountService, times(1)).create(any(Account.class));
         accountFormatterMock.verify(() -> AccountFormatter.formatAccount(any(Account.class)));
         assertEquals("Formatted Account" + System.lineSeparator(), outputStream.toString());
 
@@ -87,53 +85,53 @@ class AccountControllerTest {
 
     @Test
     void create_shouldDisplayError_whenParametersAreMissing() throws IOException {
-                List<String> invalidAccountParams = Arrays.asList("Test Account", "USD");
+        List<String> invalidAccountParams = Arrays.asList("Test Account", "USD");
 
-                accountController.create(invalidAccountParams);
+        accountController.create(invalidAccountParams);
 
-                verify(accountService, never()).create(any(Account.class));
+        verify(accountService, never()).create(any(Account.class));
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Validation error")));
     }
 
     @Test
     void create_shouldDisplayError_whenAccountNameIsInvalid() throws IOException {
-                List<String> invalidNameParams = Arrays.asList("", "USD", "100.00");
+        List<String> invalidNameParams = Arrays.asList("", "USD", "100.00");
 
-                accountController.create(invalidNameParams);
+        accountController.create(invalidNameParams);
 
-                verify(accountService, never()).create(any(Account.class));
+        verify(accountService, never()).create(any(Account.class));
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Validation error")));
     }
 
     @Test
     void create_shouldDisplayError_whenCurrencyCodeIsInvalid() throws IOException {
-                List<String> invalidCurrencyParams = Arrays.asList("Test Account", "XYZ", "100.00");
+        List<String> invalidCurrencyParams = Arrays.asList("Test Account", "XYZ", "100.00");
 
-                accountController.create(invalidCurrencyParams);
+        accountController.create(invalidCurrencyParams);
 
-                verify(accountService, never()).create(any(Account.class));
+        verify(accountService, never()).create(any(Account.class));
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Validation error")));
     }
 
     @Test
     void create_shouldDisplayError_whenBalanceIsInvalid() throws IOException {
-                List<String> invalidBalanceParams = Arrays.asList("Test Account", "USD", "invalid");
+        List<String> invalidBalanceParams = Arrays.asList("Test Account", "USD", "invalid");
 
-                accountController.create(invalidBalanceParams);
+        accountController.create(invalidBalanceParams);
 
-                verify(accountService, never()).create(any(Account.class));
+        verify(accountService, never()).create(any(Account.class));
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Validation error")));
     }
 
     @Test
     void create_shouldDisplayError_whenIOExceptionOccurs() throws IOException {
-                List<String> validAccountParams = Arrays.asList("Test Account", "USD", "100.00");
+        List<String> validAccountParams = Arrays.asList("Test Account", "USD", "100.00");
 
         when(accountService.create(any(Account.class))).thenThrow(new IOException("Failed to save"));
 
-                accountController.create(validAccountParams);
+        accountController.create(validAccountParams);
 
-                verify(accountService, times(1)).create(any(Account.class));
+        verify(accountService, times(1)).create(any(Account.class));
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Error saving account")));
     }
 
@@ -175,7 +173,8 @@ class AccountControllerTest {
 
     @Test
     void findById_shouldDisplayError_whenIdIsInvalid() throws IOException {
-        String invalidId = "abc";         String expectedErrorMsg = "ID must be a positive number";
+        String invalidId = "abc";
+        String expectedErrorMsg = "ID must be a positive number";
 
         accountController.findById(invalidId);
 
@@ -199,7 +198,8 @@ class AccountControllerTest {
 
     @Test
     void findById_shouldDisplayError_whenIdIsZero() throws IOException {
-        String invalidId = "0";         String expectedErrorMsg = "ID must be a positive number";
+        String invalidId = "0";
+        String expectedErrorMsg = "ID must be a positive number";
 
         accountController.findById(invalidId);
 
@@ -209,12 +209,67 @@ class AccountControllerTest {
 
     @Test
     void findById_shouldDisplayError_whenIdIsNegative() throws IOException {
-        String invalidId = "-5";         String expectedErrorMsg = "ID must be a positive number";
+        String invalidId = "-5";
+        String expectedErrorMsg = "ID must be a positive number";
 
         accountController.findById(invalidId);
 
         verify(accountService, never()).findById(anyInt());
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMsg)));
+    }
+
+    @Test
+    void listAll_shouldPrintFormattedAccountTable_whenAccountsExist() throws IOException {
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(new Account());
+        accounts.add(new Account());
+        String formattedTable = "Formatted Table with Accounts";
+
+        when(accountService.listAll()).thenReturn(accounts);
+        accountFormatterMock.when(() -> AccountFormatter.formatAccountTable(accounts))
+                .thenReturn(formattedTable);
+
+        accountController.listAll();
+
+        verify(accountService, times(1)).listAll();
+        accountFormatterMock.verify(() -> AccountFormatter.formatAccountTable(accounts),
+                times(1));
+        assertEquals(formattedTable + System.lineSeparator(), outputStream.toString());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(anyString()), never());
+    }
+
+    @Test
+    void listAll_shouldPrintEmptyTable_whenNoAccountsExist() throws IOException {
+        List<Account> emptyList = Collections.emptyList();
+        String emptyTableFormat = "Empty Table Headers";
+
+        when(accountService.listAll()).thenReturn(emptyList);
+        accountFormatterMock.when(() -> AccountFormatter.formatAccountTable(emptyList))
+                .thenReturn(emptyTableFormat);
+
+        accountController.listAll();
+
+        verify(accountService, times(1)).listAll();
+        accountFormatterMock.verify(() -> AccountFormatter.formatAccountTable(emptyList),
+                times(1));
+        assertEquals(emptyTableFormat + System.lineSeparator(), outputStream.toString());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(anyString()), never());
+    }
+
+    @Test
+    void listAll_shouldDisplayError_whenIOExceptionOccurs() throws IOException {
+        String errorMessage = "File not found or cannot be read";
+        String expectedErrorDisplay = "Error retrieving accounts: " + errorMessage;
+
+        when(accountService.listAll()).thenThrow(new IOException(errorMessage));
+
+        accountController.listAll();
+
+        verify(accountService, times(1)).listAll();
+        accountFormatterMock.verify(() -> AccountFormatter.formatAccountTable(any()), never());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorDisplay)),
+                times(1));
+        assertEquals("", outputStream.toString());
     }
 
 }
