@@ -179,5 +179,81 @@ class TransactionServiceTest {
         verify(accountService, never()).update(any());
     }
 
+    @DisplayName("removeById should remove expense transaction and update account balance")
+    @Test
+    void removeById_shouldRemoveExpenseTransaction_andUpdateAccountBalance() throws IOException {
+        when(transactionDao.getAll()).thenReturn(new ArrayList<>(transactions));
+        when(accountService.findById(1)).thenReturn(Optional.of(account));
+
+        Optional<Transaction> result = transactionService.removeById(1);
+
+        assertTrue(result.isPresent());
+        assertEquals(1, result.get().getTransactionId());
+        assertEquals(new BigDecimal("1100.00"), account.getBalance());
+        verify(accountService).update(account);
+        verify(transactionDao).save(any());
+    }
+
+    @DisplayName("removeById should remove income transaction when account has sufficient balance")
+    @Test
+    void removeById_shouldRemoveIncomeTransaction_whenSufficientBalance() throws IOException {
+        when(transactionDao.getAll()).thenReturn(new ArrayList<>(transactions));
+        when(accountService.findById(1)).thenReturn(Optional.of(account));
+
+        Optional<Transaction> result = transactionService.removeById(2);
+
+        assertTrue(result.isPresent());
+        assertEquals(2, result.get().getTransactionId());
+        assertEquals(new BigDecimal("800.00"), account.getBalance());
+        verify(accountService).update(account);
+        verify(transactionDao).save(any());
+    }
+
+    @DisplayName("removeById should throw exception when removing income transaction with insufficient balance")
+    @Test
+    void removeById_shouldThrowException_whenRemovingIncomeTransactionWithInsufficientBalance() throws IOException {
+        when(transactionDao.getAll()).thenReturn(new ArrayList<>(transactions));
+        when(accountService.findById(1)).thenReturn(Optional.of(account));
+
+        account.setBalance(new BigDecimal("150.00"));
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> transactionService.removeById(2)
+        );
+
+        assertEquals("Cannot remove income transaction: insufficient account balance",
+                exception.getMessage());
+        verify(transactionDao, never()).save(any());
+        verify(accountService, never()).update(account);
+    }
+
+    @DisplayName("removeById should return empty optional when transaction does not exist")
+    @Test
+    void removeById_shouldReturnEmptyOptional_whenTransactionDoesNotExist() throws IOException {
+        when(transactionDao.getAll()).thenReturn(new ArrayList<>(transactions));
+
+        Optional<Transaction> result = transactionService.removeById(99);
+
+        assertTrue(result.isEmpty());
+        verify(transactionDao, never()).save(any());
+        verify(accountService, never()).update(any());
+    }
+
+    @DisplayName("removeById should throw exception when associated account not found")
+    @Test
+    void removeById_shouldThrowException_whenAssociatedAccountNotFound() throws IOException {
+        when(transactionDao.getAll()).thenReturn(new ArrayList<>(transactions));
+        when(accountService.findById(1)).thenReturn(Optional.empty());
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> transactionService.removeById(1)
+        );
+
+        assertEquals("Associated account not found for transaction: 1",
+                exception.getMessage());
+        verify(transactionDao, never()).save(any());
+    }
 
 }
