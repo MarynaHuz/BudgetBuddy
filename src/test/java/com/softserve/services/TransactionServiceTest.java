@@ -157,4 +157,27 @@ class TransactionServiceTest {
         assertTrue(result.isEmpty());
     }
 
+    @DisplayName("listAll should return all transactions")
+    @Test
+    void listAll_shouldReturnAllTransactions() throws IOException {
+        when(transactionDao.getAll()).thenReturn(transactions);
+
+        List<Transaction> result = transactionService.listAll();
+
+        assertEquals(2, result.size());
+        assertEquals(1, result.get(0).getTransactionId());
+        assertEquals(2, result.get(1).getTransactionId());
+    }
+
+    @DisplayName("update should return empty optional as transactions are immutable")
+    @Test
+    void update_shouldReturnEmptyOptional_asTransactionsAreImmutable() throws IOException {
+        Optional<Transaction> result = transactionService.update(expenseTransaction);
+
+        assertTrue(result.isEmpty());
+        verify(transactionDao, never()).save(any());
+        verify(accountService, never()).update(any());
+    }
+
+
 }
