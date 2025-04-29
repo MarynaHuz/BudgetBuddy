@@ -21,8 +21,10 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
@@ -135,5 +137,84 @@ class AccountControllerTest {
         errorFormatterMock.verify(() -> ErrorFormatter.displayError(contains("Error saving account")));
     }
 
+    @Test
+    void findById_shouldPrintAccount_whenAccountExists() throws IOException {
+        String validId = "123";
+        int parsedId = 123;
+        Account account = new Account();
+        String formattedAccount = "Formatted Account Details";
+
+        when(accountService.findById(parsedId)).thenReturn(Optional.of(account));
+        accountFormatterMock.when(() -> AccountFormatter.formatAccount(account))
+                .thenReturn(formattedAccount);
+
+        accountController.findById(validId);
+
+        verify(accountService).findById(parsedId);
+        accountFormatterMock.verify(() -> AccountFormatter.formatAccount(account));
+
+        String consoleOutput = outputStream.toString();
+        assertTrue(consoleOutput.contains("The account has been found:"));
+        assertTrue(consoleOutput.contains(formattedAccount));
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(anyString()), never());
+    }
+
+    @Test
+    void findById_shouldDisplayError_whenAccountDoesNotExist() throws IOException {
+        String validId = "123";
+        int parsedId = 123;
+        String expectedErrorMsg = "Account with ID 123 hasn't been found!";
+
+        when(accountService.findById(parsedId)).thenReturn(Optional.empty());
+
+        accountController.findById(validId);
+
+        verify(accountService).findById(parsedId);
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMsg)));
+    }
+
+    @Test
+    void findById_shouldDisplayError_whenIdIsInvalid() throws IOException {
+        String invalidId = "abc";         String expectedErrorMsg = "ID must be a positive number";
+
+        accountController.findById(invalidId);
+
+        verify(accountService, never()).findById(anyInt());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMsg)));
+    }
+
+    @Test
+    void findById_shouldDisplayError_whenIOExceptionOccurs() throws IOException {
+        String validId = "123";
+        int parsedId = 123;
+        String errorMessage = "File not found or cannot be read";
+
+        when(accountService.findById(parsedId)).thenThrow(new IOException(errorMessage));
+
+        accountController.findById(validId);
+
+        verify(accountService).findById(parsedId);
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(errorMessage)));
+    }
+
+    @Test
+    void findById_shouldDisplayError_whenIdIsZero() throws IOException {
+        String invalidId = "0";         String expectedErrorMsg = "ID must be a positive number";
+
+        accountController.findById(invalidId);
+
+        verify(accountService, never()).findById(anyInt());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMsg)));
+    }
+
+    @Test
+    void findById_shouldDisplayError_whenIdIsNegative() throws IOException {
+        String invalidId = "-5";         String expectedErrorMsg = "ID must be a positive number";
+
+        accountController.findById(invalidId);
+
+        verify(accountService, never()).findById(anyInt());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMsg)));
+    }
 
 }
