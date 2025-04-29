@@ -123,7 +123,7 @@ public class TransactionController implements Controller<String> {
         try {
             List<Transaction> transactions = transactionService.listAll();
             System.out.println(formatTransactionTable(transactions));
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             displayError("Error retrieving transactions: " + e.getMessage());
         }
     }
