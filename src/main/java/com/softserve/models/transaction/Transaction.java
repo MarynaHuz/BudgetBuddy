@@ -20,7 +20,7 @@ public class Transaction {
     private int transactionId;
     private int accountId;
     private String transactionType;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate transactionDate;
     private String category;
     private BigDecimal transactionAmount;

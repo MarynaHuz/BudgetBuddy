@@ -41,7 +41,7 @@ public class TransactionMenu implements Menu {
         List<String> prompts = List.of(
                 "Enter Account ID:",
                 "Enter Transaction Category:",
-                "Enter Transaction Date (dd-MM-yyyy):",
+                "Enter Transaction Date (yyyy-MM-dd):",
                 "Enter Transaction Amount:"
         );
 
