@@ -53,6 +53,7 @@ class AccountServiceTest {
             mockedIdManager.when(() -> generateNextId(AppConfig.ACCOUNT_ID.getPath())).thenReturn(1);
 
             Account result = accountService.create(newAccount);
+            verify(accountDao).getAll();
 
             assertEquals(1, result.getAccountId());
             assertEquals("Savings", result.getAccountName());
@@ -430,7 +431,7 @@ class AccountServiceTest {
         try (MockedStatic<IdValidator> mockedIdValidator = mockStatic(IdValidator.class)) {
             mockedIdValidator.when(() -> IdValidator.existsById(
                     eq(AppConfig.TRANSACTIONS_JSON.getPath()),
-                    any(TypeReference.class),
+                    any(),
                     any(),
                     eq(1)
             )).thenReturn(true);
