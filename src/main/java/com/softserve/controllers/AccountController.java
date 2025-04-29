@@ -250,7 +250,7 @@ public class AccountController implements Controller<String> {
         }
     }
 
-    private Account createAccountFromParameters(List<String> accountParameters) {
+    Account createAccountFromParameters(List<String> accountParameters) {
         if (accountParameters.size() != 3) {
             throw new IllegalArgumentException("Account requires exactly three parameters: " +
                     "accountName, currency, and balance.");
