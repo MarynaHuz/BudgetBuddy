@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -135,6 +134,27 @@ class TransactionServiceTest {
         assertEquals("Insufficient balance for this transaction", exception.getMessage());
         verify(accountService, never()).update(any());
         verify(transactionDao, never()).save(any());
+    }
+
+    @DisplayName("findById should return transaction when it exists")
+    @Test
+    void findById_shouldReturnTransaction_whenExists() throws IOException {
+        when(transactionDao.getAll()).thenReturn(transactions);
+
+        Optional<Transaction> result = transactionService.findById(1);
+
+        assertTrue(result.isPresent());
+        assertEquals(1, result.get().getTransactionId());
+    }
+
+    @DisplayName("findById should return empty optional when transaction does not exist")
+    @Test
+    void findById_shouldReturnEmptyOptional_whenTransactionDoesNotExist() throws IOException {
+        when(transactionDao.getAll()).thenReturn(transactions);
+
+        Optional<Transaction> result = transactionService.findById(99);
+
+        assertTrue(result.isEmpty());
     }
 
 }
