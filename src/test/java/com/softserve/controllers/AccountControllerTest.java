@@ -1,9 +1,11 @@
 package com.softserve.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.softserve.formatters.AccountFormatter;
 import com.softserve.formatters.ErrorFormatter;
 import com.softserve.models.account.Account;
 import com.softserve.models.account.Currency;
+import com.softserve.models.transaction.Transaction;
 import com.softserve.services.AccountService;
 import com.softserve.utils.JsonUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -21,6 +23,8 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static com.softserve.utils.AppConfig.ACCOUNTS_JSON;
+import static com.softserve.utils.AppConfig.TRANSACTIONS_JSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -272,4 +276,126 @@ class AccountControllerTest {
         assertEquals("", outputStream.toString());
     }
 
+    @Test
+    void update_shouldPrintUpdatedAccount_whenAccountUpdatedSuccessfully() throws IOException {
+        int accountId = 123;
+        String accountIdStr = "123";
+        List<String> accountParams = List.of("Test Account", "USD", "1000.00");
+        Map<String, List<String>> accountToUpdate = Map.of(accountIdStr, accountParams);
+
+        Account existingAccount = new Account();
+        existingAccount.setAccountId(accountId);
+
+        Account updatedAccount = new Account();
+        updatedAccount.setAccountId(accountId);
+        updatedAccount.setAccountName("Test Account");
+        updatedAccount.setCurrency(Currency.USD);
+        updatedAccount.setBalance(new BigDecimal("1000.00"));
+
+        String formattedAccount = "Formatted Updated Account";
+
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(ACCOUNTS_JSON.getPath()), any(TypeReference.class)))
+                .thenReturn(Optional.of(List.of(existingAccount)));
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(TRANSACTIONS_JSON.getPath()), any(TypeReference.class)))
+                .thenReturn(Optional.of(List.of()));
+        when(accountService.update(any(Account.class))).thenReturn(Optional.of(updatedAccount));
+        accountFormatterMock.when(() -> AccountFormatter.formatAccount(updatedAccount)).thenReturn(formattedAccount);
+
+        accountController.update(accountToUpdate);
+
+        verify(accountService).update(any(Account.class));
+        accountFormatterMock.verify(() -> AccountFormatter.formatAccount(updatedAccount));
+        assertEquals(formattedAccount + System.lineSeparator(), outputStream.toString());
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(anyString()), never());
+    }
+
+    @Test
+    void update_shouldDisplayError_whenAccountDoesNotExist() throws IOException {
+        int accountId = 123;
+        String accountIdStr = "123";
+        List<String> accountParams = List.of("Test Account", "USD", "1000.00");
+        Map<String, List<String>> accountToUpdate = Map.of(accountIdStr, accountParams);
+
+        String expectedErrorMessage = "Account with ID 123 hasn't been found!";
+
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(ACCOUNTS_JSON.getPath()), any(TypeReference.class)))
+                .thenReturn(Optional.of(List.of()));
+        accountController.update(accountToUpdate);
+
+        verify(accountService, never()).update(any(Account.class));
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMessage)));
+        assertEquals("", outputStream.toString());
+    }
+
+    @Test
+    void update_shouldDisplayError_whenAccountHasTransactions() throws IOException {
+        int accountId = 123;
+        String accountIdStr = "123";
+        List<String> accountParams = List.of("Test Account", "USD", "1000.00");
+        Map<String, List<String>> accountToUpdate = Map.of(accountIdStr, accountParams);
+
+        String expectedErrorMessage = "Cannot update the account balance as it has associated transactions.";
+
+        Account existingAccount = new Account();
+        existingAccount.setAccountId(accountId);
+
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(ACCOUNTS_JSON.getPath()), any()))
+                .thenReturn(Optional.of(List.of(existingAccount)));
+        Transaction mockTransaction = new Transaction();
+        mockTransaction.setAccountId(accountId);
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(TRANSACTIONS_JSON.getPath()), any()))
+                .thenReturn(Optional.of(List.of(mockTransaction)));
+        errorFormatterMock.when(() -> ErrorFormatter.displayError(expectedErrorMessage)).thenAnswer(invocation -> null);
+
+        accountController.update(accountToUpdate);
+
+        verify(accountService, never()).update(any(Account.class));
+
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(expectedErrorMessage));
+        assertEquals("", outputStream.toString());
+    }
+
+    @Test
+    void update_shouldDisplayError_whenIdIsInvalid() throws IOException {
+        String invalidIdStr = "abc";
+        List<String> accountParams = List.of("Test Account", "USD", "1000.00");
+        Map<String, List<String>> accountToUpdate = Map.of(invalidIdStr, accountParams);
+
+        String expectedErrorMessage = "ID must be a positive number";
+
+        accountController.update(accountToUpdate);
+
+        verify(accountService, never()).update(any(Account.class));
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(eq(expectedErrorMessage)));
+        assertEquals("", outputStream.toString());
+    }
+
+    @Test
+    void update_shouldDisplayError_whenIOExceptionOccurs() throws IOException {
+        int accountId = 123;
+        String accountIdStr = "123";
+        List<String> accountParams = List.of("Test Account", "USD", "1000.00");
+        Map<String, List<String>> accountToUpdate = Map.of(accountIdStr, accountParams);
+
+        String errorMessage = "File not found or cannot be read";
+
+        Account existingAccount = new Account();
+        existingAccount.setAccountId(accountId);
+
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(ACCOUNTS_JSON.getPath()), any()))
+                .thenReturn(Optional.of(List.of(existingAccount)));
+
+        jsonUtilMock.when(() -> JsonUtil.readFromJson(eq(TRANSACTIONS_JSON.getPath()), any()))
+                .thenReturn(Optional.of(List.of()));
+        when(accountService.update(any(Account.class))).thenThrow(new IOException(errorMessage));
+
+        errorFormatterMock.when(() -> ErrorFormatter.displayError(errorMessage)).
+                thenAnswer(invocation -> null);
+
+        accountController.update(accountToUpdate);
+
+        verify(accountService).update(any(Account.class));
+        errorFormatterMock.verify(() -> ErrorFormatter.displayError(errorMessage));
+        assertEquals("", outputStream.toString());
+    }
 }
