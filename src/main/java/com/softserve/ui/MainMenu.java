@@ -10,12 +10,13 @@ public class MainMenu implements Menu {
 
     private boolean exit;
 
-    public MainMenu(Menu accountMenu, Menu transactionMenu) {
+    public MainMenu(Menu accountMenu, Menu transactionMenu, Menu infoMenu ) {
 
         this.menus = Map.of(
                 "0", this::exitApplication,
                 "1", accountMenu,
-                "2", transactionMenu
+                "2", transactionMenu,
+                "3", infoMenu
         );
     }
 
@@ -38,6 +39,7 @@ public class MainMenu implements Menu {
                 │ 0. 🚪 Exit Application           │
                 │ 1. 🏦 Manage Accounts            │
                 │ 2. 💳 Manage Transactions        │
+                │ 3. 📊 System Information         │
                 ------------------------------------
                 Choose an option:\s"""
         );
@@ -50,7 +52,7 @@ public class MainMenu implements Menu {
                 ------------------------------------
                 │ ❌ Invalid choice.               │
                 │ 🔄 Please try again.             │
-                │ ⌨️ Enter a number (0-2).         │
+                │ ⌨️ Enter a number (0-3).         │
                 ------------------------------------
                 """
         );
