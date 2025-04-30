@@ -6,10 +6,7 @@ import com.softserve.dao.impl.AccountDao;
 import com.softserve.dao.impl.TransactionDao;
 import com.softserve.services.AccountService;
 import com.softserve.services.TransactionService;
-import com.softserve.ui.AccountMenu;
-import com.softserve.ui.MainMenu;
-import com.softserve.ui.Menu;
-import com.softserve.ui.TransactionMenu;
+import com.softserve.ui.*;
 
 public class BudgetBuddyApp {
 
@@ -25,7 +22,8 @@ public class BudgetBuddyApp {
 
         Menu accountMenu = new AccountMenu(accountController);
         Menu transactionMenu = new TransactionMenu(transactionController);
-        MainMenu mainMenu = new MainMenu(accountMenu, transactionMenu);
+        Menu infoMenu = new InfoMenu();
+        MainMenu mainMenu = new MainMenu(accountMenu, transactionMenu, infoMenu);
 
         mainMenu.show();
     }
