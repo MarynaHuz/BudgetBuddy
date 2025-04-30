@@ -107,6 +107,24 @@ public class TransactionService implements Service<Transaction> {
     }
 
     /**
+     * Retrieves a list of transactions associated with a specific account ID.
+     * Filters transactions by the specified account ID and ensures that only distinct transactions
+     * are returned in the result.
+     *
+     * @param accountId The ID of the account whose transactions are to be retrieved.
+     * @return A list of distinct transactions associated with the specified account ID.
+     * @throws IOException If an error occurs while retrieving transactions from the data store.
+     */
+    public List<Transaction> listTransactionsByAccId(int accountId) throws IOException {
+        List<Transaction> transactions = listAll();
+
+        return transactions.stream()
+                .filter(t -> t.getAccountId() == accountId)
+                .distinct()
+                .toList();
+    }
+
+    /**
      * Validates whether a transaction can be removed based on the associated account's balance and
      * the type of transaction. Income transactions cannot be removed if the associated account's balance
      * would not be sufficient after the removal.
