@@ -67,15 +67,15 @@ public class TransactionMenu implements Menu {
 
     private void updateTransaction() {
         System.out.println("""
-                --------------------------------
-                │       ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼              │
-                --------------------------------
-                │   Transaction updates are    │
-                │ currently under development. │
-                │ For now, please delete the   │
-                │ transaction and create a     │
-                │ new one with your changes.   │
-                --------------------------------
+                ------------------------------------
+                │         ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼                │
+                ------------------------------------
+                │     Transaction updates are      │
+                │   currently under development.   │
+                │   For now, please delete the     │
+                │   transaction and create a       │
+                │   new one with your changes.     │
+                ------------------------------------
                 """);
     }
 
@@ -88,38 +88,38 @@ public class TransactionMenu implements Menu {
     private static void displayMenuOptions() {
         System.out.print("""
                 
-                --------------------------------
-                │    💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊    │
-                --------------------------------
-                │ 0. 🔙 Back to Main Menu      │
-                │ 1. ➕ Add Transaction        │
-                │ 2. 🔍 Find Transaction by ID │
-                │ 3. 📊 View Transactions      │
-                │ 4. 📝 Update Transaction     │
-                │ 5. ❌ Remove Transaction     │
-                --------------------------------
+                ------------------------------------
+                │      💳 𝕄𝔸ℕ𝔸𝔾𝔼 𝕋ℝ𝔸ℕ𝕊𝔸ℂ𝕋𝕀𝕆ℕ𝕊      │
+                ------------------------------------
+                │ 0. 🔙 Back to Main Menu          │
+                │ 1. ➕ Add Transaction            │
+                │ 2. 🔍 Find Transaction by ID     │
+                │ 3. 📊 View Transactions          │
+                │ 4. 📝 Update Transaction         │
+                │ 5. ❌ Remove Transaction         │
+                ------------------------------------
                 Choose an option:\s"""
         );
     }
 
     private void exitMenu() {
         System.out.print("""
-                --------------------------------
-                │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
-                --------------------------------"""
+                ------------------------------------
+                │    🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌     │
+                ------------------------------------"""
         );
         exit = true;
     }
 
     private void invalidChoice() {
         System.out.print("""
-                --------------------------------
-                │        ⚠️  WARNING           │
-                --------------------------------
-                │ ❌ Invalid choice.           │
-                │ 🔄 Please try again.         │
-                │ ⌨️ Enter a number (0-5).     │
-                --------------------------------
+                ------------------------------------
+                │          ⚠️  WARNING             │
+                ------------------------------------
+                │ ❌ Invalid choice.               │
+                │ 🔄 Please try again.             │
+                │ ⌨️ Enter a number (0-5).         │
+                ------------------------------------
                 """
         );
     }
