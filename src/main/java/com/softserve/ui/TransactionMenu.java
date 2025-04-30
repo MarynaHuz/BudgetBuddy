@@ -23,7 +23,8 @@ public class TransactionMenu implements Menu {
                 "2", this::findTransactionById,
                 "3", this::viewTransactions,
                 "4", this::updateTransaction,
-                "5", this::removeTransactionById
+                "5", this::removeTransactionById,
+                "6", this::listTransactionsByAccId
         );
     }
 
@@ -68,7 +69,7 @@ public class TransactionMenu implements Menu {
     private void updateTransaction() {
         System.out.println("""
                 ------------------------------------
-                │         ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼                │
+                │            ⚠️ ℕ𝕆𝕋𝕀ℂ𝔼             │
                 ------------------------------------
                 │     Transaction updates are      │
                 │   currently under development.   │
@@ -85,6 +86,12 @@ public class TransactionMenu implements Menu {
         transactionController.delete(id);
     }
 
+    private void listTransactionsByAccId() {
+        System.out.print("Enter the account ID: ");
+        String id = scanner.nextLine();
+        transactionController.listTransactionsByAccId(id);
+    }
+
     private static void displayMenuOptions() {
         System.out.print("""
                 
@@ -97,6 +104,7 @@ public class TransactionMenu implements Menu {
                 │ 3. 📊 View Transactions          │
                 │ 4. 📝 Update Transaction         │
                 │ 5. ❌ Remove Transaction         │
+                │ 6. 📋 List Transactions by Acc ID│
                 ------------------------------------
                 Choose an option:\s"""
         );
@@ -118,7 +126,7 @@ public class TransactionMenu implements Menu {
                 ------------------------------------
                 │ ❌ Invalid choice.               │
                 │ 🔄 Please try again.             │
-                │ ⌨️ Enter a number (0-5).         │
+                │ ⌨️ Enter a number (0-6).         │
                 ------------------------------------
                 """
         );
