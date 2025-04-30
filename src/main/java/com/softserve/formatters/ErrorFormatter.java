@@ -13,23 +13,23 @@ public class ErrorFormatter {
      */
     public static String formatError(String message) {
         StringBuilder result = new StringBuilder();
-        result.append("--------------------------------\n");
-        result.append("│        ⚠️  ERROR             │\n");
-        result.append("--------------------------------\n");
+        result.append("------------------------------------\n");
+        result.append("│        ⚠️  ERROR                 │\n");
+        result.append("------------------------------------\n");
 
-        int remainingWidth = 28;
+        int remainingWidth = 32;
         StringBuilder currentLine = new StringBuilder("│ ");
 
         for (String word : message.split(" ")) {
             if (word.length() + (currentLine.length() > 2 ? 1 : 0) > remainingWidth) {
-                while (currentLine.length() < 31) {
+                while (currentLine.length() < 35) {
                     currentLine.append(" ");
                 }
                 currentLine.append("│");
                 result.append(currentLine).append("\n");
 
                 currentLine = new StringBuilder("│ ");
-                remainingWidth = 28;
+                remainingWidth = 32;
             }
 
             if (currentLine.length() > 2) {
@@ -42,14 +42,14 @@ public class ErrorFormatter {
         }
 
         if (currentLine.length() > 2) {
-            while (currentLine.length() < 31) {
+            while (currentLine.length() < 35) {
                 currentLine.append(" ");
             }
             currentLine.append("│");
             result.append(currentLine).append("\n");
         }
 
-        result.append("--------------------------------");
+        result.append("-".repeat(36));
         return result.toString();
     }
 
@@ -67,6 +67,4 @@ public class ErrorFormatter {
 
         System.err.flush();
     }
-
-
 }
