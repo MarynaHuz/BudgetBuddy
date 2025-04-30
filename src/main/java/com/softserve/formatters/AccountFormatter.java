@@ -12,15 +12,15 @@ public class AccountFormatter {
 
     public static String formatAccount(Account account) {
         return """
-            -------------------------------
-            │        🏦 𝔸ℂℂ𝕆𝕌ℕ𝕋           │
-            -------------------------------
-            │ 🆔 Account ID: %d
-            │ 📝 Account Name: %s
-            │ 💱 Currency: %s
-            │ 💰 Balance: %.2f
-            -------------------------------
-            """.formatted(
+                ------------------------------------
+                │           🏦 𝔸ℂℂ𝕆𝕌ℕ𝕋             │
+                ------------------------------------
+                │ 🆔 Account ID: %d
+                │ 📝 Account Name: %s
+                │ 💱 Currency: %s
+                │ 💰 Balance: %.2f
+                ------------------------------------
+                """.formatted(
                 account.getAccountId(),
                 account.getAccountName(),
                 account.getCurrency(),
@@ -54,14 +54,14 @@ public class AccountFormatter {
     public static String formatTransfer(int fromAccountId, int toAccountId,
                                         BigDecimal amount) {
         return """
-    --------------------------------
-    │    💸 𝕋ℝ𝔸ℕ𝕊𝔽𝔼ℝ 𝔻𝔼𝕋𝔸𝕀𝕃𝕊 💸   │
-    --------------------------------
-    │ 🏦 From Account:  %d
-    │ 🏦 To Account:    %d
-    │ 💰 Amount:       %.2f
-    --------------------------------
-    """.formatted(fromAccountId, toAccountId, amount);
+                ------------------------------------
+                │      💸 𝕋ℝ𝔸ℕ𝕊𝔽𝔼ℝ 𝔻𝔼𝕋𝔸𝕀𝕃𝕊 💸      │
+                ------------------------------------
+                │ 🏦 From Account:  %d
+                │ 🏦 To Account:    %d
+                │ 💰 Amount:       %.2f
+                ------------------------------------
+                """.formatted(fromAccountId, toAccountId, amount);
     }
 
 }
