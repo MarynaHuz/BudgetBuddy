@@ -96,39 +96,39 @@ public class AccountMenu implements Menu {
     private static void displayMenuOptions() {
         System.out.print("""
                 
-                --------------------------------
-                │    🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊        │
-                --------------------------------
-                │ 0. 🔙 Back to Main Menu      │
-                │ 1. ➕ Add Account            │
-                │ 2. 🔍 Find Account by ID     │
-                │ 3. 📋 View Accounts          │
-                │ 4. 📝 Update Account         │
-                │ 5. ❌ Remove Account         │
-                │ 6. 💸 Make Internal Transfer │
-                --------------------------------
+                ------------------------------------
+                │      🏦 𝕄𝔸ℕ𝔸𝔾𝔼 𝔸ℂℂ𝕆𝕌ℕ𝕋𝕊          │
+                ------------------------------------
+                │ 0. 🔙 Back to Main Menu          │
+                │ 1. ➕ Add Account                │
+                │ 2. 🔍 Find Account by ID         │
+                │ 3. 📋 View Accounts              │
+                │ 4. 📝 Update Account             │
+                │ 5. ❌ Remove Account             │
+                │ 6. 💸 Make Internal Transfer     │
+                ------------------------------------
                 Choose an option:\s"""
         );
     }
 
     private void exitMenu() {
         System.out.print("""
-                --------------------------------
-                │  🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌   │
-                --------------------------------"""
+                ------------------------------------
+                │    🔄 ℝ𝔼𝕋𝕌ℝℕ𝕀ℕ𝔾 𝕋𝕆 𝕄𝔸𝕀ℕ 𝕄𝔼ℕ𝕌     │
+                ------------------------------------"""
         );
         exit = true;
     }
 
     private void invalidChoice() {
         System.out.print("""
-                --------------------------------
-                │        ⚠️  WARNING           │
-                --------------------------------
-                │ ❌ Invalid choice.           │
-                │ 🔄 Please try again.         │
-                │ ⌨️ Enter a number (0-6).     │
-                --------------------------------
+                ------------------------------------
+                │          ⚠️  WARNING             │
+                ------------------------------------
+                │ ❌ Invalid choice.               │
+                │ 🔄 Please try again.             │
+                │ ⌨️ Enter a number (0-5).         │
+                ------------------------------------
                 """
         );
     }
