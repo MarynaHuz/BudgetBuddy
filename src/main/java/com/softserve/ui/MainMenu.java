@@ -32,38 +32,38 @@ public class MainMenu implements Menu {
     private static void displayMenuOptions() {
         System.out.print("""
                 
-                --------------------------------
-                │       💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐        │
-                --------------------------------
-                │ 0. 🚪 Exit Application       │
-                │ 1. 🏦 Manage Accounts        │
-                │ 2. 💳 Manage Transactions    │
-                --------------------------------
+                ------------- ----------------------
+                │         💰 𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐          │
+                ------------------------------------
+                │ 0. 🚪 Exit Application           │
+                │ 1. 🏦 Manage Accounts            │
+                │ 2. 💳 Manage Transactions        │
+                ------------------------------------
                 Choose an option:\s"""
         );
     }
 
     private void invalidChoice() {
         System.out.print("""
-                --------------------------------
-                │        ⚠️  WARNING           │
-                --------------------------------
-                │ ❌ Invalid choice.           │
-                │ 🔄 Please try again.         │
-                │ ⌨️ Enter a number (0-2).     │
-                --------------------------------
+                ------------------------------------
+                │          ⚠️  WARNING             │
+                ------------------------------------
+                │ ❌ Invalid choice.               │
+                │ 🔄 Please try again.             │
+                │ ⌨️ Enter a number (0-2).         │
+                ------------------------------------
                 """
         );
     }
 
     private void exitApplication() {
         System.out.print("""
-                --------------------------------
-                │       👋 𝕋ℍ𝔸ℕ𝕂 𝕐𝕆𝕌!          │
-                --------------------------------
-                │    See you next time at      │
-                │        𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐!         │
-                --------------------------------
+                ------------------------------------
+                │         👋 𝕋ℍ𝔸ℕ𝕂 𝕐𝕆𝕌!            │
+                ------------------------------------
+                │      See you next time at        │
+                │          𝔹𝕌𝔻𝔾𝔼𝕋 𝔹𝕌𝔻𝔻𝕐!           │
+                ------------------------------------
                 """
         );
         exit = true;
