@@ -13,7 +13,7 @@ public class TransactionFormatter {
     }
 
     public static String formatTransactionTable(List<Transaction> transactions) {
-        if (transactions == null || transactions.isEmpty()) {
+        if (transactions.isEmpty()) {
             return "No transactions found.";
         }
 
