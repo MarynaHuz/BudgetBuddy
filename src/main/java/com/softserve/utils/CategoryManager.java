@@ -27,7 +27,7 @@ public class CategoryManager {
                 Function.identity()));
     }
 
-    public static Category getCategoryByName(String categoryName){
+    public static Category getCategoryByName(String categoryName) {
         return Optional.ofNullable(CATEGORY_LOOKUP.get(categoryName.trim().toUpperCase()))
                 .orElseThrow(() -> new IllegalArgumentException("Unknown category: " + categoryName));
     }

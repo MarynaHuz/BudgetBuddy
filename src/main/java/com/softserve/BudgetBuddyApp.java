@@ -11,11 +11,12 @@ import com.softserve.ui.*;
 public class BudgetBuddyApp {
 
     public static void main(String[] args) {
+
         AccountDao accountDao = new AccountDao();
         TransactionDao transactionDao = new TransactionDao();
 
         AccountService accountService = new AccountService(accountDao);
-        TransactionService transactionService = new TransactionService(transactionDao,accountService);
+        TransactionService transactionService = new TransactionService(transactionDao, accountService);
 
         AccountController accountController = new AccountController(accountService);
         TransactionController transactionController = new TransactionController(transactionService);

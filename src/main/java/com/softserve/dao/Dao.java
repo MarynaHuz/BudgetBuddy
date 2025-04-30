@@ -6,5 +6,6 @@ import java.util.List;
 public interface Dao<T> {
 
     void save(List<T> items) throws IOException;
+
     List<T> getAll() throws IOException;
 }

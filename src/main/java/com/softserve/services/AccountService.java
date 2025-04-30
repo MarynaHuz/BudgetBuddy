@@ -94,7 +94,8 @@ public class AccountService implements Service<Account> {
         return account.getBalance().compareTo(amount) >= 0;
     }
 
-    public boolean transferBetweenAccounts(int fromAccountId, int toAccountId, BigDecimal amount) throws IOException {
+    public boolean transferBetweenAccounts(int fromAccountId, int toAccountId, BigDecimal amount)
+            throws IOException {
         Account fromAccount = findById(fromAccountId).orElseThrow(
                 () -> new IllegalArgumentException("Source account not found")
         );
@@ -105,7 +106,7 @@ public class AccountService implements Service<Account> {
             throw new IllegalStateException("Insufficient balance.");
         }
         if (fromAccountId == toAccountId) {
-            throw new IllegalArgumentException ("Source and destination accounts must be different.");
+            throw new IllegalArgumentException("Source and destination accounts must be different.");
         }
 
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));

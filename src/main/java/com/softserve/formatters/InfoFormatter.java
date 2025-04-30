@@ -130,5 +130,4 @@ public class InfoFormatter {
             case OTHER -> "🔄";
         };
     }
-
 }

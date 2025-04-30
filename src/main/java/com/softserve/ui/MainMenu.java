@@ -10,7 +10,7 @@ public class MainMenu implements Menu {
 
     private boolean exit;
 
-    public MainMenu(Menu accountMenu, Menu transactionMenu, Menu infoMenu ) {
+    public MainMenu(Menu accountMenu, Menu transactionMenu, Menu infoMenu) {
 
         this.menus = Map.of(
                 "0", this::exitApplication,

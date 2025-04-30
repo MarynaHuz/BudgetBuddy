@@ -39,7 +39,8 @@ public class IdValidator {
         }
     }
 
-    public static <T> boolean existsById(String filePath, TypeReference<List<T>> typeRef,
+    public static <T> boolean existsById(String filePath,
+                                         TypeReference<List<T>> typeRef,
                                          ToIntFunction<T> idExtractor,
                                          int idToCheck) throws IOException {
 

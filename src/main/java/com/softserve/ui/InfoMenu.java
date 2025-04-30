@@ -7,7 +7,7 @@ import java.util.Scanner;
 import static com.softserve.formatters.InfoFormatter.*;
 import static com.softserve.models.account.Currency.getAllCurrencyCodes;
 
-public class InfoMenu implements Menu{
+public class InfoMenu implements Menu {
 
     private final Scanner scanner = new Scanner(System.in);
     private final Map<String, Runnable> actions;
