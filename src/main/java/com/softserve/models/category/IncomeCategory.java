@@ -9,8 +9,9 @@ public enum IncomeCategory implements Category {
     BONUS("Bonus"),
     GIFTS("Gifts"),
     INVESTMENTS("Investments"),
-    RENTAL_INCOME("Rental Income"),
-    OTHER_INCOME("Other Income");
+    RENTAL("Rental Income"),
+    BUSINESS("Business"),
+    OTHER("Other Income");
 
     private final String categoryName;
 
