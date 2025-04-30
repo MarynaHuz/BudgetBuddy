@@ -173,4 +173,37 @@ public class TransactionController implements Controller<String> {
             displayError("Error deleting transaction: " + e.getMessage());
         }
     }
+
+    /**
+     * Lists all transactions associated with a specific account ID.
+     * The method performs validation on the provided account ID, checks if the account exists
+     * in the underlying storage, and retrieves transactions related to the account.
+     * If the account does not exist or an error occurs during execution,
+     * an appropriate error message is displayed.
+     *
+     * @param accountId The ID of the account (as a String representation of an integer)
+     *                  whose transactions are to be listed.
+     */
+    public void listTransactionsByAccId(String accountId) {
+        try {
+            int accId = validateId(accountId);
+
+            if (existsById(
+                    AppConfig.ACCOUNTS_JSON.getPath(),
+                    new TypeReference<>() {
+                    },
+                    Account::getAccountId,
+                    accId)) {
+                List<Transaction> transactionsByAccId =
+                        transactionService.listTransactionsByAccId(accId);
+                System.out.println(formatTransactionTable(transactionsByAccId));
+
+            } else {
+                throw new IllegalArgumentException(String.format(
+                        "Account with ID %s hasn't been found!", accId));
+            }
+        } catch (IllegalArgumentException | IllegalStateException | IOException e) {
+            displayError("Error getting transactions: " + e.getMessage());
+        }
+    }
 }
