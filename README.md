@@ -118,12 +118,29 @@ To launch Budget Buddy:
 1. Navigate to the project directory
 2. Run the `BudgetBuddyApp` class which contains the main method:
    ```java
-    java -cp target/BudgetBuddy-1.0.jar com.softserve.BudgetBuddyApp
+    java -jar target/BudgetBuddy-1.0-SNAPSHOT.jar
    ```
 
    Alternatively, directly run the class from your IDE by executing the main method in `BudgetBuddyApp.java`
 
+### 🖥️ Display Issues
+
+If you encounter display issues with special characters in the console interface (seeing ??? instead of proper characters), 
+you can fix it by setting the correct character encoding:
+
+**For Windows Command Prompt:**
+
 Once launched, you'll be welcomed to your personal finance command center!
+
+```chcp 65001```
+
+This command sets the console to use UTF-8 encoding, 
+which properly displays all special characters used in the application interface.
+
+After setting the encoding, run the application again:
+
+```java -jar target/BudgetBuddy-1.0-SNAPSHOT.jar```
+
 
 ### 🏠 Welcome to the Main Hub
 ![Main Menu](docs/images/main-menu.png)
