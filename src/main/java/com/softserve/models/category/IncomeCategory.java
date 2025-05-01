@@ -1,0 +1,31 @@
+package com.softserve.models.category;
+
+import com.softserve.models.transaction.TransactionType;
+
+public enum IncomeCategory implements Category {
+
+    SALARY("Salary"),
+    FREELANCE("Freelance"),
+    BONUS("Bonus"),
+    GIFTS("Gifts"),
+    INVESTMENTS("Investments"),
+    RENTAL("Rental Income"),
+    BUSINESS("Business"),
+    OTHER("Other Income");
+
+    private final String categoryName;
+
+    IncomeCategory(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    @Override
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    @Override
+    public TransactionType getTransactionType() {
+        return TransactionType.INCOME;
+    }
+}
