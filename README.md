@@ -9,7 +9,7 @@
 - [💡 Features](#-features)
 - [🛠 Installation](#-installation)
 - [🎮 Usage](#-usage)
-- [📬 Contact](#-contact)
+- [📬 Connect With Me](#-connect-with-me)
 
 ---
 
